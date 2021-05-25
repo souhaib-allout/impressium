@@ -28,6 +28,14 @@
     #rechercheinput:focus {
         outline: none;
     }
+
+    .dropdowntoggle {
+        cursor: pointer;
+    }
+
+    .comptedropdownmenue a:hover {
+        background-color: #1e202c !important;
+    }
 </style>
 <header class="container-fluid pe-0 ps-0 ">
     <div class="d-flex flex-nowrap  justify-content-between align-items-end">
@@ -36,11 +44,11 @@
         </a>
         <form method="get" action="/search" class="d-flex">
             <div class="dropdown">
-                <input type="text" placeholder="Que recherchez-vous ?" data-bs-toggle="dropdown" aria-expanded="false"
+                <input type="text" placeholder="Que recherchez-vous ?"
                        id="rechercheinput" name="rechercheinput"
                        style="padding-left:20px;font-size:13px;height: 47px;width: 220px;border:solid 2px #ffcf10;border-bottom-left-radius: 4px;border-top-left-radius: 4px"
                        required>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 70vw">
+                <div class="dropdown-menu" id="searchmenue" aria-labelledby="dropdownMenuButton1" style="width: 70vw">
                     <div class="row p-4">
                         <div class="col-4 ">
                             <p class="mb-0 " style="font-size:22px;color: #21adac;font-weight: bold">TOP RECHERCHES</p>
@@ -120,7 +128,21 @@
                                             <p class="mb-0">A partir de</p>
                                             <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
                                                 Euro</p>
-
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-3 border-0" style="width: 50%">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body  ps-1 p-0">
+                                            <p class="mb-0" style="font-size: 17px">product test...</p>
+                                            <p class="mb-0">A partir de</p>
+                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
+                                                Euro</p>
                                         </div>
                                     </div>
                                 </div>
@@ -152,28 +174,10 @@
                                             <p class="mb-0">A partir de</p>
                                             <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
                                                 Euro</p>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card mb-3 border-0" style="width: 50%">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body  ps-1 p-0">
-                                            <p class="mb-0" style="font-size: 17px">product test...</p>
-                                            <p class="mb-0">A partir de</p>
-                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
-                                                Euro</p>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
                 </div>
@@ -191,11 +195,21 @@
                 <span style="font-size: 15px;font-weight: 600;">0771705545</span>
             </div>
             {% if  user.is_authenticated %}
-                <a href="/profile"
-                   class="d-flex flex-column justify-items-center text-dark align-items-center me-5 text-decoration-none">
-                    <img src="{% static 'icons/user.svg' %}" height="24" width="24"/>
-                    <span style="font-size: 15px;font-weight: 600;">Mon Compte</span>
-                </a>
+                <div>
+                    <div class="d-flex dropdowntoggle  flex-column justify-items-center text-dark align-items-center me-5 text-decoration-none"
+                         data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{% static 'icons/user.svg' %}" height="24" width="24"/>
+                        <span style="font-size: 15px;font-weight: 600;">Mon Compte</span>
+                    </div>
+                    <ul class="dropdown-menu comptedropdownmenue" style="background-color: #1e202c;">
+                        <li><a class="dropdown-item text-light" href="/profile">Mon compte</a></li>
+                        <li><a class="dropdown-item text-light" href="#">Mes commandes</a></li>
+                        <li><a class="dropdown-item text-light" href="#">Mes devis</a></li>
+                        <li><a class="dropdown-item text-light" href="#">Mes adresses</a></li>
+                        <li><a class="dropdown-item text-light" href="#">Mes designs</a></li>
+                        <li><a class="dropdown-item text-light" href="#">Se déconnecter</a></li>
+                    </ul>
+                </div>
             {% else %}
                 <a href="/login"
                    class="d-flex flex-column justify-items-center text-dark align-items-center me-5 text-decoration-none">
@@ -357,13 +371,18 @@
                         </ul>
                     </li>
                 </ul>
-
             </div>
         </div>
     </nav>
 </header>
 <script>
     $(document).ready(function () {
+        $('#rechercheinput').focus(function () {
+            $('#searchmenue').show()
+        })
+        $('#rechercheinput').blur(function () {
+            $('#searchmenue').hide()
+        })
         $(function () {
             $('[data-toggle="popover"]').popover()
         })
@@ -381,7 +400,7 @@
                 success: function (e) {
                     $('.onsearchresults').html('')
                     console.log(e.type)
-                    for($i=0;$i<data.length;$i++) {
+                    for ($i = 0; $i < data.length; $i++) {
                         $('.onsearchresults').append('' +
                             '<div class="card mb-3 border-0" style="width: 50%">' +
                             '     <div class="row g-0">' +

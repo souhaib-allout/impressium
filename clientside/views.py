@@ -119,7 +119,7 @@ def products(request):
 
     # return JsonResponse(products[0]['ArticleImage'])
 
-    return render(request, 'products.html', {'products': products, 'test': 'good'})
+    return render(request, 'products.html', {'products': products, 'swiper-bundle.css': 'good'})
 
 
 def search(request):
