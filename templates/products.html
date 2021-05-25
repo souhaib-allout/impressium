@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+    <title>Product</title>
+    <style>
+        * {
+            color: #333e48;
+        }
+
+
+    </style>
+</head>
+<body>
+{% include 'parts/header.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-flex justify-content-between" style="height: 50px;background-color: #eeeeee">
+            <div></div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'icons/euro.svg' %}" height="23" width="23"/>
+                <span style="font-size: 12px">DES PRIX COMPETITIFS</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'icons/truck.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">LIVRAISON OFFERTE</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'icons/correct.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">CONTROLE DES FICHIERS</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'icons/like.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">PRODUITS DE QUALITE</span>
+            </div>
+            <div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-11" style="font-size: 17px">
+            <span><a href="index.html" class="text-dark text-decoration-none">Accueil</a> </span>
+            <span class="me-3 ms-3"> > </span>
+            <span style="font-weight:bold;text-decoration:underline;text-decoration-color: #ffcf10;text-decoration-width: 2px">Poster indéchirable</span>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row mt-3 mb-3">
+        <div class="col-12 text-center">
+            <h2>DÉCO EVÉNEMENTS</h2>
+        </div>
+    </div>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-4">
+                <div class="card" style="width: 18rem;">
+                    <img src="{{ product.articleimages.first.name.url }}" class="img-fluid" alt="...">
+{#                    {% for image in product.articleimages.all %}#}
+{#                        <p>{{ product.articleimages.first.name }}</p>#}
+{#                    {% endfor %}#}
+                    <div class="card-body text-center">
+                        <h5 class="card-title" style="font-weight: bold">{{ product.title }}</h5>
+                        <p style="font-size: 18px" class="card-text">À partir de <span
+                                style="font-weight: bold">76,00 €</span></p>
+                        <a href="#" class="btn text-light"
+                           style="font-size:18px;background-color: #16a4fa;width: 220px;border-radius: 100px">Commander</a>
+                    </div>
+                </div>
+                <p>{{ article.ArticleImage.name }}</p>
+
+            </div>
+        {% endfor %}
+        <div class="col-4">
+            <div class="card" style="width: 18rem;">
+                <img src="{% static 'product_images/img4.jpg' %}" class="img-fluid" alt="...">
+                <div class="card-body text-center">
+                    <h5 class="card-title" style="font-weight: bold">GOBELET EN PLASTIQUE</h5>
+                    <p style="font-size: 18px" class="card-text">À partir de <span
+                            style="font-weight: bold">76,00 €</span></p>
+                    <a href="#" class="btn text-light"
+                       style="font-size:18px;background-color: #16a4fa;width: 220px;border-radius: 100px">Commander</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'parts/footer.html' %}
+
+<script>
+    var swiper = new Swiper('.swiper-container-newitems', {
+        slidesPerView: 5,
+        spaceBetween: 30,
+        {#slidesPerGroup: 3,#}
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
+</body>
+</html>

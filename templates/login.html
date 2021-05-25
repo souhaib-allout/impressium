@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+    <title>Login</title>
+</head>
+<body>
+{% include 'parts/header.html' %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <hr style="color: #ffcf10;opacity: 1;height:2px;width: 150px"/>
+            <p class="mb-0" style="font-size: 25px;font-weight: 900">IDENTIFIEZ-VOUS OU CRÉEZ UN COMPTE</p>
+            <hr style="color: #ffcf10;opacity: 1;height:2px;width: 150px"/>
+
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-5 text-center">
+            <p class="mb-4" style="font-size:25px;font-weight: 700;border-bottom: solid 2px #ffcf10">Créer un compte</p>
+            <p>Bénéficiez de tous les avantages PrintPasCher !</p>
+            <div class="d-flex align-items-center mt-2">
+                <p class="p-2 mb-0 me-3" style="background-color: #ffcf10;border-radius: 100px">
+                    <img src="{% static 'icons/euro.svg' %}" style="width: 20px;height: 20px;">
+                </p>
+                <p class="mb-0">Des prix mini sans aucun frais supplémentaire</p>
+            </div>
+            <div class="d-flex align-items-center mt-3">
+                <p class="p-2 mb-0 me-3" style="background-color: #ffcf10;border-radius: 100px">
+                    <img src="{% static 'icons/correct.svg' %}" style="width: 20px;height: 20px;">
+                </p>
+                <p class="mb-0">Une qualité garantie et approuvée par nos clients</p>
+            </div>
+            <div class="d-flex align-items-center mt-3">
+                <p class="p-2 mb-0 me-3" style="background-color: #ffcf10;border-radius: 100px">
+                    <img src="{% static 'icons/headset.svg' %}" style="width: 20px;height: 20px;">
+                </p>
+                <p class="mb-0">Un service client disponible et à votre écoute</p>
+            </div>
+            <a href="/logup" class="mt-5 btn" style="height: 40px;width: 250px;background-color:#ffcf10;border: #ffcf10 ">
+                Créer un compte
+            </a>
+        </div>
+        <div class="col-1">
+        </div>
+        <form method="POST" action="/logincheck" class="col-5  ">
+            {% csrf_token %}
+            <p class="text-center" style="font-size:25px;font-weight: 700;border-bottom: solid 2px #ffcf10">
+                Se connecter
+            </p>
+            <div class="mb-5 ms-5">
+                <label class="mb-2" for="email">Adresse mail</label>
+                <input type="email" class="form-control" id="email" name="email" style="width: 320px">
+            </div>
+            <div class="mb-3 ms-5">
+
+                <label class="mb-2" for="password">Mot de passe</label>
+                <input type="password" class="form-control" id="password" name="password" style="width: 320px">
+            </div>
+            <div class="ms-5">
+                <button class="mt-5 btn" style="height: 40px;width: 250px;background-color:#ffcf10;border: #ffcf10 ">
+                    Se connecter
+                </button><br>
+                <a href="" class="text-dark" style="font-size: 14px">Mot de passe oublié ?</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% include 'parts/footer.html' %}
+
+</body>
+</html>

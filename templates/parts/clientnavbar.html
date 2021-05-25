@@ -1,0 +1,92 @@
+{% load static %}
+<style>
+    a {
+        color: black;
+        text-decoration: none;
+        font-size: 12px;
+    }
+     a :hover{
+        color: black;
+    }
+     ul li:hover{
+         background-color: #ffcf10;
+     }
+</style>
+<div class="row" style="border: solid 1px #1e202c;margin-left: 3%">
+    <div class="col-12 pt-4 pb-1 ps-5" style="background-color: #1e202c;color: white;">
+        <p class="mb-0 pb-6" style="font-size: 20px;line-height: 13px;font-weight: 400">BONJOUR,</p>
+        <p style="font-size: 20px"><b>{{ user.username | upper }}</b></p>
+    </div>
+    <div class="col-12 p-0">
+        <ul style="list-style: none;padding-left: 0">
+            <li class="pt-2 pb-2 ps-5 " style="background-color: #ffcf10;">
+                <a href="/dashboard">
+                    <img src="{% static 'icons/user.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MON TABLEAU DE BORD</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 ">
+                <a href="/profile">
+                    <img src="{% static 'icons/settings.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MODIFIER MES INFORMATIONS</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 ">
+                <a href="/profile">
+                    <img src="{% static 'icons/truck.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>GÉRER MES ADRESSES</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 ">
+                <a href="">
+                    <img src="{% static 'icons/list.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MES COMMANDES</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 ">
+                <a href="">
+                    <img src="{% static 'icons/box.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MES PRODUITS COMMANDÉS</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 ">
+                <a href="">
+                    <img src="{% static 'icons/devi.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MES DEVIS</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 ">
+                <a href="">
+                    <img src="{% static 'icons/art.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MES DESIGNS</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 ">
+                <a href="">
+                    <img src="{% static 'icons/euro.png' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MA CAGNOTTE</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 ">
+                <a href="">
+                    <img src="{% static 'icons/2users.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>PARRAINAGE</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 " style="border-top: solid 1px black">
+                <a href="">
+                    <img src="{% static 'icons/question.svg' %}" style="height: 25px;width: 25px" class="me-5">
+                    <span>FOIRE AUX QUESTIONS</span>
+                </a>
+            </li>
+            </li>
+            <li class="pt-2 pb-2 ps-5 ">
+                <a href="/contact">
+                    <img src="{% static 'icons/phone.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>NOUS CONTACTER</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</div>

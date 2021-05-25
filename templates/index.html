@@ -1,0 +1,602 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+
+    <title>Home</title>
+    <style>
+        * {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /****NAV BAR*****/
+        .nav-link {
+            line-height: 34px;
+        }
+
+        .nav-item {
+            font-weight: 700;
+            color: black !important;
+        }
+
+        /****Slider***/
+        .swiper-container-top {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide-top {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        /***************new items**************/
+        .swiper-container-newitems {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide-newitems {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+{% include 'parts/header.html' %}
+
+
+<div class="container-fluid">
+    <div class="row d-flex flex-row">
+        <hr/>
+        <div class="text-center">
+            <h1 style="font-size:16px;font-weight: 600 "> PrintPasCher : Imprimerie en ligne (flyers, cartes de visite,
+                dépliants, brochures…)</h1>
+        </div>
+        <hr style="background-color: #ffcf10;width: 200px"/>
+    </div>
+    <div class="row">
+        <div class="col-1">
+        </div>
+        <div class="col-10">
+            <div class="swiper-container swiper-container-top">
+                <div class="swiper-wrapper swiper-wrapper-top">
+                    <div class="swiper-slide swiper-slide-top">
+                        <img src="{% static 'slider/slide1.png' %}" height="260">
+                    </div>
+                    <div class="swiper-slide swiper-slide-top">
+                        <img src="{% static 'slider/slide2.png' %}" height="260">
+                    </div>
+                    <div class="swiper-slide swiper-slide-top">
+                        <img src="{% static 'slider/slide4.png' %}" height="260">
+                    </div>
+                </div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next "
+                     style="color:white;background-color: rgb(213,212,212,0.80);height: 70px;width: 70px;border-radius: 100px"></div>
+                <div class="swiper-button-prev "
+                     style="color:white;background-color: rgb(213,212,212,0.80);height: 70px;width: 70px;border-radius: 100px"></div>
+            </div>
+        </div>
+        <div class="col-1">
+        </div>
+    </div>
+    <div class="row">
+        <div class="d-flex justify-content-between" style="height: 50px;background-color: #eeeeee">
+            <div></div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'icons/euro.svg' %}" height="23" width="23"/>
+                <span style="font-size: 12px">DES PRIX COMPETITIFS</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'icons/truck.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">LIVRAISON OFFERTE</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'icons/correct.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">CONTROLE DES FICHIERS</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'icons/like.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">PRODUITS DE QUALITE</span>
+            </div>
+            <div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="">
+            <div class="d-flex justify-content-center align-items-center">
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+                <h1 class="mb-0 pb-0" style="font-size:24px;font-weight: 900; ">NOUVEAUX PRODUITS</h1>
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+            </div>
+            <p class="mt-0 pt-0 d-flex justify-content-center">Nos meilleurs prix pourvous</p>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-1">
+        </div>
+        <div class="col-10">
+            <div class="swiper-container swiper-container-newitems">
+                <div class="swiper-wrapper swiper-wrapper-newitems">
+                    {% for article in newarticles %}
+                        <div class="swiper-slide swiper-slide-newitems">
+                            <a href="/product/{{ article.id }}" class="card"
+                               style="width: 190px;border: none;color: black;text-decoration: none">
+                                <img src="{{ article.articleimages.first.name.url }}" class="card-img-top"
+                                     style="height: 200px" alt="...">
+                                <div class="card-body p-0">
+                                    <p class="card-title "
+                                       style="text-align:left;font-size:14px;color: #0062bd;font-weight: 700;">
+                                        {{ article.title }}</p>
+                                    <div class="d-flex justify-content-between align-items-end">
+                                        <div class="d-flex flex-column">
+                                            <span style="font-size: 10px;font-weight: 700">A partir de</span>
+                                            <span style="font-size: 17px;font-weight: 700">{{ article.Sizearticle.first.price }} Euro</span>
+                                        </div>
+                                        <button style="height:25px;font-size: 10px;background-color: #ffcf10;border: solid 0px #ffcf10">
+                                            COMMANDEZ
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"
+                     style="color:white;background-color: rgb(213,212,212,0.80);height: 70px;width: 70px;border-radius: 100px"></div>
+                <div class="swiper-button-prev"
+                     style="color:white;background-color: rgb(213,212,212,0.80);height: 70px;width: 70px;border-radius: 100px"></div>
+            </div>
+        </div>
+        <div class="col-1">
+        </div>
+    </div>
+</div>
+<div class="container-fluid pt-2 pb-2 mt-5" style="background-color: #eeeeee">
+    <div class="row mt-3">
+        <div class="text-center">
+            <div class="d-flex justify-content-center align-items-center">
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+                <h1 class="mb-0 pb-0" style="font-size:24px;font-weight: 900; "><span style="font-weight: 900;">NOS MEILLEURES</span>VENTES
+                </h1>
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+            </div>
+            <p class="mt-0 pt-0 d-flex justify-content-center">Découvrez nos top supports publicitaires</p>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-1">
+        </div>
+        <div class="col-10">
+            <div class="swiper-container swiper-container-newitems">
+                <div class="swiper-wrapper swiper-wrapper-newitems">
+                    {% for article in bestarticles %}
+                        <div class="swiper-slide swiper-slide-newitems">
+                            <a href="/product/{{ article.id }}" class="card"
+                               style="width: 190px;border: none;color: black;text-decoration: none">
+                                <img src="{{ article.articleimages.first.name }}" class="card-img-top"
+                                     alt="..." style="height: 200px">
+                                <div class="card-body p-0">
+                                    <p class="card-title "
+                                       style="text-align:left;font-size:14px;color: #0062bd;font-weight: 700;">{{ article.title }}</p>
+                                    <div class="d-flex justify-content-between align-items-end">
+                                        <div class="d-flex flex-column">
+                                            <span style="font-size: 10px;font-weight: 700">A partir de</span>
+                                            <span style="font-size: 17px;font-weight: 700">{{ article.Sizearticle.first.price }} Euro</span>
+                                        </div>
+                                        <button style="height:25px;font-size: 10px;background-color: #ffcf10;border: solid 0px #ffcf10">
+                                            COMMANDEZ
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next"
+                     style="color:white;background-color: rgb(213,212,212,0.80);height: 70px;width: 70px;border-radius: 100px"></div>
+                <div class="swiper-button-prev"
+                     style="color:white;background-color: rgb(213,212,212,0.80);height: 70px;width: 70px;border-radius: 100px"></div>
+            </div>
+        </div>
+        <div class="col-1">
+        </div>
+    </div>
+
+</div>
+<div class="container-fluid pt-2 pb-2 mt-5" style="">
+    <div class="row mt-3">
+        <div class="text-center">
+            <div class="d-flex justify-content-center align-items-center">
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+                <h1 class="mb-0 pb-0" style="font-size:24px;font-weight: 900; ">
+                    <span style="font-weight: 900;">COMMENT PASSER VOTRE</span>COMMAND
+                </h1>
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+            </div>
+            <p class="mt-0 pt-0">En quelques minutes seulement</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1"></div>
+        <div class="col-5">
+            <p class="mb-0 pb-0" style="font-size: 25px;font-weight: 900">PrintPasCher</p>
+            <p class="mb-5" style="font-size: 15px">votre imprimeur en ligne au quotidien</p>
+            <p style="font-size: 14px">Nous vous proposons un site clair et intuitif pour que vous puissiez commander
+                vos impressions en
+                quelques clics. Grâce à un calculateur instantané, vous pourrez configurer votre commande (produit,
+                options et finitions, quantités, délai de livraison) et voir aussitôt le prix total correspondant. Les
+                frais de port étant offerts, vous n’aurez aucun supplément à payer par la suite. Une fois dans votre
+                panier, vous pourrez insérer vos fichiers et payer votre commande. Après un contrôle de vos fichiers par
+                nos graphistes professionnels, vos supports seront ainsi prêts à être imprimés et livrés chez vous. Un
+                processus simple et rassurant grâce à notre service client toujours disponible pour tous conseils.</p>
+        </div>
+        <div class="col-5">
+{#            <iframe width="560" height="315" src="https://www.youtube.com/embed/sjyAHJzC2kg"#}
+{#                    title="YouTube video player" frameborder="0"#}
+{#                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"#}
+{#                    allowfullscreen></iframe>#}
+        </div>
+        <div class="col-1"></div>
+    </div>
+
+</div>
+<div class="container-fluid pt-2 pb-2 mt-5" style="background-color: #eeeeee">
+    <div class="row mt-3">
+        <div class="text-center">
+            <div class="d-flex justify-content-center align-items-center">
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+                <h1 class="mb-0 pb-0" style="font-size:24px;font-weight: 900; ">
+                    <span style="font-weight: 900;">BESOIN D'AIDE ?</span>COMMAND
+                </h1>
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-1">
+        </div>
+        <div class="col-5 pt-1 pb-4 text-center" style="margin-right:7px;background-color: #21adac">
+            <img src="{% static 'icons/art.png' %}" height="85" width="85"/>
+            <p style="color: #ffcf10;font-size: 16px;font-weight: bold">Comment préparer mon fichier pour une impression
+                réussie ?</p>
+            <p class="text-light mb-4" style="font-size: 14px">Découvrez nos conseils pour préparer vos fichiers selon
+                les
+                normes d'impression recommandées pour un
+                résultat optimal !</p>
+            <a href="" class="text-dark "
+               style="text-decoration: none;padding: 10px 30px;background-color: #ffcf10;border:1px solid #ffcf10;border-radius: 5px">
+                En savoir +
+            </a>
+        </div>
+        <div class="col-5 pt-1 pb-4 text-center" style="margin-left:7px;background-color: #21adac;padding-left: -20px">
+            <img src="{% static 'icons/search.png' %}" height="85" width="85"/>
+            <p style="color: #ffcf10;font-size: 16px;font-weight: bold"> Quelle option choisir pour le contrôle de mon
+                fichier ?
+            </p>
+            <p class="text-light mb-4" style="font-size: 14px">Informez-vous sur les différentes options de contrôle
+                disponibles sur PrintPasCher afin de choisir celle qui vous convient le mieux !
+
+            </p>
+            <a href="" class="text-dark mt-2"
+               style="text-decoration: none;padding: 10px 30px;background-color: #ffcf10;border:1px solid #ffcf10;border-radius: 5px">
+                En savoir +
+            </a>
+        </div>
+        <div class="col-1">
+        </div>
+    </div>
+</div>
+<div class="container-fluid pt-2 pb-2 mt-5" style="">
+    <div class="row mt-3">
+        <div class="text-center">
+            <div class="d-flex justify-content-center align-items-center">
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+                <h1 class="mb-0 pb-0" style="font-size:24px;font-weight: 900; ">
+                    <span style="font-weight: 900;">UN SERVICE PENSÉ POUR VOUS</span>COMMAND
+                </h1>
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3 text-light">
+        <div class="col-1">
+        </div>
+        <div class="col-10 d-flex justify-content-between">
+            <div class="d-flex pt-2 pb-1" style="background: #ff0b5b;width: 32%">
+                <div style="padding: 15px">
+                    <img src="{% static 'icons/box.png' %}" width="62" height="62">
+                </div>
+                <div>
+                    <h3 style="font-size: 20px;font-weight: bold">Revendeur print</h3>
+                    <p style="font-size: 14px"> Des avantages pour les professionnels</p>
+                </div>
+            </div>
+            <div class="d-flex pt-2 pb-1 " style="background: #ff840b;width: 32%">
+                <div style="padding: 15px">
+                    <img src="{% static 'icons/like.png' %}" width="62" height="62">
+                </div>
+                <div>
+                    <h3 style="font-size: 20px;font-weight: bold">Revendeur print</h3>
+                    <p style="font-size: 14px"> Des avantages pour les professionnels</p>
+                </div>
+            </div>
+            <div class="d-flex pt-2 pb-1 " style="background: #71a016;width: 32%">
+                <div style="padding: 15px">
+                    <img src="{% static 'icons/2users.png' %}" width="62" height="62">
+                </div>
+                <div>
+                    <h3 style="font-size: 20px;font-weight: bold">Revendeur print</h3>
+                    <p style="font-size: 14px"> Des avantages pour les professionnels</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-1">
+        </div>
+    </div>
+
+</div>
+<div class="container-fluid pt-2 pb-2 mt-5" style="">
+    <div class="row mt-3">
+        <div class="text-center ">
+            <div class="d-flex justify-content-center align-items-center">
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+                <h1 class="mb-0 pb-0" style="font-size:24px;font-weight: 900; ">
+                    POURQUOI NOUS CHOISIR
+                </h1>
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+            </div>
+            <p>Notre principale mission : votre satisfaction</p>
+        </div>
+    </div>
+
+    <div class="row mt-3" style="background: #ffcf10">
+        <div class="col-10 d-flex justify-content-between w-100">
+            <div class="d-flex flex-column text-center pt-2 pb-1" style="width: 23%">
+                <div style="padding: 15px;padding-bottom: 20px">
+                    <img src="{% static 'icons/euro.svg' %}" height="34">
+                </div>
+                <div>
+                    <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Des prix compétitifs</h3>
+                    <p style="font-size: 14px"> En gardant le top de la qualité</p>
+                </div>
+            </div>
+            <div class="d-flex flex-column text-center pt-2 pb-1" style="width: 23%">
+                <div style="padding: 15px;padding-bottom: 20px">
+                    <img src="{% static 'icons/truck.svg' %}" height="34">
+                </div>
+                <div>
+                    <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Livraison offerte</h3>
+                    <p style="font-size: 14px"> Sans frais supplémentaire</p>
+                </div>
+            </div>
+            <div class="d-flex flex-column text-center pt-2 pb-1" style="width: 23%">
+                <div style="padding: 15px;padding-bottom: 20px">
+                    <img src="{% static 'icons/correct.svg' %}" height="34">
+                </div>
+                <div>
+                    <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Contrôle humain des fichiers</h3>
+                    <p style="font-size: 14px">Effectué gratuitement</p>
+                </div>
+            </div>
+            <div class="d-flex flex-column text-center pt-2 pb-1" style="width: 23%">
+                <div style="padding: 15px;padding-bottom: 20px">
+                    <img src="{% static 'icons/like.svg' %}" height="34">
+                </div>
+                <div>
+                    <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Produits de qualité</h3>
+                    <p style="font-size: 14px"> Pour une entière satisfaction</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="container-fluid pt-2 pb-2 mt-5" style="">
+    <div class="row mt-3">
+        <div class="text-center">
+            <div class="d-flex justify-content-center align-items-center">
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+                <h1 class="mb-0 pb-0" style="font-size:24px;font-weight: 900; ">
+                    IMPRIMERIE EN LIGNE : VOTRE SPÉCIALISTE PRINTPASCHER
+                </h1>
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+            </div>
+            <p class="">PrintPasCher travaille au quotidien pour proposer les meilleurs prix sur chaque produit, afin de
+                faire
+                bénéficier à ses clients d'une impression pas cher tout en ne dénaturant pas la qualité du produit.
+            </p>
+        </div>
+    </div>
+
+    <div class="row mt-3 d-flex justify-content-center w-100" style="">
+
+        <div class="col-2 text-center" style="width: 20%">
+            <div class="w-100 d-flex justify-content-center">
+                <div class="d-flex align-items-center justify-content-center"
+                     style="background: #ffcf10;border-radius: 100px;width: 54px;height: 54px">
+                    <img src="{% static 'icons/tag.svg' %}" height="30"/>
+                </div>
+            </div>
+            <div class="w-100 d-flex  justify-content-center" style="margin-top:23px;">
+                <p class="" style="width:126px;font-size:14px;font-weight: 700;border-bottom: solid 2px #ffcf10;">
+                    Nos produits</p>
+            </div>
+            <div>
+                <p class=" " style="text-align:justify;font-size: 14px">PrintPasCher, imprimerie en ligne, vous propose
+                    une très large gamme de choix sur tous vos produits
+                    et supports publicitaires, du petit format (flyers, cartes de visite) au grand format (affiches,
+                    bâches), en passant par la PLV (roll'up, stands) et les goodies. Destiné aux professionnels, aux
+                    revendeurs comme aux particuliers.
+                </p>
+            </div>
+        </div>
+        <div class="col-2 text-center" style="width: 20%">
+            <div class="w-100 d-flex justify-content-center">
+                <div class="d-flex align-items-center justify-content-center"
+                     style="background: #ffcf10;border-radius: 100px;width: 54px;height: 54px">
+                    <img src="{% static 'icons/journal.svg' %}" height="30"/>
+                </div>
+            </div>
+            <div class="w-100 d-flex  justify-content-center" style="margin-top:23px;">
+                <p class="" style="width:126px;font-size:14px;font-weight: 700;border-bottom: solid 2px #ffcf10;">
+                    Nos engagements</p>
+            </div>
+            <div>
+                <p style="text-align:justify;font-size: 14px">
+                    En tant qu'imprimerie en ligne, PrintPasCher s'appuie sur des engagements solidement ancrés dans la
+                    culture de l'entreprise. Qualité maitrisée : un produit contrôlé tout au long du processus de
+                    fabrication par des professionnels de l'imprimerie. Prix compétitifs : le choix d'une technologie
+                    adaptée à votre projet, pour une optimisation des coûts de production. Délais respectés : conscient
+                    des impératifs de nos clients, respecter les délais de livraison est pour nous une priorité.
+                </p>
+            </div>
+        </div>
+        <div class="col-2 text-center" style="width: 20%">
+            <div class="w-100 d-flex justify-content-center">
+                <div class="d-flex align-items-center justify-content-center"
+                     style="background: #ffcf10;border-radius: 100px;width: 54px;height: 54px">
+                    <img src="{% static 'icons/specialite.svg' %}" height="30"/>
+                </div>
+            </div>
+            <div class="w-100 d-flex  justify-content-center" style="margin-top:23px;">
+                <p class="" style="width:126px;font-size:14px;font-weight: 700;border-bottom: solid 2px #ffcf10;">
+                    Nos spécialistes
+                </p>
+            </div>
+            <div>
+                <p style="text-align:justify;font-size: 14px">
+                    Grâce à une grande expérience, des équipements modernes, une équipe efficace et la maîtrise de
+                    l’impression numérique et de l’impression offset, notre imprimerie en ligne PrintPasCher vous
+                    offrira la meilleure prestation, quel que soit le support et le volume de tirages commandé.
+                </p>
+            </div>
+        </div>
+        <div class="col-2 text-center" style="width: 20%">
+            <div class="w-100 d-flex justify-content-center">
+                <div class="d-flex align-items-center justify-content-center"
+                     style="background: #ffcf10;border-radius: 100px;width: 54px;height: 54px">
+                    <img src="{% static 'icons/headset.svg' %}" height="30"/>
+                </div>
+            </div>
+            <div class="w-100 d-flex  justify-content-center" style="margin-top:23px;">
+                <p class="" style="width:126px;font-size:14px;font-weight: 700;border-bottom: solid 2px #ffcf10;">
+                    Service client
+                </p>
+            </div>
+            <div>
+                <p style="text-align:justify;font-size: 14px">
+                    Service client personnalisé : la création d'une relation de confiance à travers une disponibilité
+                    constante et la formulation de conseils ou propositions sur mesure. Le service client de
+                    PrintPasCher a conscience de l’importance d’accompagner ses clients pas à pas dans l’élaboration de
+                    leurs commandes, c’est pourquoi il met au centre de ses préoccupations leurs besoins dans le but de
+                    pleinement les satisfaire.
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div class="row text-center mt-5">
+        <p style="width:80%;font-size: 15px">Parcourez dès à présent notre grande gamme de produits d'impression pas
+            cher et personnalisez-les grâce à nos nombreuses options et finitions disponibles. PrintPasCher noté 4.7/5
+            basé sur 8018 avis.
+        </p>
+    </div>
+
+</div>
+<div class="container-fluid pt-2 pb-2 mt-5" style="background-color: #eeeeee">
+    <div class="d-flex justify-content-center align-items-center">
+        <div style="width: 10%">
+        </div>
+        <div style="width: 10%">
+            <p class="mb-0" style="border-right: solid 2px #373737;width: 100px">Moyens de paiement</p>
+        </div>
+        <div style="width: 10%">
+            <img src="{% static 'paiement/pay1.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
+        </div>
+        <div style="width: 10%">
+            <img src="{% static 'paiement/pay2.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
+        </div>
+        <div style="width: 10%">
+            <img src="{% static 'paiement/pay3.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
+        </div>
+        <div style="width: 10%">
+            <img src="{% static 'paiement/pay4.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
+        </div>
+        <div style="width: 10%">
+            <img src="{% static 'paiement/pay5.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
+        </div>
+        <div style="width: 10%">
+            <img src="{% static 'paiement/pay6.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
+        </div>
+        <div style="width: 10%">
+            <img src="{% static 'paiement/pay7.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
+        </div>
+
+    </div>
+</div>
+{% include 'parts/footer.html' %}
+<script>
+    /*****new items slider******/
+    var swiper = new Swiper('.swiper-container-top', {
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        loop: true
+    });
+    /*****new items slider******/
+    var swiper = new Swiper('.swiper-container-newitems', {
+        slidesPerView: 5,
+        spaceBetween: 30,
+        {#slidesPerGroup: 3,#}
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+    });
+</script>
+</body>
+</html>

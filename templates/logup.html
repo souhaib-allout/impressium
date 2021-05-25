@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+    <title>LogUp</title>
+</head>
+<body>
+{% include 'parts/header.html' %}
+<form method="post" action="/logupcheck" class="container mt-4">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <hr style="color: #ffcf10;opacity: 1;height:2px;width: 150px"/>
+            <p class="mb-0" style="font-size: 25px;font-weight: 900">CRÉER UN COMPTE</p>
+            <hr style="color: #ffcf10;opacity: 1;height:2px;width: 150px"/>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <p style="font-size:15px;font-weight:600;border-bottom: solid 2px #ffcf10">Vos informations
+                professionnelles</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+        </div>
+        <div class="col-3">
+            <label for="type" class="mb-2">Type *</label>
+            <select class="form-select" id="type" name="type">
+                <option selected value="Association">Association</option>
+                <option value="Particulier">Particulier</option>
+                <option value="Professionnel">Professionnel</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <label for="tele" class="mb-2">Téléphone *</label>
+            <input type="tel" name="tele" class="form-control" id="tele">
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <p style="font-size:15px;font-weight:600;border-bottom: solid 2px #ffcf10">
+                Vos informations personnelles
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+        </div>
+        <div class="col-3">
+            <label for="Civilité" class="mb-2"> Civilité *</label>
+            <select class="form-select" id="Civilité" name="civilite">
+                <option selected>M.</option>
+                <option value="1">Mm.</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <label for="name" class="mb-2">Nom *</label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <div class="col-3">
+            <label for="prenon" class="mb-2">Prenom *</label>
+            <input type="text" class="form-control" id="prenon" name="lastname">
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-1"></div>
+        <div class="col-10">
+            <p style="font-size:15px;font-weight:600;border-bottom: solid 2px #ffcf10">
+                Vos informations de connexion
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+        </div>
+        <div class="col-3">
+            <label for="mail" class="mb-2"> Adresse mail *</label>
+            <input type="email" class="form-control" id="mail" name="mail">
+        </div>
+        <div class="col-3">
+            <label for="password" class="mb-2">Mot de passe *</label>
+            <input type="password" class="form-control" id="password" name="password1">
+        </div>
+        <div class="col-3">
+            <label for="password2" class="mb-2">Confirmer le mot de passe *</label>
+            <input type="password" class="form-control" id="password2" name="password2">
+        </div>
+    </div>
+    <div class="row mt-3 d-flex align-items-center">
+        <div class="col-1"></div>
+
+        <div class="col-10 form-check">
+            <input class="form-check-input privacy" type="checkbox" value="" id="privacy" accepted="no">
+            <label class="form-check-label privacy" for="privacy" name="privacy">
+                accepte de recevoir des newsletters de la part de PrintPasCher</p>
+            </label>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <button class="btn" disabled="disabled" id="create"
+                    style="background-color:#ffcf10;width: 320px;height: 45px ">Créer mon compte
+            </button>
+        </div>
+    </div>
+</form>
+{% include 'parts/footer.html' %}
+<script>
+    $('.privacy').click(function () {
+        $accepted=$(this).attr('accepted')
+        if ($accepted == "no") {
+            $('#create').removeAttr('disabled')
+            $(this).attr('accepted','yes')
+        }else  if ($accepted == "yes") {
+            $('#create').attr('disabled','disabled')
+            $(this).attr('accepted','no')
+        }
+    })
+</script>
+</body>
+</html>

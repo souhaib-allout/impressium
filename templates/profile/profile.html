@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+    <title>Profile</title>
+</head>
+<body>
+{% include 'parts/header.html' %}
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-3">
+            {% include 'parts/clientnavbar.html' %}
+        </div>
+        <div class="col-9 " style="">
+            <form method="post" action="/updateprofile" class="container-fluid mt-4">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center align-items-center pt-2 pb-2"
+                         style="background-color: #1e202c;color: white">
+                        <img src="{% static 'icons/settings2.svg' %}" class="me-3" style="width: 22px;height: 22px">
+                        <p class="mb-0" style="font-size: 20px;font-weight: 900">Modifier mes informations</p>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <p class="pe-2 ps-3" style="border: solid 1px #16a4fa;color: #16a4fa;border-radius: 6px">Si vous
+                            souhaitez devenir Revendeur, changez votre statut. La demande se fera automatiquement auprès
+                            de notre service client.</p>
+                        <p style="font-size:15px;font-weight:600;border-bottom: solid 2px #ffcf10">Vos informations
+                            professionnelles</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <label for="type" class="mb-2">Type *</label>
+                        <select class="form-select" id="type" name="type">
+                            <option value="Association"
+                                    {% if user.ClientUser.type == "Association" %}selected {% endif %}>Association
+                            </option>
+                            <option value="Particulier"
+                                    {% if user.ClientUser.type == "Particulier" %} selected {% endif %}>Particulier
+                            </option>
+                            <option value="Professionnel"
+                                    {% if user.ClientUser.type == "Professionnel" %}selected {% endif %}>Professionnel
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label for="tele" class="mb-2">Téléphone *</label>
+                        <input type="tel" name="tele" class="form-control" id="tele" value="{{ user.ClientUser.tele }}">
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-10">
+                        <p style="font-size:15px;font-weight:600;border-bottom: solid 2px #ffcf10">
+                            Vos informations personnelles
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <label for="Civilité" class="mb-2"> Civilité *</label>
+                        <select class="form-select" id="Civilité" name="civilite">
+                            <option value="M."
+                                    {% if user.ClientUser.civilite == "M." %} selected {% endif %} >M.
+                            </option>
+                            <option value="Mm."
+                                {% if user.ClientUser.civilite == "Mm." %} selected {% endif %}>Mm.
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-4">
+                        <label for="name" class="mb-2">Nom *</label>
+                        <input type="text" class="form-control" value="{{ user.last_name }}" id="name" name="name">
+                    </div>
+                    <div class="col-4">
+                        <label for="prenon" class="mb-2">Prenom *</label>
+                        <input type="text" class="form-control" id="prenon" value="{{ user.first_name }}"
+                               name="lastname">
+                    </div>
+                    <div class="col-4">
+                        <label for="mail" class="mb-2"> Adresse mail *</label>
+                        <input type="email" class="form-control" id="mail" name="mail" value="{{ user.email }}">
+                    </div>
+                </div>
+                <div class="row mt-4 d-flex align-items-center">
+                    <div class="col-10 form-check">
+                        <input class="form-check-input subscribe me-4" type="checkbox" checked value="test" id="subscribe"
+                               name="subscribe">
+                        <label class="form-check-label subscribe" for="subscribe">
+                            S'abonner à la newsletter
+                        </label>
+                    </div>
+                    <div class="col-10 form-check">
+                        <input class="form-check-input changepasswpord me-4" type="checkbox" value="test"
+                               id="changepasswpord" name="changepasswpord" >
+                        <label class="form-check-label changepasswpord" for="changepasswpord">
+                            Modifier mon mot de passe
+                        </label>
+                    </div>
+                </div>
+                <div class="row mt-5 passpordarea" style="display: none">
+                    <div class="col-10">
+                        <p style="font-size:15px;font-weight:600;border-bottom: solid 2px #ffcf10">
+                            Modifier mon mot de passe
+                        </p>
+                    </div>
+                </div>
+                <div class="row passpordarea" style="display: none">
+                    <div class="col-12">
+                        <label for="password" class="mb-2">Mot de passe actuel *</label>
+                        <input type="password" class="form-control" id="password" name="password1">
+                    </div>
+                    <div class="col-4">
+                        <label for="newpassword" class="mb-2">Nouveau mot de passe *</label>
+                        <input type="password" class="form-control" id="newpassword" name="newpassword">
+                    </div>
+                    <div class="col-4">
+                        <label for="newpassword2" class="mb-2">Confirmer le mot de passe *</label>
+                        <input type="password" class="form-control" id="newpassword2" name="newpassword2">
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <button class="btn" id="create"
+                                style="background-color:#ffcf10;width: 320px;height: 45px ">Sauvegarder
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% include 'parts/footer.html' %}
+<script>
+    $(document).ready(function () {
+        $('#changepasswpord').prop( "checked", false )
+        $('.changepasswpord').click(function () {
+            if ($('#changepasswpord').prop('checked')) {
+                $('.passpordarea').show()
+            } else {
+                $('.passpordarea').hide()
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

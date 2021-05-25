@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+    <title>Contact</title>
+</head>
+<body>
+{% include 'parts/header.html' %}
+
+<div class="container mt-5">
+    <form method="post" action="/sendmessage" class="row">
+        {% csrf_token %}
+        <div class="col-12 text-center mb-5">
+            <div class="d-flex justify-content-center align-items-center">
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+                <h1 class="mb-0 pb-0" style="font-size:30px;font-weight: 700; ">ENVOYEZ NOUS UN MESSAGE</h1>
+                <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-12">
+                    <label for="fullname" class="mb-2">Nom *</label>
+                    <input type="text" class="form-control" id="fullname" value="{{ user.username }}"
+                           name="fullname">
+                </div>
+                <div class="col-12">
+                    <label for="email" class="mb-2">Nom *</label>
+                    <input type="email" class="form-control" id="email" value="{{ user.email }}"
+                           name="email">
+                </div>
+                <div class="col-12">
+                    <label for="tele" class="mb-2">Télephone</label>
+                    <input type="tel" class="form-control" id="tele" value="{{ user.ClientUser.tele }}"
+                           name="tele">
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <label for="message" class="mb-2">Message *</label>
+            <textarea class="form-control" id="message" name="message" rows="4">
+            </textarea>
+        </div>
+        <div class="col-12 mt-4">
+            <p>* Champs obligatoires</p>
+            <button class="btn" style="background-color: #ffcf10">Envoyer</button>
+        </div>
+    </form>
+
+    <div class="position-fixed bottom-0 end-0 p-3 " style="z-index: 5">
+        <div id="messagesuccess" class="toast hide successmessage" role="alert" aria-live="assertive"
+             aria-atomic="true" style="background-color: #ffcf10">
+            <div class="toast-header d-flex justify-content-end" style="background-color: #ffcf10">
+                <button type="button" class="btn-close " data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Votre message a éte envoyé.
+            </div>
+        </div>
+    </div>
+
+</div>
+{% include 'parts/footer.html' %}
+<script>
+    $(document).ready(function () {
+        {% if request.GET.messagesent == 'message sent' %}
+            $('.successmessage').toast('show');
+        {% endif %}
+    })
+
+</script>
+</body>
+</html>

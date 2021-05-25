@@ -1,0 +1,414 @@
+{% load static %}
+<style>
+    .nav-link {
+        font-size: 13.5px;
+        font-weight: 700 !important;
+        color: black !important;
+    }
+
+    .nav-item:hover a {
+        color: white !important;
+    }
+
+    .nav-item:hover {
+        background-color: #333e48 !important;
+        color: white !important;
+    }
+
+
+    nav .dropdown-menu a {
+        color: #d8e3ec !important;
+    }
+
+    nav .dropdown-menu a:hover {
+        color: white !important;
+        background-color: transparent !important;
+    }
+
+    #rechercheinput:focus {
+        outline: none;
+    }
+</style>
+<header class="container-fluid pe-0 ps-0 ">
+    <div class="d-flex flex-nowrap  justify-content-between align-items-end">
+        <a href="/">
+            <img src="{% static 'icons/logo.svg' %}" height="75"/>
+        </a>
+        <form method="get" action="/search" class="d-flex">
+            <div class="dropdown">
+                <input type="text" placeholder="Que recherchez-vous ?" data-bs-toggle="dropdown" aria-expanded="false"
+                       id="rechercheinput" name="rechercheinput"
+                       style="padding-left:20px;font-size:13px;height: 47px;width: 220px;border:solid 2px #ffcf10;border-bottom-left-radius: 4px;border-top-left-radius: 4px"
+                       required>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="width: 70vw">
+                    <div class="row p-4">
+                        <div class="col-4 ">
+                            <p class="mb-0 " style="font-size:22px;color: #21adac;font-weight: bold">TOP RECHERCHES</p>
+                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                Carte visite
+                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
+                            </p>
+                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                Calendrier
+                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
+                            </p>
+                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                Flyer
+                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
+                            </p>
+                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                Marque page
+                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
+                            </p>
+                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                Faire part
+                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
+                            </p>
+                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                Affiche
+                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
+                            </p>
+                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                Bache
+                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
+                            </p>
+                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                Enveloppe
+                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
+                            </p>
+                        </div>
+                        <div class="col-8 d-flex flex-wrap onsearchresults">
+                            <div class="card mb-3 border-0" style="width: 50%">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body  ps-1 p-0">
+                                            <p class="mb-0" style="font-size: 17px">product test...</p>
+                                            <p class="mb-0">A partir de</p>
+                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
+                                                Euro</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-3 border-0" style="width: 50%">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body  ps-1 p-0">
+                                            <p class="mb-0" style="font-size: 17px">product test...</p>
+                                            <p class="mb-0">A partir de</p>
+                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
+                                                Euro</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-3 border-0" style="width: 50%">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body  ps-1 p-0">
+                                            <p class="mb-0" style="font-size: 17px">product test...</p>
+                                            <p class="mb-0">A partir de</p>
+                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
+                                                Euro</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-3 border-0" style="width: 50%">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body  ps-1 p-0">
+                                            <p class="mb-0" style="font-size: 17px">product test...</p>
+                                            <p class="mb-0">A partir de</p>
+                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
+                                                Euro</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-3 border-0" style="width: 50%">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body  ps-1 p-0">
+                                            <p class="mb-0" style="font-size: 17px">product test...</p>
+                                            <p class="mb-0">A partir de</p>
+                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
+                                                Euro</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card mb-3 border-0" style="width: 50%">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body  ps-1 p-0">
+                                            <p class="mb-0" style="font-size: 17px">product test...</p>
+                                            <p class="mb-0">A partir de</p>
+                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
+                                                Euro</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button style="height: 47px;background-color: #ffcf10;width: 56px;border: none;border-bottom-right-radius: 4px;border-top-right-radius: 4px">
+                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
+            </button>
+        </form>
+        <div class="d-flex flex-row align-items-end justify-content-end">
+            <div class="d-flex flex-column justify-items-center align-items-center me-5" style="cursor: pointer"
+                 data-container="body" data-toggle="popover" data-placement="bottom"
+                 data-content="Vivamussagittis lacus vel augue laoreet rutrum faucibus.">
+                <img src="{% static 'icons/phone.svg' %}" height="24" width="24"/>
+                <span style="font-size: 15px;font-weight: 600;">0771705545</span>
+            </div>
+            {% if  user.is_authenticated %}
+                <a href="/profile"
+                   class="d-flex flex-column justify-items-center text-dark align-items-center me-5 text-decoration-none">
+                    <img src="{% static 'icons/user.svg' %}" height="24" width="24"/>
+                    <span style="font-size: 15px;font-weight: 600;">Mon Compte</span>
+                </a>
+            {% else %}
+                <a href="/login"
+                   class="d-flex flex-column justify-items-center text-dark align-items-center me-5 text-decoration-none">
+                    <img src="{% static 'icons/user.svg' %}" height="24" width="24"/>
+                    <span style="font-size: 15px;font-weight: 600;">Se connecter</span>
+                </a>
+            {% endif %}
+
+            <div class="d-flex flex-column justify-content-center align-items-center me-5">
+                <div>
+                    <img src="{% static 'icons/bag.svg' %}" height="24" width="24"/>
+                </div>
+                <span style="font-size: 15px;font-weight: 600;">Panier</span>
+            </div>
+            <div class="d-flex flex-column justify-content-center me-4 ">
+                <span style="font-family: 'Lobster', cursive;" class="mb-1 text-center">Avis verifier</span>
+                <div style="border: solid 2px black;border-radius: 4px">
+                    <span style="font-size: 12px;font-weight: 600;">AVIS DE NOS CLIENTS</span><br>
+                    <img src="{% static 'icons/star.svg' %}" height="12" width="12"/>
+                    <img src="{% static 'icons/star.svg' %}" height="12" width="12"/>
+                    <img src="{% static 'icons/star.svg' %}" height="12" width="12"/>
+                    <img src="{% static 'icons/star.svg' %}" height="12" width="12"/>
+                    <img src="{% static 'icons/star.svg' %}" height="12" width="12"/>
+                    <span>4.7/5</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light pt-0 pb-0 mt-2" style="background-color: #ffcf10 !important;">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-2 w-100 mb-lg-0 d-flex justify-content-between">
+                    <li class="nav-item dropdown" style="position: static">
+                        <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                 class="bi bi-list" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                            <div class="d-flex  justify-content-evenly">
+                                <li><a class="dropdown-item " href="#">Action</a></li>
+                                <li><a class="dropdown-item " href="#">Another action</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                            </div>
+                        </ul>
+
+                    </li>
+                    <li class="nav-item d-flex align-items-center dropdown"
+                        style="position:static;background-color: #ff0747;">
+                        <a class="nav-link active text-light" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">TOP PRODUITS</a>
+                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                            <div class="d-flex  justify-content-evenly">
+                                <li><a class="dropdown-item " href="#">Action</a></li>
+                                <li><a class="dropdown-item " href="#">Another action</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="nav-item d-flex align-items-center dropdown" style="position:static;">
+                        <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">IMPRESSION
+                            PAPIER</a>
+                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                            <div class="d-flex  justify-content-evenly">
+                                <li><a class="dropdown-item " href="#">Action</a></li>
+                                <li><a class="dropdown-item " href="#">Another action</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="nav-item d-flex align-items-center" style="position: static">
+                        <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">GRAND FORMAT
+                            ET SIGNALETIQUE</a>
+                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                            <div class="d-flex  justify-content-evenly">
+                                <li><a class="dropdown-item " href="#">Action</a></li>
+                                <li><a class="dropdown-item " href="#">Another action</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="nav-item d-flex align-items-center" style="position: static">
+                        <a class="nav-link " role="button" data-bs-toggle="dropdown" aria-expanded="false">OBJETS
+                            PUBLICITAIRES</a>
+                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                            <div class="d-flex  justify-content-evenly">
+                                <li><a class="dropdown-item " href="#">Action</a></li>
+                                <li><a class="dropdown-item " href="#">Another action</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="nav-item d-flex align-items-center" style="position: static">
+                        <a class="nav-link " role="button" data-bs-toggle="dropdown" aria-expanded="false">SALON &
+                            EXPO</a>
+                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                            <div class="d-flex  justify-content-evenly">
+                                <li><a class="dropdown-item " href="#">Action</a></li>
+                                <li><a class="dropdown-item " href="#">Another action</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="nav-item d-flex align-items-center" style="position: static">
+                        <a class="nav-link " role="button" data-bs-toggle="dropdown" aria-expanded="false">EXPRESS
+                            24H</a>
+                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                            <div class="d-flex  justify-content-evenly">
+                                <li><a class="dropdown-item " href="#">Action</a></li>
+                                <li><a class="dropdown-item " href="#">Another action</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+
+                            </div>
+                        </ul>
+                    </li>
+                    <li class="nav-item d-flex align-items-center" style="position:static;background-color: #21adac">
+                        <a class="nav-link text-light" role="button" data-bs-toggle="dropdown" aria-expanded="false">SUR-MESURE</a>
+                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                            <div class="d-flex  justify-content-evenly">
+                                <li><a class="dropdown-item " href="#">Action</a></li>
+                                <li><a class="dropdown-item " href="#">Another action</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+
+                            </div>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    $(document).ready(function () {
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+
+        $('#rechercheinput').keydown(function () {
+            $searchtext = $(this).val()
+            $.ajax({
+                method: 'POST',
+                {#dataType: 'json',#}
+                url: '{% url "onsearch" %}',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    searchtext: $searchtext
+                },
+                success: function (e) {
+                    $('.onsearchresults').html('')
+                    console.log(e.type)
+                    for($i=0;$i<data.length;$i++) {
+                        $('.onsearchresults').append('' +
+                            '<div class="card mb-3 border-0" style="width: 50%">' +
+                            '     <div class="row g-0">' +
+                            '        <div class="col-md-4">' +
+                            '           <img src="' + e[$i].image + '" class="img-fluid" alt="...">' +
+                            '      </div>' +
+                            '     <div class="col-md-8">' +
+                            '        <div class="card-body  ps-1 p-0">' +
+                            '           <p class="mb-0" style="font-size: 17px">' + e[$i].title + '</p>' +
+                            '          <p class="mb-0">A partir de</p>' +
+                            '         <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">' +
+                            '            Euro</p>' +
+                            '   </div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>'
+                        )
+                    }
+                }
+                ,
+                error: function (e) {
+                    console.log(e.responseText)
+                }
+
+            })
+        })
+    })
+
+
+</script>
