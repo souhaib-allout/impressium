@@ -29,6 +29,8 @@ urlpatterns = [
     path('logup', views.logup),
     path('logupcheck', views.logupcheck),
 
+    path('logoutcheck', views.logoutcheck),
+
     path('dashboard', views.dashboard),
     path('profile', views.profile),
     path('updateprofile', views.updateprofile),
@@ -39,4 +41,4 @@ urlpatterns = [
     path('products', views.products),
 
     path('search', views.search),
-    path('onsearch', views.onsearch, name='onsearch'),]
+    path('onsearch', views.onsearch, name='onsearch'), ]

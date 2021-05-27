@@ -36,11 +36,16 @@
     .comptedropdownmenue a:hover {
         background-color: #1e202c !important;
     }
+
+    .toprecherches a {
+        color: black;
+        text-decoration: none;
+    }
 </style>
 <header class="container-fluid pe-0 ps-0 ">
     <div class="d-flex flex-nowrap  justify-content-between align-items-end">
         <a href="/">
-            <img src="{% static 'icons/logo.svg' %}" height="75"/>
+            <img src="{% static 'Icons/logo.svg' %}" height="75" alt="logo"/>
         </a>
         <form method="get" action="/search" class="d-flex">
             <div class="dropdown">
@@ -50,40 +55,40 @@
                        required>
                 <div class="dropdown-menu" id="searchmenue" aria-labelledby="dropdownMenuButton1" style="width: 70vw">
                     <div class="row p-4">
-                        <div class="col-4 ">
+                        <div class="col-4 toprecherches">
                             <p class="mb-0 " style="font-size:22px;color: #21adac;font-weight: bold">TOP RECHERCHES</p>
-                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                            <a href="" class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
                                 Carte visite
-                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
-                            </p>
-                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                <img src="{% static 'Icons/Search.svg' %}" height="15" width="15"/>
+                            </a>
+                            <a href="" class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
                                 Calendrier
-                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
-                            </p>
-                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                <img src="{% static 'Icons/Search.svg' %}" height="15" width="15"/>
+                            </a>
+                            <a href="" class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
                                 Flyer
-                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
-                            </p>
-                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                <img src="{% static 'Icons/Search.svg' %}" height="15" width="15"/>
+                            </a>
+                            <a class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
                                 Marque page
-                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
-                            </p>
-                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                <img src="{% static 'Icons/Search.svg' %}" height="15" width="15"/>
+                            </a>
+                            <a href="" class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
                                 Faire part
-                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
-                            </p>
-                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                <img src="{% static 'Icons/Search.svg' %}" height="15" width="15"/>
+                            </a>
+                            <a href="" class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
                                 Affiche
-                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
-                            </p>
-                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                <img src="{% static 'Icons/Search.svg' %}" height="15" width="15"/>
+                            </a>
+                            <a href="" class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
                                 Bache
-                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
-                            </p>
-                            <p class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                <img src="{% static 'Icons/Search.svg' %}" height="15" width="15"/>
+                            </a>
+                            <a href="" class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
                                 Enveloppe
-                                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
-                            </p>
+                                <img src="{% static 'Icons/Search.svg' %}" height="15" width="15"/>
+                            </a>
                         </div>
                         <div class="col-8 d-flex flex-wrap onsearchresults">
                             <div class="card mb-3 border-0" style="width: 50%">
@@ -184,21 +189,21 @@
             </div>
 
             <button style="height: 47px;background-color: #ffcf10;width: 56px;border: none;border-bottom-right-radius: 4px;border-top-right-radius: 4px">
-                <img src="{% static 'icons/search.svg' %}" height="15" width="15"/>
+                <img src="{% static 'Icons/Search.svg' %}" height="15" width="15"/>
             </button>
         </form>
         <div class="d-flex flex-row align-items-end justify-content-end">
-            <div class="d-flex flex-column justify-items-center align-items-center me-5" style="cursor: pointer"
+            <a href="/contact" class="d-flex text-dark text-decoration-none flex-column justify-items-center align-items-center me-5" style="cursor: pointer"
                  data-container="body" data-toggle="popover" data-placement="bottom"
                  data-content="Vivamussagittis lacus vel augue laoreet rutrum faucibus.">
-                <img src="{% static 'icons/phone.svg' %}" height="24" width="24"/>
-                <span style="font-size: 15px;font-weight: 600;">0771705545</span>
-            </div>
-            {% if  user.is_authenticated %}
+                <img src="{% static 'Icons/Phone.svg' %}" height="24" width="24"/>
+                <span style="font-size: 15px;font-weight: 600;">Nous contacter</span>
+            </a>
+            {% if user.is_authenticated %}
                 <div>
                     <div class="d-flex dropdowntoggle  flex-column justify-items-center text-dark align-items-center me-5 text-decoration-none"
                          data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="{% static 'icons/user.svg' %}" height="24" width="24"/>
+                        <img src="{% static 'Icons/User.svg' %}" height="24" width="24"/>
                         <span style="font-size: 15px;font-weight: 600;">Mon Compte</span>
                     </div>
                     <ul class="dropdown-menu comptedropdownmenue" style="background-color: #1e202c;">
@@ -207,20 +212,19 @@
                         <li><a class="dropdown-item text-light" href="#">Mes devis</a></li>
                         <li><a class="dropdown-item text-light" href="#">Mes adresses</a></li>
                         <li><a class="dropdown-item text-light" href="#">Mes designs</a></li>
-                        <li><a class="dropdown-item text-light" href="#">Se déconnecter</a></li>
+                        <li><a class="dropdown-item text-light" href="/logoutcheck">Se déconnecter</a></li>
                     </ul>
                 </div>
             {% else %}
                 <a href="/login"
                    class="d-flex flex-column justify-items-center text-dark align-items-center me-5 text-decoration-none">
-                    <img src="{% static 'icons/user.svg' %}" height="24" width="24"/>
+                    <img src="{% static 'Icons/User.svg' %}" height="24" width="24"/>
                     <span style="font-size: 15px;font-weight: 600;">Se connecter</span>
                 </a>
             {% endif %}
-
             <div class="d-flex flex-column justify-content-center align-items-center me-5">
                 <div>
-                    <img src="{% static 'icons/bag.svg' %}" height="24" width="24"/>
+                    <img src="{% static 'Icons/Bag.svg' %}" height="24" width="24"/>
                 </div>
                 <span style="font-size: 15px;font-weight: 600;">Panier</span>
             </div>
@@ -228,11 +232,11 @@
                 <span style="font-family: 'Lobster', cursive;" class="mb-1 text-center">Avis verifier</span>
                 <div style="border: solid 2px black;border-radius: 4px">
                     <span style="font-size: 12px;font-weight: 600;">AVIS DE NOS CLIENTS</span><br>
-                    <img src="{% static 'icons/star.svg' %}" height="12" width="12"/>
-                    <img src="{% static 'icons/star.svg' %}" height="12" width="12"/>
-                    <img src="{% static 'icons/star.svg' %}" height="12" width="12"/>
-                    <img src="{% static 'icons/star.svg' %}" height="12" width="12"/>
-                    <img src="{% static 'icons/star.svg' %}" height="12" width="12"/>
+                    <img src="{% static 'Icons/Star.svg' %}" height="12" width="12"/>
+                    <img src="{% static 'Icons/Star.svg' %}" height="12" width="12"/>
+                    <img src="{% static 'Icons/Star.svg' %}" height="12" width="12"/>
+                    <img src="{% static 'Icons/Star.svg' %}" height="12" width="12"/>
+                    <img src="{% static 'Icons/Star.svg' %}" height="12" width="12"/>
                     <span>4.7/5</span>
                 </div>
             </div>
@@ -267,7 +271,7 @@
                     </li>
                     <li class="nav-item d-flex align-items-center dropdown"
                         style="position:static;background-color: #ff0747;">
-                        <a class="nav-link active text-light" role="button" data-bs-toggle="dropdown"
+                        <a class="nav-link active text-light" role="button" data-bs-toggle="dropdown" style="color: white !important;"
                            aria-expanded="false">TOP PRODUITS</a>
                         <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
                             style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
@@ -399,26 +403,25 @@
                 },
                 success: function (e) {
                     $('.onsearchresults').html('')
-                    console.log(e.type)
-                    for ($i = 0; $i < data.length; $i++) {
+                    $.each(e, function (index,value) {
                         $('.onsearchresults').append('' +
                             '<div class="card mb-3 border-0" style="width: 50%">' +
                             '     <div class="row g-0">' +
                             '        <div class="col-md-4">' +
-                            '           <img src="' + e[$i].image + '" class="img-fluid" alt="...">' +
+                            '           <img src="' +value.articleimages__name.url  + '" class="img-fluid" alt="...">' +
                             '      </div>' +
                             '     <div class="col-md-8">' +
                             '        <div class="card-body  ps-1 p-0">' +
-                            '           <p class="mb-0" style="font-size: 17px">' + e[$i].title + '</p>' +
+                            '           <p class="mb-0" style="font-size: 17px">' + value.title + '</p>' +
                             '          <p class="mb-0">A partir de</p>' +
-                            '         <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">' +
+                            '         <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">' +value.Sizearticle__price+
                             '            Euro</p>' +
                             '   </div>' +
                             '</div>' +
                             '</div>' +
                             '</div>'
                         )
-                    }
+                    })
                 }
                 ,
                 error: function (e) {

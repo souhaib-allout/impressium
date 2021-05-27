@@ -1,12 +1,12 @@
-
-from django.contrib.auth import authenticate, login as loginnow
+from django.contrib.auth import authenticate, login as loginnow, logout
 from django.contrib.auth.hashers import check_password, make_password
 from django.shortcuts import render, redirect
 from clientside.models import *
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.core import serializers
+
 
 # Create your views here.
 
@@ -15,6 +15,7 @@ def index(request):
     # bestarticles = Bestarticle.objects.all()
     bestarticles = Article.objects.filter(bestarticle__id__isnull=False)
     # return HttpResponse(bestarticles)
+    topsearch = Search.objects.annotate(nb_search=Count('title')).order_by('nb_search')[0:8]
 
     # for articl in bestarticles:
     #     print(articl.bestarticle.first().id)
@@ -23,7 +24,8 @@ def index(request):
     #     print('price: ' + str(size.price))
 
     # return HttpResponse('good')
-    return render(request, 'index.html', {'newarticles': newarticles, 'bestarticles': bestarticles})
+    return render(request, 'index.html',
+                  {'newarticles': newarticles, 'bestarticles': bestarticles, 'topsearch': topsearch})
 
 
 def product(request, id):
@@ -43,7 +45,7 @@ def logincheck(request):
         if user is not None:
             loginnow(request, user)
             if request.user.is_authenticated:
-                return HttpResponse('loged')
+                return redirect('/dashboard')
 
             if not request.user.is_authenticated:
                 return HttpResponse('not loged')
@@ -66,9 +68,15 @@ def logupcheck(request):
                                             password=request.POST['password1'])
             Client.objects.create(user_id=user.id, type=request.POST['type'], civilite=request.POST['civilite'],
                                   tele=request.POST['tele'])
-            return redirect('/')
+            return redirect('/dashboard')
         else:
             return redirect('/')
+
+
+def logoutcheck(request):
+    logout(request)
+    # return HttpResponse('good')
+    return redirect('/login')
 
 
 def dashboard(request):
@@ -119,39 +127,24 @@ def products(request):
 
     # return JsonResponse(products[0]['ArticleImage'])
 
-    return render(request, 'products.html', {'products': products, 'swiper-bundle.css': 'good'})
+    return render(request, 'products.html', {'products': products, 'swiper-bundle.Css': 'good'})
 
 
 def search(request):
     products = Article.objects.filter(
         Q(type__contains=request.GET['rechercheinput']) | Q(title__contains=request.GET['rechercheinput']) | Q(
             info__contains=request.GET['rechercheinput']))
+    if request.user.is_authenticated:
+        Search.objects.create(user=request.user, title=request.GET['rechercheinput'])
+    else:
+        Search.objects.create(title=request.GET['rechercheinput'])
     return render(request, 'searcharticle.html', {'products': products, 'searchtitle': request.GET['rechercheinput']})
 
 
 def onsearch(request):
     if request.method == 'POST':
-        # articles = Article.objects.filter().first()
-        # ArticleImage.objects.filter(article=)
-
-        articles = Article.objects.filter(title__contains=request.POST['searchtext']).all()[:6]
-        list = {}
-        for article in articles:
-            image = ArticleImage.objects.filter(article=article.id).first()
-            price = Size.objects.filter(article=article.id).first()
-            list.update({
-                'id': article.id,
-                'title': article.title,
-                'image': image.name.url,
-                'price': price,
-
-                # 'name': 'souhaib',
-                # 'last name': 'allout'
-            })
-            return HttpResponse(articles)
-            searchs = serializers.serialize('json', list)
-            return JsonResponse(searchs, content_type="application/json")
-
+        lists = Article.objects.filter(title__contains=request.POST['searchtext']).values('title', 'articleimages__name','Sizearticle__price')[0:6]
+        return JsonResponse(list(lists),safe=False)
     else:
         return HttpResponse('baaad')
 

@@ -2,8 +2,11 @@ import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
 
 # Create your models here.
+from django.forms import widgets
+
 
 class Message(models.Model):
     full_name = models.CharField(max_length=100)
@@ -16,8 +19,26 @@ class Message(models.Model):
         return self.message
 
 
+class Category(models.Model):
+    name = models.TextField(max_length=100, null=False)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
+
+    def __str__(self):
+        return self.name
+
+
+class ChildCategory(models.Model):
+    Category = models.ForeignKey(Category, related_name='ChildCategory', on_delete=models.CASCADE)
+    name = models.TextField(max_length=100, null=False)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
+
+    def __str__(self):
+        return self.name
+
+
 class Article(models.Model):
-    type = models.CharField(max_length=50)
+    childcategory = models.ForeignKey(ChildCategory, related_name='ArticleChildCategory', on_delete=models.CASCADE,
+                                      max_length=50)
     title = models.CharField(max_length=100)
     info = models.TextField(null=True)
     options = models.TextField(null=True)
@@ -28,10 +49,9 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-class Search(models.Model):
-    user_id=models.ForeignKey(User,related_name='search_user',on_delete=models.CASCADE)
-    title=models.TextField(null=False)
-    created_at=models.DateTimeField(default=datetime.datetime.now)
+    def images(self):
+        return ArticleImage.objects.filter(article=self.id)
+
 
 class ArticleImage(models.Model):
     article = models.ForeignKey(Article, related_name="articleimages", on_delete=models.CASCADE)
@@ -57,7 +77,7 @@ class Size(models.Model):
 
 
 class Bestarticle(models.Model):
-    article = models.ForeignKey(Article, related_name="bestarticle", on_delete=models.CASCADE)
+    article = models.OneToOneField(Article, related_name="bestarticle", on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -70,4 +90,13 @@ class Client(models.Model):
     civilite = models.CharField(max_length=10)
     tele = models.TextField(max_length=14)
 
-# class models.User
+
+class Search(models.Model):
+    user = models.ForeignKey(User, related_name='search_user', on_delete=models.CASCADE, null=True, default='')
+    title = models.TextField(null=False)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
+
+
+class TopRecherch(models.Model):
+    ChildCategory = models.ForeignKey(ChildCategory, related_name='TopRecherChildCategory', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
