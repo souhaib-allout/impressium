@@ -20,16 +20,15 @@ class Message(models.Model):
 
 
 class Category(models.Model):
-    name = models.TextField(max_length=100, null=False)
+    name = models.CharField(max_length=100, null=False)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
         return self.name
 
-
 class ChildCategory(models.Model):
     Category = models.ForeignKey(Category, related_name='ChildCategory', on_delete=models.CASCADE)
-    name = models.TextField(max_length=100, null=False)
+    name = models.CharField(max_length=100, null=False)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -37,9 +36,9 @@ class ChildCategory(models.Model):
 
 
 class Article(models.Model):
-    childcategory = models.ForeignKey(ChildCategory, related_name='ArticleChildCategory', on_delete=models.CASCADE,
-                                      max_length=50)
     title = models.CharField(max_length=100)
+    childcategory = models.ForeignKey(ChildCategory, related_name='ArticleChildCategory', on_delete=models.CASCADE,
+                                max_length=50, default=1)
     info = models.TextField(null=True)
     options = models.TextField(null=True)
     conseil = models.TextField(null=True)
@@ -60,6 +59,7 @@ class ArticleImage(models.Model):
 
     def __str__(self):
         return self.article.title
+
 
 
 class Size(models.Model):

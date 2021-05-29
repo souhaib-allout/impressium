@@ -12,29 +12,21 @@ from django.core import serializers
 
 def index(request):
     newarticles = Article.objects.order_by('-id')[:5]
-    # bestarticles = Bestarticle.objects.all()
     bestarticles = Article.objects.filter(bestarticle__id__isnull=False)
-    # return HttpResponse(bestarticles)
     topsearch = Search.objects.annotate(nb_search=Count('title')).order_by('nb_search')[0:8]
+    categories = Category.objects.all()
 
-    # for articl in bestarticles:
-    #     print(articl.bestarticle.first().id)
-    # print('article :' + str(articleb.id))
-    # for size in articleb.article.Sizearticle.all():
-    #     print('price: ' + str(size.price))
-
-    # return HttpResponse('good')
     return render(request, 'index.html',
-                  {'newarticles': newarticles, 'bestarticles': bestarticles, 'topsearch': topsearch})
+                  {'newarticles': newarticles, 'bestarticles': bestarticles, 'topsearch': topsearch,
+                   'categories': categories})
 
 
-def product(request, id):
-    product = Article.objects.filter(id=id).first()
-    return render(request, 'product.html', {'product': product})
+
 
 
 def login(request):
-    return render(request, 'login.html')
+    categories = Category.objects.all()
+    return render(request, 'login.html',{ 'categories': categories})
 
 
 def logincheck(request):
@@ -56,7 +48,8 @@ def logincheck(request):
 
 
 def logup(request):
-    return render(request, 'logup.html')
+    categories = Category.objects.all()
+    return render(request, 'logup.html',{ 'categories': categories})
 
 
 def logupcheck(request):
@@ -80,11 +73,13 @@ def logoutcheck(request):
 
 
 def dashboard(request):
-    return render(request, 'profile/dashboard.html')
+    categories = Category.objects.all()
+    return render(request, 'profile/dashboard.html',{ 'categories': categories})
 
 
 def profile(request):
-    return render(request, 'profile/profile.html')
+    categories = Category.objects.all()
+    return render(request, 'profile/profile.html',{ 'categories': categories})
 
 
 def updateprofile(request):
@@ -111,7 +106,8 @@ def updateprofile(request):
 
 
 def contact(request):
-    return render(request, 'contact.html')
+    categories = Category.objects.all()
+    return render(request, 'contact.html',{ 'categories': categories})
 
 
 def sendmessage(request):
@@ -122,12 +118,28 @@ def sendmessage(request):
 
 
 def products(request):
+    categories = Category.objects.all()
     products = Article.objects.order_by('-id').all()
     # return HttpResponse(products[4].articleimages[0].name)
 
     # return JsonResponse(products[0]['ArticleImage'])
 
-    return render(request, 'products.html', {'products': products, 'swiper-bundle.Css': 'good'})
+    return render(request, 'products.html', {'products': products, 'swiper-bundle.Css': 'good', 'categories': categories})
+
+def product(request, id):
+    product = Article.objects.filter(id=id).first()
+    categories = Category.objects.all()
+    realtedproducts=Article.objects.filter(childcategory=product.childcategory)[0:6]
+    return render(request, 'product.html', {'product': product, 'categories': categories,'realtedproducts':realtedproducts})
+
+
+def productsbyCategory(request,category):
+    category1=category
+    categories = Category.objects.all()
+    products = Article.objects.filter(childcategory=category).all()
+    return HttpResponse(category)
+    return render(request, 'products.html',
+                  {'products': products, 'swiper-bundle.Css': 'good', 'categories': categories})
 
 
 def search(request):
@@ -138,13 +150,17 @@ def search(request):
         Search.objects.create(user=request.user, title=request.GET['rechercheinput'])
     else:
         Search.objects.create(title=request.GET['rechercheinput'])
-    return render(request, 'searcharticle.html', {'products': products, 'searchtitle': request.GET['rechercheinput']})
+    categories = Category.objects.all()
+    return render(request, 'searcharticle.html', {'products': products, 'searchtitle': request.GET['rechercheinput'],
+                   'categories': categories})
 
 
 def onsearch(request):
     if request.method == 'POST':
-        lists = Article.objects.filter(title__contains=request.POST['searchtext']).values('title', 'articleimages__name','Sizearticle__price')[0:6]
-        return JsonResponse(list(lists),safe=False)
+        lists = Article.objects.filter(title__contains=request.POST['searchtext']).values('title',
+                                                                                          'articleimages__name',
+                                                                                          'Sizearticle__price')[0:6]
+        return JsonResponse(list(lists), safe=False)
     else:
         return HttpResponse('baaad')
 

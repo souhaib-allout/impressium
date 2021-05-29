@@ -91,98 +91,24 @@
                             </a>
                         </div>
                         <div class="col-8 d-flex flex-wrap onsearchresults">
-                            <div class="card mb-3 border-0" style="width: 50%">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body  ps-1 p-0">
-                                            <p class="mb-0" style="font-size: 17px">product test...</p>
-                                            <p class="mb-0">A partir de</p>
-                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
-                                                Euro</p>
+                            {% for bestarticle in bestarticles %}
+                                <div class="card mb-3 border-0" style="width: 50%">
+                                    <div class="row g-0">
+                                        <div class="col-md-4">
+                                            <img src="{{ bestarticle.articleimages.first.name.url }}" class="img-fluid"
+                                                 alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body  ps-1 p-0">
+                                                <p class="mb-0" style="font-size: 17px">{{ bestarticle.title }}</p>
+                                                <p class="mb-0">A partir de</p>
+                                                <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
+                                                    Euro</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="card mb-3 border-0" style="width: 50%">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body  ps-1 p-0">
-                                            <p class="mb-0" style="font-size: 17px">product test...</p>
-                                            <p class="mb-0">A partir de</p>
-                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
-                                                Euro</p>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3 border-0" style="width: 50%">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body  ps-1 p-0">
-                                            <p class="mb-0" style="font-size: 17px">product test...</p>
-                                            <p class="mb-0">A partir de</p>
-                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
-                                                Euro</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3 border-0" style="width: 50%">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body  ps-1 p-0">
-                                            <p class="mb-0" style="font-size: 17px">product test...</p>
-                                            <p class="mb-0">A partir de</p>
-                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
-                                                Euro</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3 border-0" style="width: 50%">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body  ps-1 p-0">
-                                            <p class="mb-0" style="font-size: 17px">product test...</p>
-                                            <p class="mb-0">A partir de</p>
-                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
-                                                Euro</p>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mb-3 border-0" style="width: 50%">
-                                <div class="row g-0">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'new_slider/product1.png' %}" class="img-fluid" alt="...">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body  ps-1 p-0">
-                                            <p class="mb-0" style="font-size: 17px">product test...</p>
-                                            <p class="mb-0">A partir de</p>
-                                            <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">54
-                                                Euro</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -193,9 +119,11 @@
             </button>
         </form>
         <div class="d-flex flex-row align-items-end justify-content-end">
-            <a href="/contact" class="d-flex text-dark text-decoration-none flex-column justify-items-center align-items-center me-5" style="cursor: pointer"
-                 data-container="body" data-toggle="popover" data-placement="bottom"
-                 data-content="Vivamussagittis lacus vel augue laoreet rutrum faucibus.">
+            <a href="/contact"
+               class="d-flex text-dark text-decoration-none flex-column justify-items-center align-items-center me-5"
+               style="cursor: pointer"
+               data-container="body" data-toggle="popover" data-placement="bottom"
+               data-content="Vivamussagittis lacus vel augue laoreet rutrum faucibus.">
                 <img src="{% static 'Icons/Phone.svg' %}" height="24" width="24"/>
                 <span style="font-size: 15px;font-weight: 600;">Nous contacter</span>
             </a>
@@ -269,97 +197,40 @@
                         </ul>
 
                     </li>
+
+
                     <li class="nav-item d-flex align-items-center dropdown"
                         style="position:static;background-color: #ff0747;">
-                        <a class="nav-link active text-light" role="button" data-bs-toggle="dropdown" style="color: white !important;"
+                        <a class="nav-link active text-light" role="button" data-bs-toggle="dropdown"
+                           style="color: white !important;"
                            aria-expanded="false">TOP PRODUITS</a>
                         <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
                             style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
                             <div class="d-flex  justify-content-evenly">
-                                <li><a class="dropdown-item " href="#">Action</a></li>
-                                <li><a class="dropdown-item " href="#">Another action</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                                {% for bestarticle in bestarticles %}
+                                    <li><a class="dropdown-item " href="/product/{{ bestarticle.id }}">{{ bestarticle.title }}</a></li>
+                                {% endfor %}
 
                             </div>
                         </ul>
                     </li>
-                    <li class="nav-item d-flex align-items-center dropdown" style="position:static;">
-                        <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">IMPRESSION
-                            PAPIER</a>
-                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
-                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
-                            <div class="d-flex  justify-content-evenly">
-                                <li><a class="dropdown-item " href="#">Action</a></li>
-                                <li><a class="dropdown-item " href="#">Another action</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                    {% for categorie in  categories %}
 
-                            </div>
-                        </ul>
-                    </li>
-                    <li class="nav-item d-flex align-items-center" style="position: static">
-                        <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">GRAND FORMAT
-                            ET SIGNALETIQUE</a>
-                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
-                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
-                            <div class="d-flex  justify-content-evenly">
-                                <li><a class="dropdown-item " href="#">Action</a></li>
-                                <li><a class="dropdown-item " href="#">Another action</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                        <li class="nav-item d-flex align-items-center dropdown" style="position:static;">
+                            <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ categorie.name |upper }}
+                            </a>
+                            <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                                style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                                <div class="d-flex  justify-content-evenly">
+                                    {% for childcategory in categorie.ChildCategory.all %}
+                                        <li><a class="dropdown-item " href="#">{{ childcategory.name }}</a></li>
+                                    {% endfor %}
+                                </div>
+                            </ul>
+                        </li>
+                    {% endfor %}
 
-                            </div>
-                        </ul>
-                    </li>
-                    <li class="nav-item d-flex align-items-center" style="position: static">
-                        <a class="nav-link " role="button" data-bs-toggle="dropdown" aria-expanded="false">OBJETS
-                            PUBLICITAIRES</a>
-                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
-                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
-                            <div class="d-flex  justify-content-evenly">
-                                <li><a class="dropdown-item " href="#">Action</a></li>
-                                <li><a class="dropdown-item " href="#">Another action</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-
-                            </div>
-                        </ul>
-                    </li>
-                    <li class="nav-item d-flex align-items-center" style="position: static">
-                        <a class="nav-link " role="button" data-bs-toggle="dropdown" aria-expanded="false">SALON &
-                            EXPO</a>
-                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
-                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
-                            <div class="d-flex  justify-content-evenly">
-                                <li><a class="dropdown-item " href="#">Action</a></li>
-                                <li><a class="dropdown-item " href="#">Another action</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-
-                            </div>
-                        </ul>
-                    </li>
-                    <li class="nav-item d-flex align-items-center" style="position: static">
-                        <a class="nav-link " role="button" data-bs-toggle="dropdown" aria-expanded="false">EXPRESS
-                            24H</a>
-                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
-                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
-                            <div class="d-flex  justify-content-evenly">
-                                <li><a class="dropdown-item " href="#">Action</a></li>
-                                <li><a class="dropdown-item " href="#">Another action</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-
-                            </div>
-                        </ul>
-                    </li>
                     <li class="nav-item d-flex align-items-center" style="position:static;background-color: #21adac">
                         <a class="nav-link text-light" role="button" data-bs-toggle="dropdown" aria-expanded="false">SUR-MESURE</a>
                         <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
@@ -403,18 +274,18 @@
                 },
                 success: function (e) {
                     $('.onsearchresults').html('')
-                    $.each(e, function (index,value) {
+                    $.each(e, function (index, value) {
                         $('.onsearchresults').append('' +
                             '<div class="card mb-3 border-0" style="width: 50%">' +
                             '     <div class="row g-0">' +
                             '        <div class="col-md-4">' +
-                            '           <img src="' +value.articleimages__name.url  + '" class="img-fluid" alt="...">' +
+                            '           <img src="' + value.articleimages__name.url + '" class="img-fluid" alt="...">' +
                             '      </div>' +
                             '     <div class="col-md-8">' +
                             '        <div class="card-body  ps-1 p-0">' +
                             '           <p class="mb-0" style="font-size: 17px">' + value.title + '</p>' +
                             '          <p class="mb-0">A partir de</p>' +
-                            '         <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">' +value.Sizearticle__price+
+                            '         <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">' + value.Sizearticle__price +
                             '            Euro</p>' +
                             '   </div>' +
                             '</div>' +

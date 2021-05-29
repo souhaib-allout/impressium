@@ -110,14 +110,16 @@
         <div class="col-11" style="font-size: 17px">
             <span><a href="index.html" class="text-dark text-decoration-none">Accueil</a> </span>
             <span class="me-3 ms-3"> > </span>
-            <span style="font-weight:bold;text-decoration:underline;text-decoration-color: #ffcf10;text-decoration-width: 2px">Poster indéchirable</span>
+            <span style="font-weight:bold;text-decoration:underline;text-decoration-color: #ffcf10;text-decoration-width: 2px">{{ product.childcategory }}</span>
+            <span class="me-3 ms-3"> > </span>
+            <span style="font-weight:bold;text-decoration:underline;text-decoration-color: #ffcf10;text-decoration-width: 2px">{{ product.title }}</span>
         </div>
         <div class="col-1"></div>
     </div>
     <div class="row mt-3 mb-3">
         <div class="col-12 d-flex justify-content-center align-items-center">
             <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
-            <h2 class="mb-0 ms-2 me-2">DÉCO EVÉNEMENTS</h2>
+            <h2 class="mb-0 ms-2 me-2">{{ product.title |upper }}</h2>
             <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
         </div>
     </div>
@@ -125,17 +127,20 @@
         {% csrf_token %}
         <div class="col-4">
             <p class="text-center" style="text-decoration: underline #ffcf10;font-weight: 600;font-size: 22px">
-                Configurez votre produit</p>
-            <div class="swiper-container swiper-container-product mySwiper">
+                Configurez votre produit
+            </p>
+            <div class="swiper-container swiper-container-product ">
                 <div class="swiper-wrapper swiper-wrapper-product">
                     <div class="swiper-slide swiper-slide-product">
-                        <img src="{% static 'icons/logo.svg' %}" style="height: 40%">
+                        {% for image in product.articleimages.all %}
+                            <img src="{{ image.name.url }}" class="img-fluid w-75">
+                        {% endfor %}
                     </div>
 
                 </div>
-                <div class="swiper-button-next"
+                <div class="swiper-button-next swiper-button-next-product"
                      style="color:white;background-color: rgb(213,212,212,0.80);height: 50px;width: 50px;border-radius: 100px"></div>
-                <div class="swiper-button-prev"
+                <div class="swiper-button-prev swiper-button-prev-product"
                      style="color:white;background-color: rgb(213,212,212,0.80);height: 50px;width: 50px;border-radius: 100px"></div>
                 <div class="swiper-pagination"></div>
             </div>
@@ -351,11 +356,20 @@
                aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Avis Client</a>
         </div>
         <div class="tab-content mt-4" id="infotabs">
-            <div class="tab-pane fade active show" id="info" role="tabpanel" aria-labelledby="home-tab">tab1</div>
-            <div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="profile-tab">tab2</div>
-            <div class="tab-pane fade" id="Conseils" role="tabpanel" aria-labelledby="home-tab">tab3</div>
-            <div class="tab-pane fade" id="complémentaires" role="tabpanel" aria-labelledby="profile-tab">tab4</div>
-            <div class="tab-pane fade" id="Avis" role="tabpanel" aria-labelledby="home-tab">tab5</div>
+            <div class="tab-pane fade active show" id="info" role="tabpanel" aria-labelledby="home-tab">
+                {{ product.info |safe }}
+            </div>
+            <div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="profile-tab">
+                {{ product.options |safe }}
+            </div>
+            <div class="tab-pane fade" id="Conseils" role="tabpanel" aria-labelledby="home-tab">
+                {{ product.conseil |safe }}
+            </div>
+            <div class="tab-pane fade" id="complémentaires" role="tabpanel" aria-labelledby="profile-tab">
+                {{ product.complementes |safe }}
+            </div>
+            <div class="tab-pane fade" id="Avis" role="tabpanel" aria-labelledby="home-tab">
+            </div>
         </div>
     </div>
 </div>
@@ -373,92 +387,33 @@
         <div class="col-10">
             <div class="swiper-container swiper-container-newitems">
                 <div class="swiper-wrapper swiper-wrapper-newitems">
-                    <div class="swiper-slide swiper-slide-newitems">
-                        <a href="/product/" class="card"
-                           style="background-color:transparent;width: 190px;border: none;color: black;text-decoration: none">
-                            <img src="{% static 'icons/logo.svg' %}" class="card-img-top"
-                                 style="height: 200px" alt="...">
-                            <div class="card-body p-0">
-                                <p class="card-title "
-                                   style="text-align:left;font-size:17px;color: #0062bd;font-weight: 700;">test</p>
-                                <div class="d-flex justify-content-between align-items-end">
-                                    <div class="d-flex flex-column">
-                                        <span style="font-size: 12px;font-weight: 700">A partir de</span>
-                                        <span style="font-size: 19px;font-weight: 700">52 Euro</span>
+                    {% for realtedproduct in realtedproducts %}
+                        <div class="swiper-slide swiper-slide-newitems">
+                            <a href="/product/{{ realtedproduct.id }}" class="card"
+                               style="background-color:transparent;width: 190px;border: none;color: black;text-decoration: none">
+                                <img src="{{ realtedproduct.articleimages.first.name.url }}" class="card-img-top"
+                                     style="height: 200px" alt="...">
+                                <div class="card-body p-0">
+                                    <p class="card-title "
+                                       style="text-align:left;font-size:17px;color: #0062bd;font-weight: 700;">{{ realtedproduct.title }}</p>
+                                    <div class="d-flex justify-content-between align-items-end">
+                                        <div class="d-flex flex-column">
+                                            <span style="font-size: 12px;font-weight: 700">A partir de</span>
+                                            <span style="font-size: 19px;font-weight: 700">52 Euro</span>
+                                        </div>
+                                        <button style="height:30px;font-size: 12px;background-color: #ffcf10;border: solid 0px #ffcf10">
+                                            COMMANDEZ
+                                        </button>
                                     </div>
-                                    <button style="height:30px;font-size: 12px;background-color: #ffcf10;border: solid 0px #ffcf10">
-                                        COMMANDEZ
-                                    </button>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                                       <div class="swiper-slide swiper-slide-newitems">
-                        <a href="/product/" class="card"
-                           style="background-color:transparent;width: 190px;border: none;color: black;text-decoration: none">
-                            <img src="{% static 'icons/logo.svg' %}" class="card-img-top"
-                                 style="height: 200px" alt="...">
-                            <div class="card-body p-0">
-                                <p class="card-title "
-                                   style="text-align:left;font-size:17px;color: #0062bd;font-weight: 700;">test</p>
-                                <div class="d-flex justify-content-between align-items-end">
-                                    <div class="d-flex flex-column">
-                                        <span style="font-size: 12px;font-weight: 700">A partir de</span>
-                                        <span style="font-size: 19px;font-weight: 700">52 Euro</span>
-                                    </div>
-                                    <button style="height:30px;font-size: 12px;background-color: #ffcf10;border: solid 0px #ffcf10">
-                                        COMMANDEZ
-                                    </button>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide swiper-slide-newitems">
-                        <a href="/product/" class="card"
-                           style="background-color:transparent;width: 190px;border: none;color: black;text-decoration: none">
-                            <img src="{% static 'icons/logo.svg' %}" class="card-img-top"
-                                 style="height: 200px" alt="...">
-                            <div class="card-body p-0">
-                                <p class="card-title "
-                                   style="text-align:left;font-size:17px;color: #0062bd;font-weight: 700;">test</p>
-                                <div class="d-flex justify-content-between align-items-end">
-                                    <div class="d-flex flex-column">
-                                        <span style="font-size: 12px;font-weight: 700">A partir de</span>
-                                        <span style="font-size: 19px;font-weight: 700">52 Euro</span>
-                                    </div>
-                                    <button style="height:30px;font-size: 12px;background-color: #ffcf10;border: solid 0px #ffcf10">
-                                        COMMANDEZ
-                                    </button>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="swiper-slide swiper-slide-newitems">
-                        <a href="/product/" class="card"
-                           style="background-color:transparent;width: 190px;border: none;color: black;text-decoration: none">
-                            <img src="{% static 'icons/logo.svg' %}" class="card-img-top"
-                                 style="height: 200px" alt="...">
-                            <div class="card-body p-0">
-                                <p class="card-title "
-                                   style="text-align:left;font-size:17px;color: #0062bd;font-weight: 700;">test</p>
-                                <div class="d-flex justify-content-between align-items-end">
-                                    <div class="d-flex flex-column">
-                                        <span style="font-size: 12px;font-weight: 700">A partir de</span>
-                                        <span style="font-size: 19px;font-weight: 700">52 Euro</span>
-                                    </div>
-                                    <button style="height:30px;font-size: 12px;background-color: #ffcf10;border: solid 0px #ffcf10">
-                                        COMMANDEZ
-                                    </button>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
+                            </a>
+                        </div>
+                    {% endfor %}
                 </div>
                 <!-- Add Arrows -->
-                <div class="swiper-button-next"
+                <div class="swiper-button-next swiper-button-next-relatedproduct"
                      style="color:white;background-color: rgb(213,212,212,0.80);height: 70px;width: 70px;border-radius: 100px"></div>
-                <div class="swiper-button-prev"
+                <div class="swiper-button-prev swiper-button-prev-relatedproduct"
                      style="color:white;background-color: rgb(213,212,212,0.80);height: 70px;width: 70px;border-radius: 100px"></div>
             </div>
         </div>
@@ -475,8 +430,8 @@
     var swiper = new Swiper(".swiper-container-product", {
         cssMode: true,
         navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
+            nextEl: ".swiper-button-next-product",
+            prevEl: ".swiper-button-prev-product",
         },
         pagination: {
             el: ".swiper-pagination",
@@ -494,8 +449,8 @@
         loop: true,
         loopFillGroupWithBlank: true,
         navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+            nextEl: '.swiper-button-next-relatedproduct',
+            prevEl: '.swiper-button-prev-relatedproduct',
         },
     });
 </script>

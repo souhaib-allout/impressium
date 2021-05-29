@@ -22,11 +22,6 @@ class ArticleImagesLine(admin.TabularInline):
 
 ################# Article
 
-
-# class ArticleForm(forms.ModelForm):
-#     info = forms.CharField(widget=TinyMCE(attrs={'cols': 20, 'rows': 20}))
-#     title=forms.TextInput()
-
 class ArticleForm(forms.ModelForm):
     info = forms.CharField(widget=CKEditorWidget())
     options = forms.CharField(widget=CKEditorWidget())
@@ -36,13 +31,13 @@ class ArticleForm(forms.ModelForm):
 
 class AdminArticle(admin.ModelAdmin):
     form = ArticleForm
-    fields = ['title', 'childcategory', 'info', 'options', 'conseil', 'complementes']
+    fields = ['title', 'childcategory','info', 'options', 'conseil', 'complementes']
     exclude = ['created_at']
-    list_display = ['title', 'childcategory']
-    list_filter = ['title', 'created_at', 'childcategory']
+    list_display = ['title','childcategory']
+    list_filter = ['title','childcategory' ,'created_at']
     inlines = [ArticleImagesLine]
     list_per_page = 15
-    search_fields = ['title', 'childcategory']
+    search_fields = ['title','childcategory']
 
 
 admin.site.register(Article, AdminArticle)
