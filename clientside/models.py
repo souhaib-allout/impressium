@@ -26,6 +26,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class ChildCategory(models.Model):
     Category = models.ForeignKey(Category, related_name='ChildCategory', on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=False)
@@ -35,10 +36,18 @@ class ChildCategory(models.Model):
         return self.name
 
 
+class CategoryHistory(models.Model):
+    childcategory = models.ForeignKey(ChildCategory, related_name='ChildCategoryHistory', on_delete=models.CASCADE,)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
+
+    def __str__(self):
+        return self.childcategory.name
+
+
 class Article(models.Model):
     title = models.CharField(max_length=100)
     childcategory = models.ForeignKey(ChildCategory, related_name='ArticleChildCategory', on_delete=models.CASCADE,
-                                max_length=50, default=1)
+                                      max_length=50)
     info = models.TextField(null=True)
     options = models.TextField(null=True)
     conseil = models.TextField(null=True)
@@ -59,7 +68,6 @@ class ArticleImage(models.Model):
 
     def __str__(self):
         return self.article.title
-
 
 
 class Size(models.Model):
@@ -97,6 +105,3 @@ class Search(models.Model):
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
 
-class TopRecherch(models.Model):
-    ChildCategory = models.ForeignKey(ChildCategory, related_name='TopRecherChildCategory', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(default=datetime.datetime.now)

@@ -34,7 +34,7 @@ class AdminArticle(admin.ModelAdmin):
     fields = ['title', 'childcategory','info', 'options', 'conseil', 'complementes']
     exclude = ['created_at']
     list_display = ['title','childcategory']
-    list_filter = ['title','childcategory' ,'created_at']
+    list_filter = ['created_at','childcategory']
     inlines = [ArticleImagesLine]
     list_per_page = 15
     search_fields = ['title','childcategory']

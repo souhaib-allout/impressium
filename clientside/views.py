@@ -13,20 +13,19 @@ from django.core import serializers
 def index(request):
     newarticles = Article.objects.order_by('-id')[:5]
     bestarticles = Article.objects.filter(bestarticle__id__isnull=False)
-    topsearch = Search.objects.annotate(nb_search=Count('title')).order_by('nb_search')[0:8]
+    topcategories = CategoryHistory.objects.values('childcategory','childcategory__name').annotate(nb_search=Count('childcategory_id')).order_by('childcategory_id')[0:8]
+    # topsearch = CategoryHistory.objects.annotate(nb_search=Count('title')).order_by('nb_search')[0:8]
+
     categories = Category.objects.all()
 
     return render(request, 'index.html',
-                  {'newarticles': newarticles, 'bestarticles': bestarticles, 'topsearch': topsearch,
+                  {'newarticles': newarticles, 'bestarticles': bestarticles, 'topcategories': topcategories,
                    'categories': categories})
-
-
-
 
 
 def login(request):
     categories = Category.objects.all()
-    return render(request, 'login.html',{ 'categories': categories})
+    return render(request, 'login.html', {'categories': categories})
 
 
 def logincheck(request):
@@ -49,7 +48,7 @@ def logincheck(request):
 
 def logup(request):
     categories = Category.objects.all()
-    return render(request, 'logup.html',{ 'categories': categories})
+    return render(request, 'logup.html', {'categories': categories})
 
 
 def logupcheck(request):
@@ -74,12 +73,12 @@ def logoutcheck(request):
 
 def dashboard(request):
     categories = Category.objects.all()
-    return render(request, 'profile/dashboard.html',{ 'categories': categories})
+    return render(request, 'profile/dashboard.html', {'categories': categories})
 
 
 def profile(request):
     categories = Category.objects.all()
-    return render(request, 'profile/profile.html',{ 'categories': categories})
+    return render(request, 'profile/profile.html', {'categories': categories})
 
 
 def updateprofile(request):
@@ -107,7 +106,7 @@ def updateprofile(request):
 
 def contact(request):
     categories = Category.objects.all()
-    return render(request, 'contact.html',{ 'categories': categories})
+    return render(request, 'contact.html', {'categories': categories})
 
 
 def sendmessage(request):
@@ -124,27 +123,32 @@ def products(request):
 
     # return JsonResponse(products[0]['ArticleImage'])
 
-    return render(request, 'products.html', {'products': products, 'swiper-bundle.Css': 'good', 'categories': categories})
-
-def product(request, id):
-    product = Article.objects.filter(id=id).first()
-    categories = Category.objects.all()
-    realtedproducts=Article.objects.filter(childcategory=product.childcategory)[0:6]
-    return render(request, 'product.html', {'product': product, 'categories': categories,'realtedproducts':realtedproducts})
-
-
-def productsbyCategory(request,category):
-    category1=category
-    categories = Category.objects.all()
-    products = Article.objects.filter(childcategory=category).all()
-    return HttpResponse(category)
     return render(request, 'products.html',
                   {'products': products, 'swiper-bundle.Css': 'good', 'categories': categories})
 
 
+def product(request, id):
+    product = Article.objects.filter(id=id).first()
+    categories = Category.objects.all()
+    realtedproducts = Article.objects.filter(childcategory=product.childcategory)[0:6]
+    return render(request, 'product.html',
+                  {'product': product, 'categories': categories, 'realtedproducts': realtedproducts})
+
+
+def productsbyCategory(request, category):
+    categories = Category.objects.all()
+    products = Article.objects.filter(childcategory__name=category).all()
+    categoryid = ChildCategory.objects.get(name=category).id
+    CategoryHistory.objects.create(childcategory_id=categoryid)
+    category = ChildCategory.objects.get(name=category)
+    return render(request, 'products.html',
+                  {'products': products, 'swiper-bundle.Css': 'good', 'categories': categories, 'category': category})
+
+
 def search(request):
     products = Article.objects.filter(
-        Q(type__contains=request.GET['rechercheinput']) | Q(title__contains=request.GET['rechercheinput']) | Q(
+        Q(childcategory__name__contains=request.GET['rechercheinput']) | Q(
+            title__contains=request.GET['rechercheinput']) | Q(
             info__contains=request.GET['rechercheinput']))
     if request.user.is_authenticated:
         Search.objects.create(user=request.user, title=request.GET['rechercheinput'])
@@ -152,7 +156,7 @@ def search(request):
         Search.objects.create(title=request.GET['rechercheinput'])
     categories = Category.objects.all()
     return render(request, 'searcharticle.html', {'products': products, 'searchtitle': request.GET['rechercheinput'],
-                   'categories': categories})
+                                                  'categories': categories})
 
 
 def onsearch(request):

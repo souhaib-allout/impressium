@@ -46,13 +46,13 @@
         <div class="col-11" style="font-size: 17px">
             <span><a href="index.html" class="text-dark text-decoration-none">Accueil</a> </span>
             <span class="me-3 ms-3"> > </span>
-            <span style="font-weight:bold;text-decoration:underline;text-decoration-color: #ffcf10;text-decoration-width: 2px">Poster indéchirable</span>
+            <span style="font-weight:bold;text-decoration:underline;text-decoration-color: #ffcf10;text-decoration-width: 2px"></span>{{ category.name }}
         </div>
         <div class="col-1"></div>
     </div>
     <div class="row mt-3 mb-3">
         <div class="col-12 text-center">
-            <h2>DÉCO EVÉNEMENTS</h2>
+            <h2>{{ category.name }}</h2>
         </div>
     </div>
     <div class="row">
@@ -67,7 +67,7 @@
                         <h5 class="card-title" style="font-weight: bold">{{ product.title }}</h5>
                         <p style="font-size: 18px" class="card-text">À partir de <span
                                 style="font-weight: bold">76,00 €</span></p>
-                        <a href="#" class="btn text-light"
+                        <a href="/product/{{ product.id }}" class="btn text-light"
                            style="font-size:18px;background-color: #16a4fa;width: 220px;border-radius: 100px">Commander</a>
                     </div>
                 </div>
@@ -75,18 +75,6 @@
 
             </div>
         {% endfor %}
-        <div class="col-4">
-            <div class="card" style="width: 18rem;">
-                <img src="{% static 'product_images/img4.jpg' %}" class="img-fluid" alt="...">
-                <div class="card-body text-center">
-                    <h5 class="card-title" style="font-weight: bold">GOBELET EN PLASTIQUE</h5>
-                    <p style="font-size: 18px" class="card-text">À partir de <span
-                            style="font-weight: bold">76,00 €</span></p>
-                    <a href="#" class="btn text-light"
-                       style="font-size:18px;background-color: #16a4fa;width: 220px;border-radius: 100px">Commander</a>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 
