@@ -43,8 +43,13 @@ urlpatterns = [
     path('logoutcheck', views.logoutcheck),
 
     path('dashboard', views.dashboard),
+
     path('profile', views.profile),
     path('updateprofile', views.updateprofile),
+
+    path('adresses', views.adresses),
+    path('updateadresse', views.updateadresse),
+
 
     path('contact', views.contact),
     path('sendmessage', views.sendmessage),

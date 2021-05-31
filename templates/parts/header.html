@@ -50,18 +50,21 @@
         <form method="get" action="/search" class="d-flex">
             <div class="dropdown">
                 <input type="text" placeholder="Que recherchez-vous ?"
-                       id="rechercheinput" name="rechercheinput" autocomplete="off" data-bs-toggle="collapse" data-bs-target="#searchmenue" role="button" aria-expanded="false"
-                       style="padding-left:20px;font-size:13px;height: 47px;width: 220px;border:solid 2px #ffcf10;border-bottom-left-radius: 4px;border-top-left-radius: 4px"
+                       id="rechercheinput" name="rechercheinput" autocomplete="off" data-bs-toggle="collapse"
+                       data-bs-target="#searchmenue" role="button" aria-expanded="false"
+                       style="cursor: text;padding-left:20px;font-size:13px;height: 47px;width: 220px;border:solid 2px #ffcf10;border-bottom-left-radius: 4px;border-top-left-radius: 4px"
                        required>
-                <div class="dropdown-menu collapse rechercheinput" id="searchmenue" aria-labelledby="dropdownMenuButton1" style="width: 70vw">
+                <div class="dropdown-menu collapse rechercheinput" id="searchmenue"
+                     aria-labelledby="dropdownMenuButton1" style="width: 70vw">
                     <div class="row p-4">
                         <div class="col-4 toprecherches">
                             <p class="mb-0 " style="font-size:22px;color: #21adac;font-weight: bold">TOP RECHERCHES</p>
                             {% for topcategorie in topcategories %}
-                            <a href="/products/{{ topcategorie.childcategory__name }}" class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
-                                {{ topcategorie.childcategory__name}}
-                                <img src="{% static 'Icons/Search.svg' %}" height="15" width="15"/>
-                            </a>
+                                <a href="/products/{{ topcategorie.childcategory__name }}"
+                                   class="mb-0 mt-2 ms-2 d-flex justify-content-between align-items-center">
+                                    {{ topcategorie.childcategory__name }}
+                                    <img src="{% static 'Icons/Search.svg' %}" height="15" width="15"/>
+                                </a>
                             {% endfor %}
 
                         </div>
@@ -113,7 +116,7 @@
                         <li><a class="dropdown-item text-light" href="/profile">Mon compte</a></li>
                         <li><a class="dropdown-item text-light" href="#">Mes commandes</a></li>
                         <li><a class="dropdown-item text-light" href="#">Mes devis</a></li>
-                        <li><a class="dropdown-item text-light" href="#">Mes adresses</a></li>
+                        <li><a class="dropdown-item text-light" href="/adresses">Mes adresses</a></li>
                         <li><a class="dropdown-item text-light" href="#">Mes designs</a></li>
                         <li><a class="dropdown-item text-light" href="/logoutcheck">Se déconnecter</a></li>
                     </ul>
@@ -182,10 +185,11 @@
                         <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
                             style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
                             <div class="d-flex  justify-content-evenly">
-                                {% for bestarticle in bestarticles %}
-                                    <li><a class="dropdown-item " href="/product/{{ bestarticle.id }}">{{ bestarticle.title }}</a></li>
+                              {% for topcategorie in topcategories %}
+                                    <li><a class="dropdown-item "
+                                           href="/products/{{ topcategorie.childcategory__name }}">{{ topcategorie.childcategory__name }}</a>
+                                    </li>
                                 {% endfor %}
-
                             </div>
                         </ul>
                     </li>
@@ -199,7 +203,9 @@
                                 style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
                                 <div class="d-flex  justify-content-evenly">
                                     {% for childcategory in categorie.ChildCategory.all %}
-                                        <li><a class="dropdown-item " href="/products/{{ childcategory.name }}">{{ childcategory.name }}</a></li>
+                                        <li><a class="dropdown-item "
+                                               href="/products/{{ childcategory.name }}">{{ childcategory.name }}</a>
+                                        </li>
                                     {% endfor %}
                                 </div>
                             </ul>

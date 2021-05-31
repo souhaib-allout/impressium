@@ -12,15 +12,9 @@ from django.core import serializers
 
 def index(request):
     newarticles = Article.objects.order_by('-id')[:5]
-    bestarticles = Article.objects.filter(bestarticle__id__isnull=False)
-    topcategories = CategoryHistory.objects.values('childcategory','childcategory__name').annotate(nb_search=Count('childcategory_id')).order_by('childcategory_id')[0:8]
     # topsearch = CategoryHistory.objects.annotate(nb_search=Count('title')).order_by('nb_search')[0:8]
-
-    categories = Category.objects.all()
-
     return render(request, 'index.html',
-                  {'newarticles': newarticles, 'bestarticles': bestarticles, 'topcategories': topcategories,
-                   'categories': categories})
+                  {'newarticles': newarticles,})
 
 
 def login(request):
@@ -87,11 +81,13 @@ def updateprofile(request):
         request.user.first_name = request.POST['name']
         request.user.last_name = request.POST['lastname']
         request.user.email = request.POST['mail']
-        request.user.ClientUser.type = request.POST['type']
-        request.user.ClientUser.civilite = request.POST['civilite']
-        request.user.ClientUser.tele = request.POST['tele']
+        Client.objects.update_or_create(user_id=request.user.id,
+                                        defaults={
+                                            'type': request.POST['type'],
+                                            'civilite': request.POST['civilite'],
+                                            'tele': request.POST['tele'],
+                                        })
         request.user.save()
-        request.user.ClientUser.save()
         if 'changepasswpord' in request.POST:
             if request.POST['newpassword'] == request.POST['newpassword2']:
                 if check_password(request.POST['password1'], request.user.password):
@@ -100,8 +96,28 @@ def updateprofile(request):
                     return HttpResponse('password inccorect')
             else:
                 return HttpResponse('passwprod dosent match')
-
     return redirect('/profile')
+
+
+def adresses(request):
+    return render(request, 'profile/adresses.html')
+
+
+def updateadresse(request):
+    if (request.method == 'POST'):
+        Client.objects.update_or_create(user_id=request.user.id,
+                                        defaults={
+                                            'adresse1': request.POST['adresse1'],
+                                            'adresse2': request.POST['adresse2'],
+                                            'codepostal': request.POST['codepostal'],
+                                            'city': request.POST['ville'],
+                                            'country': request.POST['pays']
+                                        })
+        return redirect('/adresses')
+    else:
+        return redirect('/')
+
+    return redirect('/')
 
 
 def contact(request):
