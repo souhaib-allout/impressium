@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+    <title>Mes adresses</title>
+</head>
+<body>
+{% include 'parts/header.html' %}
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-3">
+            {% include 'parts/clientnavbar.html' %}
+        </div>
+        <div class="col-9 " style="">
+            <form method="post" action="/updateadresse" class="container-fluid mt-4">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center align-items-center pt-2 pb-2"
+                         style="background-color: #1e202c;color: white">
+                        <img src="{% static 'Icons/Truck2.svg' %}" class="me-3" style="width: 30px;height: 30px">
+                        <p class="mb-0" style="font-size: 20px;font-weight: 900">Modifer mon adresse</p>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-4">
+                        <label for="name" class="mb-2">Nom *</label>
+                        <input type="text" class="form-control" value="{{ user.last_name }}" id="name" name="name">
+                    </div>
+                    <div class="col-4">
+                        <label for="prenon" class="mb-2">Prenom *</label>
+                        <input type="text" class="form-control" id="prenon" value="{{ user.first_name }}"
+                               name="lastname">
+                    </div>
+                    <div class="col-4">
+                        <label for="tele" class="mb-2">Téléphone *</label>
+                        <input type="tel" name="tele" class="form-control" id="tele" value="{{ user.ClientUser.tele }}">
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <label for="adresse1" class="mb-2">Adresse *</label>
+                        <input type="text" class="form-control" value="{{ user.ClientUser.adresse1 }}" id="adresse1"
+                               name="adresse1" placeholder="Numéro et nom de la voie...">
+                        <input type="text" class="form-control mt-3" value="{{ user.ClientUser.adresse2 }}" id="adresse2"
+                               name="adresse2" placeholder="Étage, code, numéro d'appartement...">
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-4">
+                        <label for="codepostal" class="mb-2">Code postal *</label>
+                        <input type="text" class="form-control" value="{{ user.ClientUser.codepostal }}" id="codepostal" name="codepostal">
+                    </div>
+                    <div class="col-4">
+                        <label for="ville" class="mb-2">Ville *</label>
+                        <input type="text" class="form-control" id="ville" value="{{ user.ClientUser.city }}"
+                               name="ville">
+                    </div>
+                    <div class="col-4">
+                        <label for="pays" class="mb-2">Pays *</label>
+                        <select class="form-select" id="pays" name="pays">
+                            <option value="morocco">Morocco</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12 text-center">
+                        <button class="btn" id="create"
+                                style="background-color:#ffcf10;width: 320px;height: 45px ">Sauvegarder l'adresse
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% include 'parts/footer.html' %}
+<script>
+    $(document).ready(function () {
+        $('#changepasswpord').prop("checked", false)
+        $('.changepasswpord').click(function () {
+            if ($('#changepasswpord').prop('checked')) {
+                $('.passpordarea').show()
+            } else {
+                $('.passpordarea').hide()
+            }
+        })
+    })
+
+</script>
+</body>
+</html>
