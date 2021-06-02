@@ -74,7 +74,7 @@ class ArticleImagesLine(admin.TabularInline):
     extra = 1
 
 
-################# Article
+################ Article
 
 class ArticleForm(forms.ModelForm):
     info = forms.CharField(widget=CKEditorWidget())
