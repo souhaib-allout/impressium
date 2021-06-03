@@ -9,8 +9,8 @@
 
     /* VARIABLE DEFINITIONS */
     :root {
-        --primary: #79aec8;
-        --secondary: #417690;
+        --primary: #0059A8 !important;
+        --secondary: #47A4F5 !important;
         --accent: #f5dd5d;
         --primary-fg: #fff;
 
@@ -98,14 +98,52 @@
         height: 100%;
     }
 
+    #nav-sidebar {
+        background-color: var(--primary) !important;
+    }
+
     #nav-sidebar .current-model {
-        border-left: 5px solid var(--hairline-color);
+        border-left: 5px solid white !important;
         padding-left: 10px;
         margin-left: -15px;
+    {#background-color:var(--primary) !important;#}
+    }
+
+    #nav-sidebar tr {
+        border-bottom: none !important;
+    }
+
+    #nav-sidebar a {
+        color: white !important;
     }
 
     #changelist-filter {
-        background-color: #264b5d !important;
+        background-color: #0059A8 !important;
+
+    }
+
+    .toggle-nav-sidebar:hover, .toggle-nav-sidebar:focus {
+        background-color: var(--secondary) !important;
+    }
+
+    .toggle-nav-sidebar {
+        color: var(--primary) !important;
+        border-right: none !important;
+
+    }
+
+    #changelist-filter h2 {
+
+        background: none;
+        padding: 16px !important;
+        margin-bottom: 16px !important;
+        border-bottom: 1px solid white !important;
+        font-size: 18px !important;
+        color: var(--body-fg);
+    }
+
+    #changelist-filter #changelist-filter-clear a {
+        border-bottom-color: white !important;
     }
 
     #changelist .paginator {
@@ -132,10 +170,12 @@
     #toolbar form input {
         color: black !important;
     }
-#toolbar form input[type="submit"]{
-    background-color: transparent !important;
-    color: white !important;
-}
+
+    #toolbar form input[type="submit"] {
+        background-color: transparent !important;
+        color: white !important;
+    }
+
     #changelist-filter li.selected {
         border-left: 5px solid white !important;
 
@@ -447,14 +487,14 @@
         }
 
         tr:nth-child(odd), .row-form-errors {
-            background: var(--body-bg) !important;
+            background: transparent !important;
         }
 
         tr:nth-child(even),
         tr:nth-child(even) .errorlist,
         tr:nth-child(odd) + .row-form-errors,
         tr:nth-child(odd) + .row-form-errors .errorlist {
-            background: #698bb3 !important;
+            background: transparent !important;
         }
 
         /* SORTABLE TABLES */
@@ -641,8 +681,7 @@
             -webkit-user-select: none !important;
             -moz-user-select: none !important;
             user-select: none !important;
-            {#background-color: red !important;#}
-            border: 1px solid transparent !important;
+        {#background-color: red !important;#} border: 1px solid transparent !important;
             padding: .375rem .75rem !important;
             font-size: 1rem !important;
             border-radius: .25rem !important;
@@ -824,7 +863,7 @@
 
         /* BREADCRUMBS */
         div.breadcrumbs {
-            background: var(--breadcrumbs-bg);
+            background: var(--secondary) !important;
             padding: 10px 40px;
             border: none;
             color: var(--breadcrumbs-fg);
@@ -1016,7 +1055,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 40px;
-            background: var(--header-bg);
+            background: #0059A8 !important;
             color: var(--header-color);
             overflow: visible !important;
         }
@@ -1080,7 +1119,7 @@
 
         /* SIDEBAR */
         #content-related {
-            background: var(--header-bg) !important;
+            background: var(--primary) !important;
         }
 
         #content-related .module {
@@ -1122,7 +1161,7 @@
             background: none;
             padding: 16px;
             margin-bottom: 16px;
-            border-bottom: 1px solid var(--hairline-color);
+            border-bottom: 1px solid white !important;
             font-size: 18px;
             color: var(--body-fg);
         }
@@ -1224,7 +1263,7 @@
                                     {{ user.username }}
                                 </p>
                                 <ul class="dropdown-menu"
-                                    style="background-color:#37556f !important;position: relative !important">
+                                    style="background-color:var(--primary) !important;position: relative !important">
                                     {% if site_url %}
                                         <li style="list-style:none !important;">
                                             <a class="dropdown-item border-bottom-0 me-4"
