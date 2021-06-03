@@ -20,7 +20,7 @@ class Message(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, null=False)
+    name = models.CharField(verbose_name='Nom', max_length=100, null=False)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -28,8 +28,9 @@ class Category(models.Model):
 
 
 class ChildCategory(models.Model):
-    Category = models.ForeignKey(Category, related_name='ChildCategory', on_delete=models.CASCADE)
-    name = models.CharField(max_length=100, null=False)
+    Category = models.ForeignKey(Category, verbose_name='Categorie', related_name='ChildCategory',
+                                 on_delete=models.CASCADE)
+    name = models.CharField(verbose_name='nom', max_length=100, null=False)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -37,7 +38,8 @@ class ChildCategory(models.Model):
 
 
 class CategoryHistory(models.Model):
-    childcategory = models.ForeignKey(ChildCategory, related_name='ChildCategoryHistory', on_delete=models.CASCADE, )
+    childcategory = models.ForeignKey(ChildCategory, verbose_name='Sous categorie', related_name='ChildCategoryHistory',
+                                      on_delete=models.CASCADE, )
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -45,13 +47,13 @@ class CategoryHistory(models.Model):
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=100)
-    childcategory = models.ForeignKey(ChildCategory, related_name='ArticleChildCategory', on_delete=models.CASCADE,
-                                      max_length=50)
-    info = models.TextField(null=True)
-    options = models.TextField(null=True)
-    conseil = models.TextField(null=True)
-    complementes = models.TextField(null=True)
+    title = models.CharField(verbose_name='Titre', max_length=100)
+    childcategory = models.ForeignKey(ChildCategory, verbose_name='Sous categorie', related_name='ArticleChildCategory',
+                                      on_delete=models.CASCADE,max_length=50)
+    info = models.TextField(verbose_name='Infos produit', null=True)
+    options = models.TextField(verbose_name='Options - Finitions', null=True)
+    conseil = models.TextField(verbose_name='Conseils Techniques', null=True)
+    complementes = models.TextField(verbose_name='Produits complémentaires', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -62,8 +64,8 @@ class Article(models.Model):
 
 
 class ArticleImage(models.Model):
-    article = models.ForeignKey(Article, related_name="articleimages", on_delete=models.CASCADE)
-    name = models.FileField(upload_to='static/product_images')
+    article = models.ForeignKey(Article, verbose_name='Article', related_name="articleimages", on_delete=models.CASCADE)
+    name = models.FileField(verbose_name='Nom', upload_to='static/product_images')
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -71,18 +73,18 @@ class ArticleImage(models.Model):
 
 
 class Size1(models.Model):
-    width = models.FloatField(null=True)
-    height = models.FloatField(null=True)
-    price = models.FloatField(null=True)
+    width = models.FloatField(verbose_name='Longeur', null=True)
+    height = models.FloatField(verbose_name='Largeur', null=True)
+    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
-        return self.width+'-'+self.height
+        return self.width + '-' + self.height
 
 
 class PaperType(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    price = models.FloatField(null=True)
+    name = models.CharField(verbose_name='Nom', max_length=100, null=True)
+    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -90,8 +92,8 @@ class PaperType(models.Model):
 
 
 class PaperColor(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    price = models.FloatField(null=True)
+    name = models.CharField(verbose_name='Nom', max_length=100, null=True)
+    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -99,8 +101,8 @@ class PaperColor(models.Model):
 
 
 class FontColor(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    price = models.FloatField(null=True)
+    name = models.CharField(verbose_name='Nom', max_length=100, null=True)
+    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -108,8 +110,8 @@ class FontColor(models.Model):
 
 
 class Side(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    price = models.FloatField(null=True)
+    name = models.CharField(verbose_name='Nom', max_length=100, null=True)
+    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -117,8 +119,8 @@ class Side(models.Model):
 
 
 class Orientation(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    price = models.FloatField(null=True)
+    name = models.CharField(verbose_name='Nom', max_length=100, null=True)
+    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -126,8 +128,8 @@ class Orientation(models.Model):
 
 
 class Finition(models.Model):
-    name = models.CharField(max_length=100, null=True)
-    price = models.FloatField(null=True)
+    name = models.CharField(verbose_name='Nom', max_length=100, null=True)
+    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -135,15 +137,18 @@ class Finition(models.Model):
 
 
 class Specification(models.Model):
-    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='SpecificationArticle')
-    customSize = models.BooleanField(null=True)
-    size = models.ManyToManyField(Size1, related_name="SizeSpecification")
-    paperType = models.ManyToManyField(PaperType, related_name="PaperSpecification")
-    paperColor = models.ManyToManyField(PaperColor, related_name="PaperColorSpecification")
-    fontColor = models.ManyToManyField(FontColor, related_name="FontColorSpecification")
-    side = models.ManyToManyField(Side, related_name="SideSpecification")
-    orientation = models.ManyToManyField(Orientation, related_name="OrientationSpecification")
-    finition = models.ManyToManyField(Finition, related_name="FinitionSpecification")
+    article = models.ForeignKey(Article, verbose_name='Article', on_delete=models.CASCADE,
+                                related_name='SpecificationArticle')
+    customSize = models.BooleanField(verbose_name='client choisi longeur et largeur', null=True)
+    size = models.ManyToManyField(Size1, verbose_name='Size', related_name="SizeSpecification")
+    paperType = models.ManyToManyField(PaperType, verbose_name='Papier type', related_name="PaperSpecification")
+    paperColor = models.ManyToManyField(PaperColor, verbose_name='Papier coleur',
+                                        related_name="PaperColorSpecification")
+    fontColor = models.ManyToManyField(FontColor, verbose_name='font coleur', related_name="FontColorSpecification")
+    side = models.ManyToManyField(Side, verbose_name='direction', related_name="SideSpecification")
+    orientation = models.ManyToManyField(Orientation, verbose_name='Orientation',
+                                         related_name="OrientationSpecification")
+    finition = models.ManyToManyField(Finition, verbose_name='Finition', related_name="FinitionSpecification")
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -151,7 +156,8 @@ class Specification(models.Model):
 
 
 class Bestarticle(models.Model):
-    article = models.OneToOneField(Article, related_name="bestarticle", on_delete=models.CASCADE)
+    article = models.OneToOneField(Article, related_name="bestarticle",
+                                   on_delete=models.CASCADE, verbose_name='Article')
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -159,15 +165,15 @@ class Bestarticle(models.Model):
 
 
 class Client(models.Model):
-    user = models.OneToOneField(User, related_name="ClientUser", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name="ClientUser", verbose_name='Utilisateur', on_delete=models.CASCADE)
     type = models.CharField(max_length=20, default='')
-    civilite = models.CharField(max_length=10, default='')
-    tele = models.TextField(max_length=14, default='')
-    adresse1 = models.TextField(max_length=100, default='')
-    adresse2 = models.TextField(max_length=150, default='')
-    codepostal = models.TextField(max_length=150, default='')
-    city = models.TextField(max_length=100, default='')
-    country = models.TextField(max_length=100, default='')
+    civilite = models.CharField(verbose_name='Civilite', max_length=10, default='')
+    tele = models.TextField(verbose_name='Telephone', max_length=14, default='')
+    adresse1 = models.TextField(verbose_name='Adresse 1', max_length=100, default='')
+    adresse2 = models.TextField(verbose_name='Adresse 2', max_length=150, default='')
+    codepostal = models.TextField(verbose_name='Zip', max_length=150, default='')
+    city = models.TextField(verbose_name='Ville', max_length=100, default='')
+    country = models.TextField(verbose_name='Pays', max_length=100, default='')
 
 
 class Search(models.Model):
