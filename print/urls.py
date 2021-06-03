@@ -50,6 +50,7 @@ urlpatterns = [
     path('adresses', views.adresses),
     path('updateadresse', views.updateadresse),
 
+    path('download', views.download),
 
     path('contact', views.contact),
     path('sendmessage', views.sendmessage),

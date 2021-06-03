@@ -97,11 +97,19 @@
     html, body {
         height: 100%;
     }
-
-    #nav-sidebar {
-        background-color: var(--primary) !important;
+    #content-related .quiet{
+        color: white !important;
     }
-
+     #nav-sidebar {
+        background-color: var(--primary) !important;
+        border: none !important;
+    }
+     app-auth td, th{
+         border-bottom: solid 1px black !important;
+     }
+ #nav-sidebar td, th{
+    border: none !important;
+}
     #nav-sidebar .current-model {
         border-left: 5px solid white !important;
         padding-left: 10px;
@@ -127,10 +135,13 @@
     }
 
     .toggle-nav-sidebar {
-        color: var(--primary) !important;
+        color: white !important;
+        background-color: var(--secondary) !important;
         border-right: none !important;
 
     }
+
+
 
     #changelist-filter h2 {
 
@@ -185,7 +196,12 @@
     #changelist .actions span.all, #changelist .actions span.action-counter, #changelist .actions span.clear, #changelist .actions span.question {
         color: black;
     }
-
+    .datetime{
+        color: black !important;
+    }
+.datetime span{
+    color: black !important;
+}
     @media (max-width: 1024px)
         .datetime .timezonewarning {
             color: black !important;
@@ -427,7 +443,7 @@
         }
 
         .quiet, a.quiet:link, a.quiet:visited {
-            color: var(--body-quiet-color);
+            color: black !important;
             font-weight: normal;
         }
 
@@ -1211,7 +1227,7 @@
         }
 
         .dropdown-item:hover {
-            background-color: #264b5d !important;
+            background-color: var(--secondary) !important;
         }
 </style>
 <head>

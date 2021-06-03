@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login as loginnow, logout
 from django.contrib.auth.hashers import check_password, make_password
 from django.shortcuts import render, redirect
 from clientside.models import *
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
 from django.core import serializers
@@ -185,3 +185,7 @@ def onsearch(request):
         return HttpResponse('baaad')
 
 # def searchbycols(request):
+
+def download(request):
+    image= ArticleImage.objects.first().name
+    return FileResponse(image)
