@@ -194,13 +194,27 @@
 
     /****************Forms**************/
     #changelist .actions span.all, #changelist .actions span.action-counter, #changelist .actions span.clear, #changelist .actions span.question {
-        color: black;
+        color: black !important;
     }
     .datetime{
         color: black !important;
     }
+    .inline-group .tabular td.original p{
+        color: black !important;
+    }
+    p.file-upload{
+        color: black !important;
+    }
 .datetime span{
     color: black !important;
+}
+.inline-related h3{
+    background-color: var(--secondary) !important;
+    border: none !important;
+}
+.inline-deletelink{
+    background-color: white !important;
+    color: red !important;
 }
     @media (max-width: 1024px)
         .datetime .timezonewarning {
@@ -518,7 +532,7 @@
             padding: 5px 10px;
             line-height: normal;
             text-transform: uppercase;
-            background: var(--primary) !important;
+            background: var(--secondary) !important;
             color: white !important;
         }
 

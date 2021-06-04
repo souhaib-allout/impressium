@@ -8,6 +8,22 @@ from django import forms
 from django.forms import widgets
 
 
+class Client(models.Model):
+    user = models.OneToOneField(User, related_name="ClientUser", verbose_name='Utilisateur', on_delete=models.CASCADE)
+    type = models.CharField(max_length=20, default='')
+    civilite = models.CharField(verbose_name='Civilite', max_length=10, default='')
+    tele = models.TextField(verbose_name='Telephone', max_length=14, default='')
+    adresse1 = models.TextField(verbose_name='Adresse 1', max_length=100, default='')
+    adresse2 = models.TextField(verbose_name='Adresse 2', max_length=150, default='')
+    codepostal = models.TextField(verbose_name='Zip', max_length=150, default='')
+    city = models.TextField(verbose_name='Ville', max_length=100, default='')
+    country = models.TextField(verbose_name='Pays', max_length=100, default='')
+
+    class Meta:
+        verbose_name = 'Client'
+
+
+
 class Message(models.Model):
     full_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
@@ -18,6 +34,9 @@ class Message(models.Model):
     def __str__(self):
         return self.message
 
+    class Meta:
+        verbose_name = 'Message'
+
 
 class Category(models.Model):
     name = models.CharField(verbose_name='Nom', max_length=100, null=False)
@@ -25,6 +44,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Categorie'
 
 
 class ChildCategory(models.Model):
@@ -36,6 +58,9 @@ class ChildCategory(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Sous categorie'
+
 
 class CategoryHistory(models.Model):
     childcategory = models.ForeignKey(ChildCategory, verbose_name='Sous categorie', related_name='ChildCategoryHistory',
@@ -45,11 +70,14 @@ class CategoryHistory(models.Model):
     def __str__(self):
         return self.childcategory.name
 
+    class Meta:
+        verbose_name = 'Categories historique'
+
 
 class Article(models.Model):
     title = models.CharField(verbose_name='Titre', max_length=100)
     childcategory = models.ForeignKey(ChildCategory, verbose_name='Sous categorie', related_name='ArticleChildCategory',
-                                      on_delete=models.CASCADE,max_length=50)
+                                      on_delete=models.CASCADE, max_length=50)
     info = models.TextField(verbose_name='Infos produit', null=True)
     options = models.TextField(verbose_name='Options - Finitions', null=True)
     conseil = models.TextField(verbose_name='Conseils Techniques', null=True)
@@ -58,6 +86,9 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = 'Article'
 
     def images(self):
         return ArticleImage.objects.filter(article=self.id)
@@ -71,6 +102,9 @@ class ArticleImage(models.Model):
     def __str__(self):
         return self.article.title
 
+    class Meta:
+        verbose_name = 'Article image'
+
 
 class Size1(models.Model):
     width = models.FloatField(verbose_name='Longeur', null=True)
@@ -81,6 +115,9 @@ class Size1(models.Model):
     def __str__(self):
         return self.width + '-' + self.height
 
+    class Meta:
+        verbose_name = 'Size'
+
 
 class PaperType(models.Model):
     name = models.CharField(verbose_name='Nom', max_length=100, null=True)
@@ -89,6 +126,9 @@ class PaperType(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Papier type'
 
 
 class PaperColor(models.Model):
@@ -99,6 +139,9 @@ class PaperColor(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Papier coleur'
+
 
 class FontColor(models.Model):
     name = models.CharField(verbose_name='Nom', max_length=100, null=True)
@@ -107,6 +150,9 @@ class FontColor(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Font coleur'
 
 
 class Side(models.Model):
@@ -126,6 +172,9 @@ class Orientation(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Orientation'
+
 
 class Finition(models.Model):
     name = models.CharField(verbose_name='Nom', max_length=100, null=True)
@@ -135,24 +184,35 @@ class Finition(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Finition'
+
+class Quantity(models.Model):
+    nb=models.IntegerField(null=True)
+    created_at=models.DateTimeField(default=datetime.datetime.now)
 
 class Specification(models.Model):
     article = models.ForeignKey(Article, verbose_name='Article', on_delete=models.CASCADE,
                                 related_name='SpecificationArticle')
     customSize = models.BooleanField(verbose_name='client choisi longeur et largeur', null=True)
+    customQuantite = models.BooleanField(verbose_name='client choisi Quantite', null=True)
     size = models.ManyToManyField(Size1, verbose_name='Size', related_name="SizeSpecification")
     paperType = models.ManyToManyField(PaperType, verbose_name='Papier type', related_name="PaperSpecification")
     paperColor = models.ManyToManyField(PaperColor, verbose_name='Papier coleur',
                                         related_name="PaperColorSpecification")
-    fontColor = models.ManyToManyField(FontColor, verbose_name='font coleur', related_name="FontColorSpecification")
+    fontColor = models.ManyToManyField(FontColor, verbose_name='Font coleur', related_name="FontColorSpecification")
     side = models.ManyToManyField(Side, verbose_name='direction', related_name="SideSpecification")
     orientation = models.ManyToManyField(Orientation, verbose_name='Orientation',
                                          related_name="OrientationSpecification")
     finition = models.ManyToManyField(Finition, verbose_name='Finition', related_name="FinitionSpecification")
+    Quantity=models.ManyToManyField(Quantity,related_name='QuantitySpecification',verbose_name='Quantite')
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
         return self.article.title
+
+    class Meta:
+        verbose_name = 'Specification'
 
 
 class Bestarticle(models.Model):
@@ -163,20 +223,18 @@ class Bestarticle(models.Model):
     def __str__(self):
         return self.article.title
 
-
-class Client(models.Model):
-    user = models.OneToOneField(User, related_name="ClientUser", verbose_name='Utilisateur', on_delete=models.CASCADE)
-    type = models.CharField(max_length=20, default='')
-    civilite = models.CharField(verbose_name='Civilite', max_length=10, default='')
-    tele = models.TextField(verbose_name='Telephone', max_length=14, default='')
-    adresse1 = models.TextField(verbose_name='Adresse 1', max_length=100, default='')
-    adresse2 = models.TextField(verbose_name='Adresse 2', max_length=150, default='')
-    codepostal = models.TextField(verbose_name='Zip', max_length=150, default='')
-    city = models.TextField(verbose_name='Ville', max_length=100, default='')
-    country = models.TextField(verbose_name='Pays', max_length=100, default='')
+    class Meta:
+        verbose_name = 'Top article'
 
 
 class Search(models.Model):
     user = models.ForeignKey(User, related_name='search_user', on_delete=models.CASCADE, null=True, default='')
     title = models.TextField(null=False)
     created_at = models.DateTimeField(default=datetime.datetime.now)
+
+    class Meta:
+        verbose_name = 'Recherche'
+
+# class pane(models.Model):
+#     article=
+#     created_at=models.DateTimeField(default=datetime.datetime.now)

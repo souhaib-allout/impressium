@@ -7,8 +7,17 @@ from django.contrib.auth.models import Group
 from clientside.models import *
 
 # Register your models here.
+admin.site.unregister(User)
+#########Client
+class ClientLine(admin.StackedInline):
+    model = Client
 
+class ModelAdminClient(admin.ModelAdmin):
+    inlines = [ClientLine]
+    # list_display = ['user']
+    exclude = ['created_at']
 
+admin.site.register(User,ModelAdminClient)
 #############Group
 admin.site.unregister(Group)
 
@@ -27,15 +36,23 @@ class ModelAdminPaperType(admin.ModelAdmin):
 
 
 admin.site.register(PaperType, ModelAdminPaperType)
+#############Font color
+class AdminfontColorModal(admin.ModelAdmin):
+    exclude = ['created_at']
 
-
+admin.site.register(FontColor,AdminfontColorModal)
 #######PaperColor
 class ModelAdminPaperColor(admin.ModelAdmin):
     exclude = ['created_at']
 
 
 admin.site.register(PaperColor, ModelAdminPaperColor)
+#######Quantite
+class ModelAdminPaperColor(admin.ModelAdmin):
+    exclude = ['created_at']
 
+
+admin.site.register(Quantity, ModelAdminPaperColor)
 
 #######Side
 class ModelAdminSide(admin.ModelAdmin):
@@ -60,12 +77,12 @@ class ModelAdminFinition(admin.ModelAdmin):
 
 admin.site.register(Finition, ModelAdminFinition)
 
+
 #############Specification
 class SpecificationLine(admin.StackedInline):
     model = Specification
     exclude = ['created_at']
     extra = 1
-
 
 ###########Article image
 class ArticleImagesLine(admin.TabularInline):
@@ -73,14 +90,19 @@ class ArticleImagesLine(admin.TabularInline):
     exclude = ['created_at']
     extra = 1
 
+###########Article image
+class Quantite(admin.TabularInline):
+    model = ArticleImage
+    exclude = ['created_at']
+    extra = 1
 
 ################ Article
 
 class ArticleForm(forms.ModelForm):
-    info = forms.CharField(widget=CKEditorWidget())
-    options = forms.CharField(widget=CKEditorWidget())
-    conseil = forms.CharField(widget=CKEditorWidget())
-    complementes = forms.CharField(widget=CKEditorWidget())
+    info = forms.CharField(widget=CKEditorWidget(), label='Infos produit')
+    options = forms.CharField(widget=CKEditorWidget(),label='Options - Finitions')
+    conseil = forms.CharField(widget=CKEditorWidget(),label='Conseils Techniques')
+    complementes = forms.CharField(widget=CKEditorWidget(),label='Produits complémentaires')
 
 
 class AdminArticle(admin.ModelAdmin):
@@ -101,30 +123,42 @@ admin.site.register(Article, AdminArticle)
 
 ################# Category
 class AdminCategory(admin.ModelAdmin):
-    fields = ['name']
+    # fields = ['name']
+    exclude = ['created_at']
 
 
-admin.site.register(Category)
+
+admin.site.register(Category,AdminCategory)
 
 
 ################# ChildCategory
 class AdminChildCategory(admin.ModelAdmin):
-    fields = ['Category', 'name']
+    # fields = ['Category', 'name']
+    exclude = ['created_at']
 
 
-admin.site.register(ChildCategory)
+
+admin.site.register(ChildCategory,AdminChildCategory)
+
 
 ###############Best article
-admin.site.register(Bestarticle)
+class ModalAdminBestArticle(admin.ModelAdmin):
+    exclude = ['created_at']
+
+
+admin.site.register(Bestarticle,ModalAdminBestArticle)
+
 
 ############Messages
 # class MessageLine(admin.TabularInline):
 #     admin.site.disable_action('delete_selected')
 class ModalAdminMessage(admin.ModelAdmin):
     actions = None
-    list_filter = ['email','created_at']
-    search_fields = ['email','full_name','tele','message']
+    list_filter = ['email', 'created_at']
+    search_fields = ['email', 'full_name', 'tele', 'message']
 
 
+admin.site.register(Message, ModalAdminMessage)
 
-admin.site.register(Message,ModalAdminMessage)
+##############Search
+admin.site.register(Search)
