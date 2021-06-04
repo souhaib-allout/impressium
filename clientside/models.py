@@ -23,7 +23,6 @@ class Client(models.Model):
         verbose_name = 'Client'
 
 
-
 class Message(models.Model):
     full_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
@@ -82,6 +81,7 @@ class Article(models.Model):
     options = models.TextField(verbose_name='Options - Finitions', null=True)
     conseil = models.TextField(verbose_name='Conseils Techniques', null=True)
     complementes = models.TextField(verbose_name='Produits complémentaires', null=True)
+    pdf=models.FileField(verbose_name='Specification Pdf', null=True,blank=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -109,11 +109,10 @@ class ArticleImage(models.Model):
 class Size1(models.Model):
     width = models.FloatField(verbose_name='Longeur', null=True)
     height = models.FloatField(verbose_name='Largeur', null=True)
-    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
-        return self.width + '-' + self.height
+        return str(self.width) + '-' + str(self.height)
 
     class Meta:
         verbose_name = 'Size'
@@ -133,7 +132,6 @@ class PaperType(models.Model):
 
 class PaperColor(models.Model):
     name = models.CharField(verbose_name='Nom', max_length=100, null=True)
-    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -145,7 +143,6 @@ class PaperColor(models.Model):
 
 class FontColor(models.Model):
     name = models.CharField(verbose_name='Nom', max_length=100, null=True)
-    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -157,7 +154,6 @@ class FontColor(models.Model):
 
 class Side(models.Model):
     name = models.CharField(verbose_name='Nom', max_length=100, null=True)
-    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -166,7 +162,6 @@ class Side(models.Model):
 
 class Orientation(models.Model):
     name = models.CharField(verbose_name='Nom', max_length=100, null=True)
-    price = models.FloatField(verbose_name='Prix', null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -187,25 +182,45 @@ class Finition(models.Model):
     class Meta:
         verbose_name = 'Finition'
 
+
 class Quantity(models.Model):
-    nb=models.IntegerField(null=True)
-    created_at=models.DateTimeField(default=datetime.datetime.now)
+    nb = models.IntegerField(null=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
+
+    def __str__(self):
+        return str(self.nb)
+
+
+class FormatType(models.Model):
+    name = models.CharField(null=True, blank=True, max_length=100)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
+
+    def __str__(self):
+        return str(self.name)
+
 
 class Specification(models.Model):
-    article = models.ForeignKey(Article, verbose_name='Article', on_delete=models.CASCADE,
-                                related_name='SpecificationArticle')
-    customSize = models.BooleanField(verbose_name='client choisi longeur et largeur', null=True)
-    customQuantite = models.BooleanField(verbose_name='client choisi Quantite', null=True)
-    size = models.ManyToManyField(Size1, verbose_name='Size', related_name="SizeSpecification")
-    paperType = models.ManyToManyField(PaperType, verbose_name='Papier type', related_name="PaperSpecification")
+    article = models.OneToOneField(Article, related_name='SpecificationArticle', verbose_name='Article',
+                                   on_delete=models.CASCADE)
+    customSize = models.BooleanField(verbose_name='client choisi longeur et largeur', null=True, blank=True)
+    customQuantite = models.BooleanField(verbose_name='client choisi Quantite', null=True, blank=True)
+    customDesign = models.BooleanField(verbose_name='client Charger un design', null=True, blank=True)
+    size = models.ManyToManyField(Size1, verbose_name='Size', related_name="SizeSpecification", blank=True)
+    formattype = models.ManyToManyField(FormatType, verbose_name='FromaTypeSpecification',
+                                        related_name="FormaTypeSpecification", blank=True)
+    paperType = models.ManyToManyField(PaperType, verbose_name='Papier type', related_name="PaperSpecification",
+                                       blank=True)
     paperColor = models.ManyToManyField(PaperColor, verbose_name='Papier coleur',
-                                        related_name="PaperColorSpecification")
-    fontColor = models.ManyToManyField(FontColor, verbose_name='Font coleur', related_name="FontColorSpecification")
-    side = models.ManyToManyField(Side, verbose_name='direction', related_name="SideSpecification")
+                                        related_name="PaperColorSpecification", blank=True)
+    fontColor = models.ManyToManyField(FontColor, verbose_name='Font coleur', related_name="FontColorSpecification",
+                                       blank=True)
+    side = models.ManyToManyField(Side, verbose_name='direction', related_name="SideSpecification", blank=True)
     orientation = models.ManyToManyField(Orientation, verbose_name='Orientation',
-                                         related_name="OrientationSpecification")
-    finition = models.ManyToManyField(Finition, verbose_name='Finition', related_name="FinitionSpecification")
-    Quantity=models.ManyToManyField(Quantity,related_name='QuantitySpecification',verbose_name='Quantite')
+                                         related_name="OrientationSpecification", blank=True)
+    finition = models.ManyToManyField(Finition, verbose_name='Finition', related_name="FinitionSpecification",
+                                      blank=True)
+    Quantity = models.ManyToManyField(Quantity, related_name='QuantitySpecification', verbose_name='Quantite',
+                                      blank=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -235,6 +250,37 @@ class Search(models.Model):
     class Meta:
         verbose_name = 'Recherche'
 
-# class pane(models.Model):
-#     article=
-#     created_at=models.DateTimeField(default=datetime.datetime.now)
+
+class PromoCode(models.Model):
+    price = models.FloatField(null=True, blank=True)
+    percentage = models.FloatField(null=True, blank=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
+
+
+class Pane(models.Model):
+    article = models.ForeignKey(User, related_name='ArticlePane', on_delete=models.CASCADE)
+    ArticleDesign=models.ImageField(null=True,blank=True)
+    size = models.ManyToManyField(Size1, verbose_name='Size', related_name="SizePane", blank=True)
+    formattype = models.ManyToManyField(FormatType, verbose_name='Forma type',
+                                        related_name="FormaTypePane", blank=True)
+    paperType = models.ManyToManyField(PaperType, verbose_name='Papier type', related_name="PaperPane",
+                                       blank=True)
+    paperColor = models.ManyToManyField(PaperColor, verbose_name='Papier coleur',
+                                        related_name="PaperColorPane", blank=True)
+    fontColor = models.ManyToManyField(FontColor, verbose_name='Font coleur', related_name="FontColorPane",
+                                       blank=True)
+    side = models.ManyToManyField(Side, verbose_name='direction', related_name="SidePane", blank=True)
+    orientation = models.ManyToManyField(Orientation, verbose_name='Orientation',
+                                         related_name="OrientationPane", blank=True)
+    finition = models.ManyToManyField(Finition, verbose_name='Finition', related_name="FinitionPane",
+                                      blank=True)
+    Quantity = models.ManyToManyField(Quantity, related_name='QuantityPane', verbose_name='Quantite',
+                                      blank=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
+
+class Delivery(models.Model):
+    name=models.CharField(max_length=100,verbose_name='Nom')
+    price=models.FloatField(verbose_name='Prix')
+    mindays=models.IntegerField(verbose_name='Minimun de nb de jours')
+    maxdays=models.IntegerField(verbose_name='Maximun de nb de jours')
+    created_at = models.DateTimeField(default=datetime.datetime.now)

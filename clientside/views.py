@@ -18,7 +18,7 @@ def index(request):
     newarticles = Article.objects.order_by('-id')[:5]
     # topsearch = CategoryHistory.objects.annotate(nb_search=Count('title')).order_by('nb_search')[0:8]
     return render(request, 'index.html',
-                  {'newarticles': newarticles,})
+                  {'newarticles': newarticles, })
 
 
 def login(request):
@@ -148,11 +148,14 @@ def products(request):
 
 
 def product(request, id):
-    product = Article.objects.filter(id=id).first()
+    product = Article.objects.get(id=id)
+    # return HttpResponse(Article.objects.first().SpecificationArticle.FinitionSpecification.all)
     categories = Category.objects.all()
     realtedproducts = Article.objects.filter(childcategory=product.childcategory)[0:6]
+    dilevies = Delivery.objects.all()
     return render(request, 'product.html',
-                  {'product': product, 'categories': categories, 'realtedproducts': realtedproducts})
+                  {'product': product, 'categories': categories, 'realtedproducts': realtedproducts,
+                   'dilevies': dilevies})
 
 
 def productsbyCategory(request, category):
@@ -188,6 +191,7 @@ def onsearch(request):
     else:
         return HttpResponse('baaad')
 
+
 # def searchbycols(request):
 
 def download(request):
@@ -198,4 +202,11 @@ def download(request):
     # response['Content-Disposition'] = 'attachment; filename=%s' % 'whatever_name_will_appear_in_download.pdf'
     # return response
 
-    return FileResponse(open('static/files/file1.pdf','rb'))
+    return FileResponse(open('static/files/file1.pdf', 'rb'))
+
+def addtppan(request):
+    if(request.method=='POST'):
+        formatype,format,
+        Pane.objects.create(article=request.articleid,)
+    else:
+        return redirect('/')

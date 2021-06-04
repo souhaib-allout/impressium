@@ -162,3 +162,11 @@ admin.site.register(Message, ModalAdminMessage)
 
 ##############Search
 admin.site.register(Search)
+#################Delevery
+class ModalAdminDelevery(admin.ModelAdmin):
+    actions = None
+    list_filter = ['name', 'price']
+    search_fields = ['name', 'price']
+    exclude = ['created_at']
+
+admin.site.register(Delivery,ModalAdminDelevery)

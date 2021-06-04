@@ -52,6 +52,8 @@ urlpatterns = [
 
     path('download', views.download),
 
+    path('addtppan', views.addtppan),
+
     path('contact', views.contact),
     path('sendmessage', views.sendmessage),
 ]
