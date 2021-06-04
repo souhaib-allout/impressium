@@ -204,9 +204,15 @@ def download(request):
 
     return FileResponse(open('static/files/file1.pdf', 'rb'))
 
+
 def addtppan(request):
-    if(request.method=='POST'):
-        formatype,format,
-        Pane.objects.create(article=request.articleid,)
+    if (request.method == 'POST'):
+        # formatype, format,
+        pane=Pane.objects.create(article=request.articleid, ArticleDesign=request.mydesign, size=request.format,
+                            formattype=request.formatype, paperType=request.papertype, paperColor=request.papercolor,
+                            fontColor=request.color,
+                            side=request.formadeplace, orientation=request.orientation, finition=request.finitions,
+                            Quantity=request.custumquatite)
+        return HttpResponse(pane)
     else:
         return redirect('/')

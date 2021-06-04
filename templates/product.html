@@ -186,6 +186,13 @@
                         </button>
                     </div>
                 </div>
+                <div class="btn mb-2" style="border: solid 2px #ffcf10;border-radius: 6px;width: 270px">
+                    <div class="d-flex align-items-center">
+                        <img src="{% static 'icons/upload.svg' %}" class="me-2" style="width: 30px;height: 30px"/>
+                        <label for="mydesign" style="font-weight: 600">Charger mon deisgn</label>
+                        <input type="file" id="mydesign" name="mydesign" style="display: none">
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-5">
@@ -221,10 +228,10 @@
             {% if product.SpecificationArticle.fontColor.all %}
                 <div class="row align-items-center mb-3">
                     <div class="col-4">
-                        <label for="type" style="font-weight: 600">Coleur</label>
+                        <label for="color" style="font-weight: 600">Coleur</label>
                     </div>
                     <div class="col-8">
-                        <select class="form-select" id="type" name="type">
+                        <select class="form-select" id="color" name="color">
                             {% for fontColor in product.SpecificationArticle.fontColor.all %}
                                 <option value="{{ fontColor.id }}">{{ fontColor.name }}</option>
                             {% endfor %}
@@ -235,10 +242,10 @@
             {% if product.SpecificationArticle.paperColor.all %}
                 <div class="row align-items-center mb-3">
                     <div class="col-4">
-                        <label for="type" style="font-weight: 600">Papier coleur</label>
+                        <label for="papercolor" style="font-weight: 600">Papier coleur</label>
                     </div>
                     <div class="col-8">
-                        <select class="form-select" id="type" name="type">
+                        <select class="form-select" id="papercolor" name="papercolor">
                             {% for papercolor in product.SpecificationArticle.paperColor.all %}
                                 <option value="{{ papercolor.id }}">{{ papercolor.name }}</option>
                             {% endfor %}
@@ -249,10 +256,10 @@
             {% if product.SpecificationArticle.paperType.all %}
                 <div class="row align-items-center mb-3">
                     <div class="col-4">
-                        <label for="type" style="font-weight: 600">Matiére</label>
+                        <label for="papertype" style="font-weight: 600">Matiére</label>
                     </div>
                     <div class="col-8">
-                        <select class="form-select" id="type" name="type">
+                        <select class="form-select" id="papertype" name="papertype">
                             {% for paperType in product.SpecificationArticle.paperType.all %}
                                 <option value="{{ paperType.id }}">{{ paperType.name }}</option>
                             {% endfor %}
@@ -263,10 +270,10 @@
             {% if product.SpecificationArticle.finition.all %}
                 <div class="row align-items-center mb-3">
                     <div class="col-4">
-                        <label for="type" style="font-weight: 600">Finition</label>
+                        <label for="finitions" style="font-weight: 600">Finition</label>
                     </div>
                     <div class="col-8">
-                        <select class="form-select" id="type" name="type">
+                        <select class="form-select" id="finitions" name="finitions">
                             {% for finition in product.SpecificationArticle.finition.all %}
                                 <option value="{{ finition.id }}">{{ finition.name }}</option>
                             {% endfor %}
@@ -277,10 +284,10 @@
             {% if product.SpecificationArticle.side.all %}
                 <div class="row align-items-center mb-3">
                     <div class="col-4">
-                        <label for="type" style="font-weight: 600">Format de plance</label>
+                        <label for="formadeplace" style="font-weight: 600">Format de plance</label>
                     </div>
                     <div class="col-8">
-                        <select class="form-select" id="type" name="type">
+                        <select class="form-select" id="formadeplace" name="formadeplace">
                             {% for side in product.SpecificationArticle.side.all %}
                                 <option value="{{ side.id }}">{{ side.name }}</option>
                             {% endfor %}
@@ -291,10 +298,10 @@
             {% if product.SpecificationArticle.orientation.all %}
                 <div class="row align-items-center mb-3">
                     <div class="col-4">
-                        <label for="type" style="font-weight: 600">Orientation</label>
+                        <label for="orientation" style="font-weight: 600">Orientation</label>
                     </div>
                     <div class="col-8">
-                        <select class="form-select" id="type" name="type">
+                        <select class="form-select" id="orientation" name="orientation">
                             {% for orientation in product.SpecificationArticle.orientation.all %}
                                 <option value="{{ orientation.id }}">{{ orientation.name }}</option>
                             {% endfor %}
@@ -308,11 +315,11 @@
                 </div>
                 <div class="col-8">
                     {% if product.SpecificationArticle.customQuantite == 1 %}
-                        <input type="number" class="form-control">
+                        <input type="number" class="form-control" name="custumquatite">
                     {% elif product.SpecificationArticle.customQuantite == 0 %}
-                        <select class="form-select" id="Fixqte" name="Fixqte">
+                        <select class="form-select" id="Fixqte" name="Fixqte" >
                             {% for qte in product.SpecificationArticle.Quantity.all %}
-                                <option value="{{ qte.nb }}">{{ qte.nb }}</option>
+                                <option value="{{ qte.id }}">{{ qte.nb }}</option>
                             {% endfor %}
                         </select>
                     {% endif %}
