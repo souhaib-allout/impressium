@@ -53,6 +53,7 @@ urlpatterns = [
     path('download', views.download),
 
     path('addtppan', views.addtppan),
+    path('cart', views.cart),
 
     path('contact', views.contact),
     path('sendmessage', views.sendmessage),

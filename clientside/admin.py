@@ -107,7 +107,7 @@ class ArticleForm(forms.ModelForm):
 
 class AdminArticle(admin.ModelAdmin):
     form = ArticleForm
-    fields = ['title', 'childcategory', 'info', 'options', 'conseil', 'complementes']
+    fields = ['title', 'childcategory', 'info', 'options', 'conseil', 'complementes','pdf']
     exclude = ['created_at']
     list_display = ['title', 'childcategory']
     list_filter = ['created_at', 'childcategory']
@@ -170,3 +170,7 @@ class ModalAdminDelevery(admin.ModelAdmin):
     exclude = ['created_at']
 
 admin.site.register(Delivery,ModalAdminDelevery)
+
+###################Pane
+admin.site.register(Pane)
+admin.site.register(FileControle)

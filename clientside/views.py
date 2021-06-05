@@ -153,9 +153,10 @@ def product(request, id):
     categories = Category.objects.all()
     realtedproducts = Article.objects.filter(childcategory=product.childcategory)[0:6]
     dilevies = Delivery.objects.all()
+    fileControles = FileControle.objects.all()
     return render(request, 'product.html',
                   {'product': product, 'categories': categories, 'realtedproducts': realtedproducts,
-                   'dilevies': dilevies})
+                   'dilevies': dilevies, 'fileControles': fileControles})
 
 
 def productsbyCategory(request, category):
@@ -207,12 +208,45 @@ def download(request):
 
 def addtppan(request):
     if (request.method == 'POST'):
-        # formatype, format,
-        pane=Pane.objects.create(article=request.articleid, ArticleDesign=request.mydesign, size=request.format,
-                            formattype=request.formatype, paperType=request.papertype, paperColor=request.papercolor,
-                            fontColor=request.color,
-                            side=request.formadeplace, orientation=request.orientation, finition=request.finitions,
-                            Quantity=request.custumquatite)
-        return HttpResponse(pane)
+        pane = Pane()
+        pane.user = request.user
+        pane.delevery_id = request.POST['delevery']
+        pane.article_id = request.POST['articleid']
+        pane.FileControle_id=request.POST['filecontrole']
+        if 'mydesign' in request.POST:
+            pane.ArticleDesign = request.POST['mydesign']
+
+        if 'format' in request.POST:
+            pane.size_id = request.POST['format']
+
+        if 'formatype' in request.POST:
+            pane.formattype_id = request.POST['formatype']
+
+        if 'papertype' in request.POST:
+            pane.paperType_id = request.POST['papertype']
+
+        if 'papercolor' in request.POST:
+            pane.paperColor_id = request.POST['papercolor']
+
+        if 'color' in request.POST:
+            pane.fontColor_id = request.POST['color']
+
+        if 'formadeplace' in request.POST:
+            pane.side_id = request.POST['formadeplace']
+
+        if 'orientation' in request.POST:
+            pane.orientation_id = request.POST['orientation']
+
+        if 'finitions' in request.POST:
+            pane.finition_id = request.POST['finitions']
+
+        if 'quantite' in request.POST:
+            pane.Quantity_id = request.POST['quantite']
+        pane.save()
+        return HttpResponse('/cart')
     else:
         return redirect('/')
+
+def cart(request):
+    carts=Pane.objects.filter(user=request.user)
+    return render(request,'cart.html',{'carts':carts})

@@ -186,13 +186,15 @@
                         </button>
                     </div>
                 </div>
-                <div class="btn mb-2" style="border: solid 2px #ffcf10;border-radius: 6px;width: 270px">
-                    <div class="d-flex align-items-center">
-                        <img src="{% static 'icons/upload.svg' %}" class="me-2" style="width: 30px;height: 30px"/>
-                        <label for="mydesign" style="font-weight: 600">Charger mon deisgn</label>
-                        <input type="file" id="mydesign" name="mydesign" style="display: none">
+                {% if product.SpecificationArticle.customDesign == 1 %}
+                    <div class="btn mb-2" style="border: solid 2px #ffcf10;border-radius: 6px;width: 270px">
+                        <div class="d-flex align-items-center">
+                            <img src="{% static 'icons/upload.svg' %}" class="me-2" style="width: 30px;height: 30px"/>
+                            <label for="mydesign" style="font-weight: 600">Charger mon deisgn</label>
+                            <input type="file" id="mydesign" name="mydesign" style="display: none">
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
         </div>
         <div class="col-5">
@@ -315,9 +317,9 @@
                 </div>
                 <div class="col-8">
                     {% if product.SpecificationArticle.customQuantite == 1 %}
-                        <input type="number" class="form-control" name="custumquatite">
+                        <input type="number" class="form-control" id="quantite" name="quantite" value="1" min="1">
                     {% elif product.SpecificationArticle.customQuantite == 0 %}
-                        <select class="form-select" id="Fixqte" name="Fixqte" >
+                        <select class="form-select" id="quantite" name="quantite">
                             {% for qte in product.SpecificationArticle.Quantity.all %}
                                 <option value="{{ qte.id }}">{{ qte.nb }}</option>
                             {% endfor %}
@@ -335,10 +337,10 @@
                         <img src="{% static 'icons/Correct.svg' %}" style="width:20px"/>
                         <p class="mb-0 ms-2"> Contrôle des fichiers</p>
                     </div>
-                    <select class="form-select" style="width: 250px">
-                        <option selected>Open this select menu</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
+                    <select class="form-select" name="filecontrole" style="width: 250px">
+                        {% for fileControle in fileControles %}
+                            <option value="{{ fileControle.id }}">{{ fileControle.name }}({{ fileControle.price }}Dh)</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-12 ">
@@ -346,11 +348,15 @@
                         <img src="{% static 'icons/Truck.svg' %}" style="height:20px"/>
                         <p class="mb-0 ms-2"> Choisissez votre délai</p>
                     </div>
-                    <select class="form-select" style="width: 250px">
+                    <select class="form-select" name="delevery" style="width: 250px">
                         {% for dilevy in dilevies %}
                             <option value="{{ dilevy.id }}">{{ dilevy.name | title }} {{ dilevy.price | floatformat }}Dh</option>
                         {% endfor %}
                     </select>
+                </div>
+                <div class="col-12 text-center mt-3">
+                    <p class="mb-0">Livraison prévue entre :</p>
+                    <p class="mb-0" style="font-weight: 600">mardi 15 juin et mercredi 16 juin</p>
                 </div>
                 <div class="col-12 text-center">
                     <div class="d-flex justify-content-center">

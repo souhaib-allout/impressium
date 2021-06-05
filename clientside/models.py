@@ -81,7 +81,7 @@ class Article(models.Model):
     options = models.TextField(verbose_name='Options - Finitions', null=True)
     conseil = models.TextField(verbose_name='Conseils Techniques', null=True)
     complementes = models.TextField(verbose_name='Produits complémentaires', null=True)
-    pdf=models.FileField(verbose_name='Specification Pdf', null=True,blank=True)
+    pdf = models.FileField(verbose_name='Specification Pdf', null=True, blank=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -257,30 +257,44 @@ class PromoCode(models.Model):
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
 
-class Pane(models.Model):
-    article = models.ForeignKey(User, related_name='ArticlePane', on_delete=models.CASCADE)
-    ArticleDesign=models.ImageField(null=True,blank=True)
-    size = models.ManyToManyField(Size1, verbose_name='Size', related_name="SizePane", blank=True)
-    formattype = models.ManyToManyField(FormatType, verbose_name='Forma type',
-                                        related_name="FormaTypePane", blank=True)
-    paperType = models.ManyToManyField(PaperType, verbose_name='Papier type', related_name="PaperPane",
-                                       blank=True)
-    paperColor = models.ManyToManyField(PaperColor, verbose_name='Papier coleur',
-                                        related_name="PaperColorPane", blank=True)
-    fontColor = models.ManyToManyField(FontColor, verbose_name='Font coleur', related_name="FontColorPane",
-                                       blank=True)
-    side = models.ManyToManyField(Side, verbose_name='direction', related_name="SidePane", blank=True)
-    orientation = models.ManyToManyField(Orientation, verbose_name='Orientation',
-                                         related_name="OrientationPane", blank=True)
-    finition = models.ManyToManyField(Finition, verbose_name='Finition', related_name="FinitionPane",
-                                      blank=True)
-    Quantity = models.ManyToManyField(Quantity, related_name='QuantityPane', verbose_name='Quantite',
-                                      blank=True)
+class Delivery(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Nom')
+    price = models.FloatField(verbose_name='Prix')
+    mindays = models.IntegerField(verbose_name='Minimun de nb de jours')
+    maxdays = models.IntegerField(verbose_name='Maximun de nb de jours')
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
-class Delivery(models.Model):
+class FileControle(models.Model):
     name=models.CharField(max_length=100,verbose_name='Nom')
     price=models.FloatField(verbose_name='Prix')
-    mindays=models.IntegerField(verbose_name='Minimun de nb de jours')
-    maxdays=models.IntegerField(verbose_name='Maximun de nb de jours')
+    creatd_at=models.DateTimeField(default=datetime.datetime.now)
+    def __str__(self):
+        return self.name
+
+class Pane(models.Model):
+    article = models.ForeignKey(Article, related_name='ArticlePane', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='UserPane', on_delete=models.CASCADE)
+    FileControle=models.OneToOneField(FileControle,related_name='FileControlePane', on_delete=models.CASCADE)
+    delevery = models.OneToOneField(Delivery, related_name='DeleveryPane', on_delete=models.CASCADE)
+    ArticleDesign = models.ImageField(null=True, blank=True)
+    size = models.OneToOneField(Size1, verbose_name='Size', related_name="SizePane",null=True, blank=True,
+                                on_delete=models.CASCADE)
+    formattype = models.OneToOneField(FormatType, verbose_name='Forma type',
+                                      related_name="FormaTypePane", null=True, blank=True, on_delete=models.CASCADE)
+    paperType = models.OneToOneField(PaperType, verbose_name='Papier type', related_name="PaperPane",
+                                     null=True, blank=True, on_delete=models.CASCADE)
+    paperColor = models.OneToOneField(PaperColor, verbose_name='Papier coleur',
+                                      related_name="PaperColorPane", null=True, blank=True, on_delete=models.CASCADE)
+    fontColor = models.OneToOneField(FontColor, verbose_name='Font coleur', related_name="FontColorPane",
+                                     null=True, blank=True, on_delete=models.CASCADE)
+    side = models.OneToOneField(Side, verbose_name='direction', related_name="SidePane", null=True, blank=True,
+                                on_delete=models.CASCADE)
+    orientation = models.OneToOneField(Orientation, verbose_name='Orientation',
+                                       related_name="OrientationPane", null=True, blank=True, on_delete=models.CASCADE)
+    finition = models.OneToOneField(Finition, verbose_name='Finition', related_name="FinitionPane",
+                                    null=True, blank=True, on_delete=models.CASCADE)
+    Quantity = models.OneToOneField(Quantity, related_name='QuantityPane', verbose_name='Quantite',
+                                    null=True, blank=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=datetime.datetime.now)
+    def __str__(self):
+        return str(self.article)
