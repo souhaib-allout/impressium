@@ -54,6 +54,7 @@ urlpatterns = [
 
     path('addtppan', views.addtppan),
     path('cart', views.cart),
+    path('deleveryfilter', views.deleveryfilter),
 
     path('contact', views.contact),
     path('sendmessage', views.sendmessage),

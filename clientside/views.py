@@ -8,6 +8,7 @@ from clientside.models import *
 from django.http import HttpResponse, JsonResponse, FileResponse
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
+import json
 import static
 from django.core import serializers
 
@@ -253,3 +254,17 @@ def addtppan(request):
 def cart(request):
     carts = Pane.objects.filter(user=request.user)
     return render(request, 'cart.html', {'carts': carts})
+
+
+def deleveryfilter(request):
+    if request.method == "POST":
+        delevery = Delivery.objects.get(id=request.POST['deleveryid'])
+        data = json.dumps({
+            'mindate': str((datetime.datetime.now()+datetime.timedelta(days=delevery.mindays)).strftime('%A %d %B')),
+            'maxdate': str((datetime.datetime.now()+datetime.timedelta(days=delevery.maxdays)).strftime('%A %d %B')),
+            'price':delevery.price
+        })
+
+        return HttpResponse(data,content_type='application/json')
+    else:
+        return redirect('/')
