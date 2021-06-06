@@ -275,27 +275,27 @@ class FileControle(models.Model):
 
 class Pane(models.Model):
     article = models.ForeignKey(Article, related_name='ArticlePane', on_delete=models.CASCADE)
-    user = models.OneToOneField(User, related_name='UserPane', on_delete=models.CASCADE)
-    FileControle=models.OneToOneField(FileControle,related_name='FileControlePane', on_delete=models.CASCADE)
-    delevery = models.OneToOneField(Delivery, related_name='DeleveryPane', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='UserPane', on_delete=models.CASCADE)
+    FileControle=models.ForeignKey(FileControle,related_name='FileControlePane', on_delete=models.CASCADE)
+    delevery = models.ForeignKey(Delivery, related_name='DeleveryPane', on_delete=models.CASCADE)
     ArticleDesign = models.ImageField(null=True, blank=True)
-    size = models.OneToOneField(Size1, verbose_name='Size', related_name="SizePane",null=True, blank=True,
+    size = models.ForeignKey(Size1, verbose_name='Size', related_name="SizePane",null=True, blank=True,
                                 on_delete=models.CASCADE)
-    formattype = models.OneToOneField(FormatType, verbose_name='Forma type',
+    formattype = models.ForeignKey(FormatType, verbose_name='Forma type',
                                       related_name="FormaTypePane", null=True, blank=True, on_delete=models.CASCADE)
-    paperType = models.OneToOneField(PaperType, verbose_name='Papier type', related_name="PaperPane",
+    paperType = models.ForeignKey(PaperType, verbose_name='Papier type', related_name="PaperPane",
                                      null=True, blank=True, on_delete=models.CASCADE)
-    paperColor = models.OneToOneField(PaperColor, verbose_name='Papier coleur',
+    paperColor = models.ForeignKey(PaperColor, verbose_name='Papier coleur',
                                       related_name="PaperColorPane", null=True, blank=True, on_delete=models.CASCADE)
-    fontColor = models.OneToOneField(FontColor, verbose_name='Font coleur', related_name="FontColorPane",
+    fontColor = models.ForeignKey(FontColor, verbose_name='Font coleur', related_name="FontColorPane",
                                      null=True, blank=True, on_delete=models.CASCADE)
-    side = models.OneToOneField(Side, verbose_name='direction', related_name="SidePane", null=True, blank=True,
+    side = models.ForeignKey(Side, verbose_name='direction', related_name="SidePane", null=True, blank=True,
                                 on_delete=models.CASCADE)
-    orientation = models.OneToOneField(Orientation, verbose_name='Orientation',
+    orientation = models.ForeignKey(Orientation, verbose_name='Orientation',
                                        related_name="OrientationPane", null=True, blank=True, on_delete=models.CASCADE)
-    finition = models.OneToOneField(Finition, verbose_name='Finition', related_name="FinitionPane",
+    finition = models.ForeignKey(Finition, verbose_name='Finition', related_name="FinitionPane",
                                     null=True, blank=True, on_delete=models.CASCADE)
-    Quantity = models.OneToOneField(Quantity, related_name='QuantityPane', verbose_name='Quantite',
+    Quantity = models.ForeignKey(Quantity, related_name='QuantityPane', verbose_name='Quantite',
                                     null=True, blank=True, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=datetime.datetime.now)
     def __str__(self):

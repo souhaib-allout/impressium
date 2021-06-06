@@ -40,6 +40,8 @@ urlpatterns = [
     path('deleteppan', views.deleteppan),
     path('updatepanpage/<int:id>', views.updatepanpage),
     path('updatepan', views.updatepan),
+    path('duplicatepan', views.duplicatepan),
+
     path('cart', views.cart),
     path('deleveryfilter', views.deleveryfilter),
     path('filecontrolefilter', views.filecontrolefilter),

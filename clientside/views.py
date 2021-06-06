@@ -170,7 +170,7 @@ def product(request, id):
 
 def updatepanpage(request, id):
     exist = Pane.objects.filter(article_id=id, user=request.user).first()
-    if exist :
+    if exist:
         product = Article.objects.get(id=id)
         # return HttpResponse(Article.objects.first().SpecificationArticle.FinitionSpecification.all)
         categories = Category.objects.all()
@@ -316,9 +316,34 @@ def updatepan(request):
 
         if 'quantite' in request.POST:
             pane.Quantity_id = request.POST['quantite']
+
         pane.save()
 
     return redirect('/cart')
+
+
+def duplicatepan(request):
+    if request.method == 'POST':
+        newpanel = Pane.objects.get(id=request.POST['cartid'], user=request.user)
+        pane = Pane()
+        pane.user = request.user
+        pane.delevery_id = newpanel.delevery_id
+        pane.article_id = newpanel.article_id
+        pane.FileControle_id = newpanel.FileControle_id
+        pane.ArticleDesign = newpanel.ArticleDesign
+        pane.size_id = newpanel.size_id
+        pane.formattype_id = newpanel.formattype_id
+        pane.paperType_id = newpanel.paperType_id
+        pane.paperColor_id = newpanel.paperColor_id
+        pane.fontColor_id = newpanel.fontColor_id
+        pane.side_id = newpanel.side_id
+        pane.orientation_id = newpanel.orientation_id
+        pane.finition_id = newpanel.finition_id
+        pane.Quantity_id = newpanel.Quantity_id
+        pane.save()
+        return redirect('/cart')
+    else:
+        return redirect('/')
 
 
 def deleteppan(request):
