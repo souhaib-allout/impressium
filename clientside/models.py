@@ -263,6 +263,8 @@ class Delivery(models.Model):
     mindays = models.IntegerField(verbose_name='Minimun de nb de jours')
     maxdays = models.IntegerField(verbose_name='Maximun de nb de jours')
     created_at = models.DateTimeField(default=datetime.datetime.now)
+    def __str__(self):
+        return self.name
 
 class FileControle(models.Model):
     name=models.CharField(max_length=100,verbose_name='Nom')

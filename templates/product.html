@@ -1,4 +1,5 @@
 {% load static %}
+{% load CustomFilters %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -348,15 +349,22 @@
                         <img src="{% static 'icons/Truck.svg' %}" style="height:20px"/>
                         <p class="mb-0 ms-2"> Choisissez votre délai</p>
                     </div>
-                    <select class="form-select" name="delevery" style="width: 250px">
+                    <select class="form-select" id="delevery" name="delevery" style="width: 250px">
                         {% for dilevy in dilevies %}
-                            <option value="{{ dilevy.id }}">{{ dilevy.name | title }} {{ dilevy.price | floatformat }}Dh</option>
+                            <option value="{{ dilevy.id }}" mindate="{{ dilevy.mindays }}"
+                                    maxdate="{{ dilevy.maxdays }}">
+                                {{ dilevy.name | title }} {{ dilevy.price | floatformat }}Dh
+                            </option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="col-12 text-center mt-3">
                     <p class="mb-0">Livraison prévue entre :</p>
-                    <p class="mb-0" style="font-weight: 600">mardi 15 juin et mercredi 16 juin</p>
+                    <p class="mb-0 deleveryrange" style="font-weight: 600" mindays="{{ dilevies.first.mindays }}"
+                       maxdays="{{ dilevies.first.maxdays }}">
+                        {{ datetimenow |adddate:dilevies.first.mindays }}
+                        et {{ datetimenow| adddate:dilevies.first.maxdays }}
+                    </p>
                 </div>
                 <div class="col-12 text-center">
                     <div class="d-flex justify-content-center">
@@ -481,7 +489,15 @@
 {% include 'parts/footer.html' %}
 
 <script>
+    $(document).ready(function () {
+        $('#delevery').change(function () {
+            $('.deleveryrange').attr('mindays', $(this).find(':selected').attr('mindate'))
+            $('.deleveryrange').attr('maxdays', $(this).find(':selected').attr('maxdate'))
+            {#$('.deleveryrange').text('maxdays', $(this).find(':selected').attr('maxdate'))#}
 
+
+        })
+    })
     var swiper = new Swiper(".swiper-container-product", {
         cssMode: true,
         navigation: {

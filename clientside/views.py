@@ -154,9 +154,11 @@ def product(request, id):
     realtedproducts = Article.objects.filter(childcategory=product.childcategory)[0:6]
     dilevies = Delivery.objects.all()
     fileControles = FileControle.objects.all()
+    datetimenow = str(datetime.datetime.now().strftime('%A %d %B'))
+
     return render(request, 'product.html',
                   {'product': product, 'categories': categories, 'realtedproducts': realtedproducts,
-                   'dilevies': dilevies, 'fileControles': fileControles})
+                   'dilevies': dilevies, 'fileControles': fileControles, 'datetimenow': datetimenow})
 
 
 def productsbyCategory(request, category):
@@ -212,7 +214,7 @@ def addtppan(request):
         pane.user = request.user
         pane.delevery_id = request.POST['delevery']
         pane.article_id = request.POST['articleid']
-        pane.FileControle_id=request.POST['filecontrole']
+        pane.FileControle_id = request.POST['filecontrole']
         if 'mydesign' in request.POST:
             pane.ArticleDesign = request.POST['mydesign']
 
@@ -247,6 +249,7 @@ def addtppan(request):
     else:
         return redirect('/')
 
+
 def cart(request):
-    carts=Pane.objects.filter(user=request.user)
-    return render(request,'cart.html',{'carts':carts})
+    carts = Pane.objects.filter(user=request.user)
+    return render(request, 'cart.html', {'carts': carts})
