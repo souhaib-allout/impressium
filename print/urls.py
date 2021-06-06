@@ -27,12 +27,25 @@ urlpatterns = [
 
     path('', views.index),
     path('product/<int:id>', views.product),
-    path('products/<str:category>',views.productsbyCategory),
+    path('products/<str:category>', views.productsbyCategory),
 
     path('products', views.products),
 
     path('search', views.search),
     path('onsearch', views.onsearch, name='onsearch'),
+
+    path('download', views.download),
+
+    path('addtppan', views.addtppan),
+    path('deleteppan', views.deleteppan),
+    path('updatepanpage/<int:id>', views.updatepanpage),
+    path('updatepan', views.updatepan),
+    path('cart', views.cart),
+    path('deleveryfilter', views.deleveryfilter),
+    path('filecontrolefilter', views.filecontrolefilter),
+
+    path('contact', views.contact),
+    path('sendmessage', views.sendmessage),
 
     path('login', views.login),
     path('logincheck', views.logincheck),
@@ -49,13 +62,4 @@ urlpatterns = [
 
     path('adresses', views.adresses),
     path('updateadresse', views.updateadresse),
-
-    path('download', views.download),
-
-    path('addtppan', views.addtppan),
-    path('cart', views.cart),
-    path('deleveryfilter', views.deleveryfilter),
-
-    path('contact', views.contact),
-    path('sendmessage', views.sendmessage),
 ]

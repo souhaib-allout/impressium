@@ -1,3 +1,4 @@
+import datetime
 import os
 from wsgiref.util import FileWrapper
 
@@ -156,10 +157,35 @@ def product(request, id):
     dilevies = Delivery.objects.all()
     fileControles = FileControle.objects.all()
     datetimenow = str(datetime.datetime.now().strftime('%A %d %B'))
+    displayexist = Pane.objects.filter(article_id=id, user=request.user).first()
+    if displayexist:
+        exist = True
+    else:
+        exist = False
 
     return render(request, 'product.html',
                   {'product': product, 'categories': categories, 'realtedproducts': realtedproducts,
-                   'dilevies': dilevies, 'fileControles': fileControles, 'datetimenow': datetimenow})
+                   'dilevies': dilevies, 'fileControles': fileControles, 'datetimenow': datetimenow, 'exist': exist})
+
+
+def updatepanpage(request, id):
+    exist = Pane.objects.filter(article_id=id, user=request.user).first()
+    if exist :
+        product = Article.objects.get(id=id)
+        # return HttpResponse(Article.objects.first().SpecificationArticle.FinitionSpecification.all)
+        categories = Category.objects.all()
+        realtedproducts = Article.objects.filter(childcategory=product.childcategory)[0:6]
+        dilevies = Delivery.objects.all()
+        fileControles = FileControle.objects.all()
+        datetimenow = str(datetime.datetime.now().strftime('%A %d %B'))
+        displayexist = Pane.objects.filter(article_id=id, user=request.user).first()
+
+        return render(request, 'modifyproduct.html',
+                      {'product': product, 'categories': categories, 'realtedproducts': realtedproducts,
+                       'dilevies': dilevies, 'fileControles': fileControles, 'datetimenow': datetimenow,
+                       })
+    else:
+        return redirect('/product/' + str(id))
 
 
 def productsbyCategory(request, category):
@@ -211,10 +237,55 @@ def download(request):
 
 def addtppan(request):
     if (request.method == 'POST'):
-        pane = Pane()
-        pane.user = request.user
+        ifexist = Pane.objects.filter(user=request.user, article_id=request.POST['articleid']).first()
+        if ifexist:
+            ifexist.delete()
+        else:
+            pane = Pane()
+            pane.user = request.user
+            pane.delevery_id = request.POST['delevery']
+            pane.article_id = request.POST['articleid']
+            pane.FileControle_id = request.POST['filecontrole']
+            if 'mydesign' in request.POST:
+                pane.ArticleDesign = request.POST['mydesign']
+
+            if 'format' in request.POST:
+                pane.size_id = request.POST['format']
+
+            if 'formatype' in request.POST:
+                pane.formattype_id = request.POST['formatype']
+
+            if 'papertype' in request.POST:
+                pane.paperType_id = request.POST['papertype']
+
+            if 'papercolor' in request.POST:
+                pane.paperColor_id = request.POST['papercolor']
+
+            if 'color' in request.POST:
+                pane.fontColor_id = request.POST['color']
+
+            if 'formadeplace' in request.POST:
+                pane.side_id = request.POST['formadeplace']
+
+            if 'orientation' in request.POST:
+                pane.orientation_id = request.POST['orientation']
+
+            if 'finitions' in request.POST:
+                pane.finition_id = request.POST['finitions']
+
+            if 'quantite' in request.POST:
+                pane.Quantity_id = request.POST['quantite']
+            pane.save()
+
+        return redirect('/cart')
+    else:
+        return redirect('/')
+
+
+def updatepan(request):
+    if (request.method == 'POST'):
+        pane = Pane.objects.get(user=request.user, article_id=request.POST['articleid'])
         pane.delevery_id = request.POST['delevery']
-        pane.article_id = request.POST['articleid']
         pane.FileControle_id = request.POST['filecontrole']
         if 'mydesign' in request.POST:
             pane.ArticleDesign = request.POST['mydesign']
@@ -246,13 +317,19 @@ def addtppan(request):
         if 'quantite' in request.POST:
             pane.Quantity_id = request.POST['quantite']
         pane.save()
-        return HttpResponse('/cart')
-    else:
-        return redirect('/')
+
+    return redirect('/cart')
+
+
+def deleteppan(request):
+    if request.method == 'POST':
+        Pane.objects.filter(id=request.POST['cartid'], user=request.user).delete()
+        return redirect('/cart')
 
 
 def cart(request):
     carts = Pane.objects.filter(user=request.user)
+    # datetime.datetime.now()+datetime.timedelta
     return render(request, 'cart.html', {'carts': carts})
 
 
@@ -260,11 +337,24 @@ def deleveryfilter(request):
     if request.method == "POST":
         delevery = Delivery.objects.get(id=request.POST['deleveryid'])
         data = json.dumps({
-            'mindate': str((datetime.datetime.now()+datetime.timedelta(days=delevery.mindays)).strftime('%A %d %B')),
-            'maxdate': str((datetime.datetime.now()+datetime.timedelta(days=delevery.maxdays)).strftime('%A %d %B')),
-            'price':delevery.price
+            'mindate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.mindays)).strftime('%A %d %B')),
+            'maxdate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.maxdays)).strftime('%A %d %B')),
+            'price': delevery.price
         })
 
-        return HttpResponse(data,content_type='application/json')
+        return HttpResponse(data, content_type='application/json')
+    else:
+        return redirect('/')
+
+
+def filecontrolefilter(request):
+    if request.method == "POST":
+        filecontrole = FileControle.objects.get(id=request.POST['filecontroleid'])
+        data = json.dumps({
+            'name': filecontrole.name,
+            'price': filecontrole.price
+        })
+        # return HttpResponse('good')
+        return HttpResponse(data, content_type='application/json')
     else:
         return redirect('/')

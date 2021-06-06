@@ -338,7 +338,7 @@
                         <img src="{% static 'icons/Correct.svg' %}" style="width:20px"/>
                         <p class="mb-0 ms-2"> Contrôle des fichiers</p>
                     </div>
-                    <select class="form-select" name="filecontrole" style="width: 250px">
+                    <select class="form-select" id="filecontrole" name="filecontrole" style="width: 250px">
                         {% for fileControle in fileControles %}
                             <option value="{{ fileControle.id }}">{{ fileControle.name }}({{ fileControle.price }}Dh)</option>
                         {% endfor %}
@@ -373,11 +373,13 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <p class="mb-0" style="font-weight: 700;font-size: 17px">Prix Livraison </p>
-                        <p class="mb-0 delevreyprice" style="font-weight: 700;font-size: 22px">{{ dilevies.first.price }} Dh</p>
+                        <p class="mb-0 delevreyprice"
+                           style="font-weight: 700;font-size: 22px">{{ dilevies.first.price }} Dh</p>
                     </div>
-                      <div class="d-flex  align-items-center justify-content-between ">
-                        <p class="mb-0" style="font-size: 17px">Prix de Controle  </p>
-                        <p class="mb-0 controlefile" style="font-size: 22px">{{ fileControles.first.price | floatformat}} Dh</p>
+                    <div class="d-flex  align-items-center justify-content-between ">
+                        <p class="mb-0" style="font-size: 17px">Prix de Controle </p>
+                        <p class="mb-0 controlefile"
+                           style="font-size: 22px">{{ fileControles.first.price | floatformat }} Dh</p>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <p class="mb-0" style="font-weight: 700;font-size: 17px">Prix Total</p>
@@ -385,9 +387,15 @@
                     </div>
                 </div>
                 <div class="col-12 text-center mt-3">
-                    <button class="btn text-light" style="font-weight: 700;background-color: #ff0747">
-                        Ajouter au panier
-                    </button>
+                    {% if exist == True %}
+                        <button class="btn btn-danger" style="font-weight: 700;">
+                            Supprimer
+                        </button>
+                    {% else %}
+                        <button class="btn text-light" style="font-weight: 700;background-color: #ff0747">
+                            Ajouter au panier
+                        </button>
+                    {% endif %}
                 </div>
             </div>
             <div class="text-center mt-4">
@@ -505,18 +513,34 @@
                     deleveryid: $deleveryid
                 },
                 success: function (e) {
-                    console.log(e)
                     {#$('.deleveryrange').attr('mindays', e[0].mindays)#}
                     {#$('.deleveryrange').attr('maxdays', e[0].maxdays)#}
-                    $('.deleveryrange').text(e.mindate+' et '+e.maxdate)
-                    $('.delevreyprice').text(e.price+' Dh')
+                    $('.deleveryrange').text(e.mindate + ' et ' + e.maxdate)
+                    $('.delevreyprice').text(e.price + ' Dh')
 
                 },
                 error: function (e) {
-                    console.log(e.responseText)
                 }
             })
         })
+        $('#filecontrole').change(function () {
+            $filecontroleid = $(this).val()
+            $.ajax({
+                url: '/filecontrolefilter',
+                method: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{csrf_token }}',
+                    filecontroleid: $filecontroleid
+                },
+                success: function (e) {
+                    console.log(e)
+                    $('.controlefile').text(e.price + ' Dh')
+                },
+                error: function (e) {
+                }
+            })
+        })
+
     })
     var swiper = new Swiper(".swiper-container-product", {
         cssMode: true,
