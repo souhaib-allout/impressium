@@ -157,9 +157,12 @@ def product(request, id):
     dilevies = Delivery.objects.all()
     fileControles = FileControle.objects.all()
     datetimenow = str(datetime.datetime.now().strftime('%A %d %B'))
-    displayexist = Pane.objects.filter(article_id=id, user=request.user).first()
-    if displayexist:
-        exist = True
+    if request.user.is_authenticated:
+        displayexist = Pane.objects.filter(article_id=id, user=request.user).first()
+        if displayexist:
+            exist = True
+        else:
+            exist = False
     else:
         exist = False
 

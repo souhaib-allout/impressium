@@ -387,13 +387,13 @@
                     </div>
                 </div>
                 <div class="col-12 text-center mt-3">
-                    {% if exist == True %}
-                        <button class="btn btn-danger" style="font-weight: 700;">
-                            Supprimer
-                        </button>
-                    {% else %}
-                        <button class="btn text-light" style="font-weight: 700;background-color: #ff0747">
+                    {% if not exist  %}
+                         <button class="btn text-light" style="font-weight: 700;background-color: #ff0747">
                             Ajouter au panier
+                        </button>
+                    {% else  %}
+                         <button class="btn btn-danger" style="font-weight: 700;">
+                            Supprimer
                         </button>
                     {% endif %}
                 </div>
