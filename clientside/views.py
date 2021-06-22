@@ -12,6 +12,7 @@ from django.db.models import Q, Count
 import json
 import static
 from django.core import serializers
+from django.core.files.storage import default_storage
 
 
 # Create your views here.
@@ -285,6 +286,29 @@ def addtppan(request):
         return redirect('/')
 
 
+def addfiletopane(request):
+    if request.method == 'POST':
+        # return JsonResponse(request.POST['file'])
+        # pane = Pane.objects.get(id=request.POST['paneid'])
+        # pane.ArticleDesign = request.POST['file']
+        uploaded_file=request.FILES['file']
+        default_storage.save(uploaded_file.name,uploaded_file)
+        pane=Pane.objects.get(id=request.POST['paneid'],user_id=request.user.id)
+        pane.ArticleDesign.delete()
+        pane.ArticleDesign=uploaded_file
+        pane.save()
+        jsondata=[{'name':uploaded_file.name,'size':uploaded_file.size}]
+        return JsonResponse(jsondata,safe=False)
+    else:
+        return redirect('')
+
+def deletefileuploaded(request):
+    if request.method=='POST':
+        pane=Pane.objects.get(id=request.POST['deletepaneid'],user_id=request.user.id)
+        pane.ArticleDesign.delete()
+        return redirect('/cart')
+    else:
+        return redirect('/')
 def updatepan(request):
     if (request.method == 'POST'):
         pane = Pane.objects.get(user=request.user, article_id=request.POST['articleid'])

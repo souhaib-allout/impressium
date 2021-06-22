@@ -278,7 +278,7 @@ class Pane(models.Model):
     user = models.ForeignKey(User, related_name='UserPane', on_delete=models.CASCADE)
     FileControle=models.ForeignKey(FileControle,related_name='FileControlePane', on_delete=models.CASCADE)
     delevery = models.ForeignKey(Delivery, related_name='DeleveryPane', on_delete=models.CASCADE)
-    ArticleDesign = models.ImageField(null=True, blank=True)
+    ArticleDesign = models.FileField(verbose_name='Nom', upload_to='static/pane_images',null=True, blank=True)
     size = models.ForeignKey(Size1, verbose_name='Size', related_name="SizePane",null=True, blank=True,
                                 on_delete=models.CASCADE)
     formattype = models.ForeignKey(FormatType, verbose_name='Forma type',

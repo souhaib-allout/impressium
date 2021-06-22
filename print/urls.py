@@ -37,6 +37,9 @@ urlpatterns = [
     path('download', views.download),
 
     path('addtppan', views.addtppan),
+    path('addfiletopane', views.addfiletopane),
+    path('deletefileuploaded', views.deletefileuploaded),
+
     path('deleteppan', views.deleteppan),
     path('updatepanpage/<int:id>', views.updatepanpage),
     path('updatepan', views.updatepan),
