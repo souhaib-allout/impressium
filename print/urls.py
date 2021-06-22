@@ -28,6 +28,7 @@ urlpatterns = [
     path('', views.index),
     path('product/<int:id>', views.product),
     path('products/<str:category>', views.productsbyCategory),
+    path('pricefilter', views.pricefilter),
 
     path('products', views.products),
 

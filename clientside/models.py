@@ -263,40 +263,67 @@ class Delivery(models.Model):
     mindays = models.IntegerField(verbose_name='Minimun de nb de jours')
     maxdays = models.IntegerField(verbose_name='Maximun de nb de jours')
     created_at = models.DateTimeField(default=datetime.datetime.now)
+
     def __str__(self):
         return self.name
 
+
 class FileControle(models.Model):
-    name=models.CharField(max_length=100,verbose_name='Nom')
-    price=models.FloatField(verbose_name='Prix')
-    creatd_at=models.DateTimeField(default=datetime.datetime.now)
+    name = models.CharField(max_length=100, verbose_name='Nom')
+    price = models.FloatField(verbose_name='Prix')
+    creatd_at = models.DateTimeField(default=datetime.datetime.now)
+
     def __str__(self):
         return self.name
+
 
 class Pane(models.Model):
     article = models.ForeignKey(Article, related_name='ArticlePane', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='UserPane', on_delete=models.CASCADE)
-    FileControle=models.ForeignKey(FileControle,related_name='FileControlePane', on_delete=models.CASCADE)
+    FileControle = models.ForeignKey(FileControle, related_name='FileControlePane', on_delete=models.CASCADE)
     delevery = models.ForeignKey(Delivery, related_name='DeleveryPane', on_delete=models.CASCADE)
-    ArticleDesign = models.FileField(verbose_name='Nom', upload_to='static/pane_images',null=True, blank=True)
-    size = models.ForeignKey(Size1, verbose_name='Size', related_name="SizePane",null=True, blank=True,
-                                on_delete=models.CASCADE)
+    ArticleDesign = models.FileField(verbose_name='Nom', upload_to='static/pane_images', null=True, blank=True)
+    size = models.ForeignKey(Size1, verbose_name='Size', related_name="SizePane", null=True, blank=True,
+                             on_delete=models.CASCADE)
     formattype = models.ForeignKey(FormatType, verbose_name='Forma type',
-                                      related_name="FormaTypePane", null=True, blank=True, on_delete=models.CASCADE)
+                                   related_name="FormaTypePane", null=True, blank=True, on_delete=models.CASCADE)
     paperType = models.ForeignKey(PaperType, verbose_name='Papier type', related_name="PaperPane",
-                                     null=True, blank=True, on_delete=models.CASCADE)
+                                  null=True, blank=True, on_delete=models.CASCADE)
     paperColor = models.ForeignKey(PaperColor, verbose_name='Papier coleur',
-                                      related_name="PaperColorPane", null=True, blank=True, on_delete=models.CASCADE)
+                                   related_name="PaperColorPane", null=True, blank=True, on_delete=models.CASCADE)
     fontColor = models.ForeignKey(FontColor, verbose_name='Font coleur', related_name="FontColorPane",
-                                     null=True, blank=True, on_delete=models.CASCADE)
+                                  null=True, blank=True, on_delete=models.CASCADE)
     side = models.ForeignKey(Side, verbose_name='direction', related_name="SidePane", null=True, blank=True,
-                                on_delete=models.CASCADE)
+                             on_delete=models.CASCADE)
     orientation = models.ForeignKey(Orientation, verbose_name='Orientation',
-                                       related_name="OrientationPane", null=True, blank=True, on_delete=models.CASCADE)
+                                    related_name="OrientationPane", null=True, blank=True, on_delete=models.CASCADE)
     finition = models.ForeignKey(Finition, verbose_name='Finition', related_name="FinitionPane",
-                                    null=True, blank=True, on_delete=models.CASCADE)
+                                 null=True, blank=True, on_delete=models.CASCADE)
     Quantity = models.ForeignKey(Quantity, related_name='QuantityPane', verbose_name='Quantite',
-                                    null=True, blank=True, on_delete=models.CASCADE)
+                                 null=True, blank=True, on_delete=models.CASCADE)
+    CostumQuantity = models.IntegerField(null=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
+
     def __str__(self):
         return str(self.article)
+
+    def total(self):
+        if self.Quantity :
+            quanity = self.Quantity
+        elif self.CostumQuantity != '':
+            quanity = self.CostumQuantity
+
+        if self.finition :
+            finition = self.finition.price
+        else:
+            finition=1
+        if self.paperType :
+            paperType = self.paperType.price
+        else:
+            paperType = 1
+        FileControle = float(self.FileControle.price)
+        price=float(self.delevery.price)
+        return (finition * quanity * paperType) + FileControle + price
+
+        # return (float(self.finition.price) * float(self.CostumQuantity) * float(self.paperType.price)) + float(
+        #     self.FileControle.price) + float(self.delevery.price)

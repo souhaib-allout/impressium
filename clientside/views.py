@@ -277,7 +277,10 @@ def addtppan(request):
             if 'finitions' in request.POST:
                 pane.finition_id = request.POST['finitions']
 
-            if 'quantite' in request.POST:
+            if 'costumquantite' in request.POST:
+                pane.CostumQuantity = request.POST['costumquantite']
+
+            elif 'quantite' in request.POST:
                 pane.Quantity_id = request.POST['quantite']
             pane.save()
 
@@ -291,24 +294,27 @@ def addfiletopane(request):
         # return JsonResponse(request.POST['file'])
         # pane = Pane.objects.get(id=request.POST['paneid'])
         # pane.ArticleDesign = request.POST['file']
-        uploaded_file=request.FILES['file']
-        default_storage.save(uploaded_file.name,uploaded_file)
-        pane=Pane.objects.get(id=request.POST['paneid'],user_id=request.user.id)
+        uploaded_file = request.FILES['file']
+        default_storage.save(uploaded_file.name, uploaded_file)
+        pane = Pane.objects.get(id=request.POST['paneid'], user_id=request.user.id)
         pane.ArticleDesign.delete()
-        pane.ArticleDesign=uploaded_file
+        pane.ArticleDesign = uploaded_file
         pane.save()
-        jsondata=[{'name':uploaded_file.name,'size':uploaded_file.size}]
-        return JsonResponse(jsondata,safe=False)
+        jsondata = [{'name': uploaded_file.name, 'size': uploaded_file.size}]
+        return JsonResponse(jsondata, safe=False)
     else:
         return redirect('')
 
+
 def deletefileuploaded(request):
-    if request.method=='POST':
-        pane=Pane.objects.get(id=request.POST['deletepaneid'],user_id=request.user.id)
+    if request.method == 'POST':
+        pane = Pane.objects.get(id=request.POST['deletepaneid'], user_id=request.user.id)
         pane.ArticleDesign.delete()
         return redirect('/cart')
     else:
         return redirect('/')
+
+
 def updatepan(request):
     if (request.method == 'POST'):
         pane = Pane.objects.get(user=request.user, article_id=request.POST['articleid'])
@@ -382,16 +388,56 @@ def deleteppan(request):
 def cart(request):
     carts = Pane.objects.filter(user=request.user)
     # datetime.datetime.now()+datetime.timedelta
-    return render(request, 'cart.html', {'carts': carts})
+    total = 0
+    for cart in carts:
+        if cart.finition:
+            finition = cart.finition.price
+        else:
+            finition = 1
+        if cart.paperType:
+            paperType = cart.paperType.price
+        else:
+            paperType = 1
+
+        if cart.Quantity:
+            quantity = cart.Quantity
+        else:
+            quantity = cart.CostumQuantity
+
+        total = (finition * paperType * quantity + (cart.delevery.price + cart.FileControle.price))
+
+    return HttpResponse('f')
+    # return render(request, 'cart.html', {'carts': carts,'total':total})
 
 
 def deleveryfilter(request):
     if request.method == "POST":
+        if 'finitions' in request.POST:
+            finitionprice = int(Finition.objects.get(id=request.POST['finitions']).price)
+            if finitionprice == 0:
+                finitionprice = 1
+        else:
+            finitionprice = 1
+
+        if 'papertype' in request.POST:
+            papertypeprice = int(PaperType.objects.get(id=request.POST['papertype']).price)
+            if papertypeprice == 0:
+                papertypeprice = 1
+        else:
+            papertypeprice = 1
+
         delevery = Delivery.objects.get(id=request.POST['deleveryid'])
+
+        quantite = float(request.POST['quantity'])
+        deleveryprice = float(delevery.price)
+        filecontroller = float(request.POST['filecontroller'])
+
+        total = (finitionprice * papertypeprice * quantite) + deleveryprice + filecontroller
         data = json.dumps({
             'mindate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.mindays)).strftime('%A %d %B')),
             'maxdate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.maxdays)).strftime('%A %d %B')),
-            'price': delevery.price
+            'price': delevery.price,
+            'total': total
         })
 
         return HttpResponse(data, content_type='application/json')
@@ -401,12 +447,60 @@ def deleveryfilter(request):
 
 def filecontrolefilter(request):
     if request.method == "POST":
+        if 'finitions' in request.POST:
+            finitionprice = int(Finition.objects.get(id=request.POST['finitions']).price)
+            if finitionprice == 0:
+                finitionprice = 1
+        else:
+            finitionprice = 1
+
+        if 'papertype' in request.POST:
+            papertypeprice = int(PaperType.objects.get(id=request.POST['papertype']).price)
+            if papertypeprice == 0:
+                papertypeprice = 1
+        else:
+            papertypeprice = 1
+
         filecontrole = FileControle.objects.get(id=request.POST['filecontroleid'])
+
+        quantite = float(request.POST['quantity'])
+        delevery = float(request.POST['delevery'])
+        filecontrollerprice = float(filecontrole.price)
+
+        total = (finitionprice * papertypeprice * quantite) + delevery + filecontrollerprice
+
         data = json.dumps({
             'name': filecontrole.name,
-            'price': filecontrole.price
+            'price': filecontrole.price,
+            'total': total
         })
         # return HttpResponse('good')
         return HttpResponse(data, content_type='application/json')
+    else:
+        return redirect('/')
+
+
+def pricefilter(request):
+    if request.method == 'POST':
+        if 'finitions' in request.POST:
+            finitionprice = int(Finition.objects.get(id=request.POST['finitions']).price)
+            if finitionprice == 0:
+                finitionprice = 1
+        else:
+            finitionprice = 1
+
+        if 'papertype' in request.POST:
+            papertypeprice = int(PaperType.objects.get(id=request.POST['papertype']).price)
+            if papertypeprice == 0:
+                papertypeprice = 1
+        else:
+            papertypeprice = 1
+
+        quantite = float(request.POST['quantity'])
+        delevery = float(request.POST['delevery'])
+        filecontroller = float(request.POST['filecontroller'])
+
+        total = (finitionprice * papertypeprice * quantite) + delevery + filecontroller
+        return HttpResponse(str(total))
     else:
         return redirect('/')

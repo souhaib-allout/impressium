@@ -206,7 +206,7 @@
                         <label for="formatype" style="font-weight: 600">Type de format</label>
                     </div>
                     <div class="col-8">
-                        <select class="form-select" id="formatype" name="formatype">
+                        <select class="form-select pricefilter" id="formatype" name="formatype">
                             {% for forma in product.SpecificationArticle.formattype.all %}
                                 <option value="{{ forma.nb }}">{{ forma.name }}</option>
                             {% endfor %}
@@ -262,7 +262,7 @@
                         <label for="papertype" style="font-weight: 600">Matiére</label>
                     </div>
                     <div class="col-8">
-                        <select class="form-select" id="papertype" name="papertype">
+                        <select class="form-select pricefilter" id="papertype" name="papertype">
                             {% for paperType in product.SpecificationArticle.paperType.all %}
                                 <option value="{{ paperType.id }}">{{ paperType.name }}</option>
                             {% endfor %}
@@ -276,7 +276,7 @@
                         <label for="finitions" style="font-weight: 600">Finition</label>
                     </div>
                     <div class="col-8">
-                        <select class="form-select" id="finitions" name="finitions">
+                        <select class="form-select pricefilter" id="finitions" name="finitions">
                             {% for finition in product.SpecificationArticle.finition.all %}
                                 <option value="{{ finition.id }}">{{ finition.name }}</option>
                             {% endfor %}
@@ -318,9 +318,10 @@
                 </div>
                 <div class="col-8">
                     {% if product.SpecificationArticle.customQuantite == 1 %}
-                        <input type="number" class="form-control" id="quantite" name="quantite" value="1" min="1">
+                        <input type="number" class="form-control pricefilter" id="quantite" name="costumquantite"
+                               value="1" min="1">
                     {% elif product.SpecificationArticle.customQuantite == 0 %}
-                        <select class="form-select" id="quantite" name="quantite">
+                        <select class="form-select pricefilter" id="quantite" name="quantite">
                             {% for qte in product.SpecificationArticle.Quantity.all %}
                                 <option value="{{ qte.id }}">{{ qte.nb }}</option>
                             {% endfor %}
@@ -340,7 +341,7 @@
                     </div>
                     <select class="form-select" id="filecontrole" name="filecontrole" style="width: 250px">
                         {% for fileControle in fileControles %}
-                            <option value="{{ fileControle.id }}">{{ fileControle.name }}({{ fileControle.price }}Dh)</option>
+                            <option value="{{ fileControle.id }}">{{ fileControle.name }}({{ fileControle.price }}Mad)</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -353,7 +354,7 @@
                         {% for dilevy in dilevies %}
                             <option value="{{ dilevy.id }}" deleveryid="{{ dilevy.id }}" mindate="{{ dilevy.mindays }}"
                                     maxdate="{{ dilevy.maxdays }}">
-                                {{ dilevy.name | title }} {{ dilevy.price | floatformat }}Dh
+                                {{ dilevy.name | title }} {{ dilevy.price | floatformat }}Mad
                             </option>
                         {% endfor %}
                     </select>
@@ -361,10 +362,10 @@
                 <div class="col-12 text-center mt-3">
                     <p class="mb-0">Livraison prévue entre :</p>
                     <p class="mb-0 deleveryrange" style="font-weight: 600"
-                       deleveryid="{{ dilevies.first.id }} mindays="{{ dilevies.first.mindays }}"
-                    maxdays="{{ dilevies.first.maxdays }}">
-                    {{ datetimenow |adddate:dilevies.first.mindays }}
-                    et {{ datetimenow| adddate:dilevies.first.maxdays }}
+                       deleveryid="{{ dilevies.first.id }}" mindays="{{ dilevies.first.mindays }}"
+                       maxdays="{{ dilevies.first.maxdays }}">
+                        {{ datetimenow |adddate:dilevies.first.mindays }}
+                        et {{ datetimenow| adddate:dilevies.first.maxdays }}
                     </p>
                 </div>
                 <div class="col-12 text-center">
@@ -372,27 +373,30 @@
                         <hr class="w-75 text-center" style="color: #ff0747;height: 2px;opacity: 1"/>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
+                        <input type="hidden" id="hiddendeleveryprice" value="{{ dilevies.first.price | floatformat }}">
                         <p class="mb-0" style="font-weight: 700;font-size: 17px">Prix Livraison </p>
                         <p class="mb-0 delevreyprice"
-                           style="font-weight: 700;font-size: 22px">{{ dilevies.first.price }} Dh</p>
+                           style="font-weight: 700;font-size: 22px">{{ dilevies.first.price }} Mad</p>
                     </div>
                     <div class="d-flex  align-items-center justify-content-between ">
+                        <input type="hidden" id="hiddencontrolefile"
+                               value="{{ fileControles.first.price | floatformat }}">
                         <p class="mb-0" style="font-size: 17px">Prix de Controle </p>
                         <p class="mb-0 controlefile"
-                           style="font-size: 22px">{{ fileControles.first.price | floatformat }} Dh</p>
+                           style="font-size: 22px">{{ fileControles.first.price | floatformat }} Mad</p>
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <p class="mb-0" style="font-weight: 700;font-size: 17px">Prix Total</p>
-                        <p class="mb-0" style="font-weight: 700;font-size: 20px">50.5 Dh</p>
+                        <p class="mb-0 totalprice" style="font-weight: 700;font-size: 20px">50.5 Mad</p>
                     </div>
                 </div>
                 <div class="col-12 text-center mt-3">
-                    {% if not exist  %}
-                         <button class="btn text-light" style="font-weight: 700;background-color: #ff0747">
+                    {% if not exist %}
+                        <button class="btn text-light" style="font-weight: 700;background-color: #ff0747">
                             Ajouter au panier
                         </button>
-                    {% else  %}
-                         <button class="btn btn-danger" style="font-weight: 700;">
+                    {% else %}
+                        <button class="btn btn-danger" style="font-weight: 700;">
                             Supprimer
                         </button>
                     {% endif %}
@@ -503,6 +507,25 @@
 
 <script>
     $(document).ready(function () {
+        $('.pricefilter').change(function () {
+            $.ajax({
+                url: '/pricefilter',
+                method: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    quantity: $('#quantite').val(),
+                    finitions: $('#finitions').val(),
+                    papertype: $('#papertype').val(),
+                    delevery: parseFloat($('#hiddendeleveryprice').val()),
+                    filecontroller: $('#hiddencontrolefile').val(),
+                },
+                success: function (e) {
+                    $('.totalprice').text(e+ 'MAD')
+                }, error: function (e) {
+                }
+            })
+        })
+
         $('#delevery').change(function () {
             $deleveryid = $(this).val()
             $.ajax({
@@ -510,14 +533,19 @@
                 method: 'POST',
                 data: {
                     csrfmiddlewaretoken: '{{csrf_token }}',
-                    deleveryid: $deleveryid
+                    deleveryid: $deleveryid,
+                    quantity: $('#quantite').val(),
+                    finitions: $('#finitions').val(),
+                    papertype: $('#papertype').val(),
+                    filecontroller: $('#hiddencontrolefile').val(),
                 },
                 success: function (e) {
                     {#$('.deleveryrange').attr('mindays', e[0].mindays)#}
                     {#$('.deleveryrange').attr('maxdays', e[0].maxdays)#}
                     $('.deleveryrange').text(e.mindate + ' et ' + e.maxdate)
-                    $('.delevreyprice').text(e.price + ' Dh')
-
+                    $('.delevreyprice').text(e.price + ' Mad')
+                    $('#hiddendeleveryprice').val(e.price)
+                    $('.totalprice').text(e.total+' MAD')
                 },
                 error: function (e) {
                 }
@@ -530,11 +558,16 @@
                 method: 'POST',
                 data: {
                     csrfmiddlewaretoken: '{{csrf_token }}',
-                    filecontroleid: $filecontroleid
+                    filecontroleid: $filecontroleid,
+                    quantity: $('#quantite').val(),
+                    finitions: $('#finitions').val(),
+                    papertype: $('#papertype').val(),
+                    delevery: $('#hiddendeleveryprice').val(),
                 },
                 success: function (e) {
-                    console.log(e)
-                    $('.controlefile').text(e.price + ' Dh')
+                    $('.controlefile').text(e.price + ' Mad')
+                    $('#hiddencontrolefile').val(e.price)
+                    $('.totalprice').text(e.total+ 'MAD')
                 },
                 error: function (e) {
                 }
