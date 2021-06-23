@@ -41,6 +41,15 @@ urlpatterns = [
     path('addfiletopane', views.addfiletopane),
     path('deletefileuploaded', views.deletefileuploaded),
 
+    path('commande', views.commande),
+
+    path('infoverify', views.infoverify),
+    path('infoverifyclick', views.infoverifyclick),
+
+    path('adresseverify', views.adresseverify),
+    path('adresseverifyclick', views.adresseverifyclick),
+
+
     path('deleteppan', views.deleteppan),
     path('updatepanpage/<int:id>', views.updatepanpage),
     path('updatepan', views.updatepan),

@@ -308,22 +308,25 @@ class Pane(models.Model):
         return str(self.article)
 
     def total(self):
-        if self.Quantity :
+        if self.Quantity:
             quanity = self.Quantity
         elif self.CostumQuantity != '':
             quanity = self.CostumQuantity
 
-        if self.finition :
+        if self.finition:
             finition = self.finition.price
         else:
-            finition=1
-        if self.paperType :
+            finition = 1
+        if self.paperType:
             paperType = self.paperType.price
         else:
             paperType = 1
         FileControle = float(self.FileControle.price)
-        price=float(self.delevery.price)
+        price = float(self.delevery.price)
         return (finition * quanity * paperType) + FileControle + price
 
-        # return (float(self.finition.price) * float(self.CostumQuantity) * float(self.paperType.price)) + float(
-        #     self.FileControle.price) + float(self.delevery.price)
+
+class Commande(models.Model):
+    Pane = models.ManyToManyField(Pane, related_name='panes')
+    User=models.ForeignKey(User, related_name='user',on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=datetime.datetime.now)

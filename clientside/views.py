@@ -26,7 +26,7 @@ def index(request):
 
 def login(request):
     categories = Category.objects.all()
-    return render(request, 'login.html', {'categories': categories})
+    return render(request, 'profile/login.html', {'categories': categories})
 
 
 def logincheck(request):
@@ -49,7 +49,7 @@ def logincheck(request):
 
 def logup(request):
     categories = Category.objects.all()
-    return render(request, 'logup.html', {'categories': categories})
+    return render(request, 'profile/logup.html', {'categories': categories})
 
 
 def logupcheck(request):
@@ -167,7 +167,7 @@ def product(request, id):
     else:
         exist = False
 
-    return render(request, 'product.html',
+    return render(request, 'product/product.html',
                   {'product': product, 'categories': categories, 'realtedproducts': realtedproducts,
                    'dilevies': dilevies, 'fileControles': fileControles, 'datetimenow': datetimenow, 'exist': exist})
 
@@ -184,7 +184,7 @@ def updatepanpage(request, id):
         datetimenow = str(datetime.datetime.now().strftime('%A %d %B'))
         displayexist = Pane.objects.filter(article_id=id, user=request.user).first()
 
-        return render(request, 'modifyproduct.html',
+        return render(request, 'product/modifyproduct.html',
                       {'product': product, 'categories': categories, 'realtedproducts': realtedproducts,
                        'dilevies': dilevies, 'fileControles': fileControles, 'datetimenow': datetimenow,
                        })
@@ -212,8 +212,9 @@ def search(request):
     else:
         Search.objects.create(title=request.GET['rechercheinput'])
     categories = Category.objects.all()
-    return render(request, 'searcharticle.html', {'products': products, 'searchtitle': request.GET['rechercheinput'],
-                                                  'categories': categories})
+    return render(request, 'product/searcharticle.html',
+                  {'products': products, 'searchtitle': request.GET['rechercheinput'],
+                   'categories': categories})
 
 
 def onsearch(request):
@@ -251,7 +252,7 @@ def addtppan(request):
             pane.article_id = request.POST['articleid']
             pane.FileControle_id = request.POST['filecontrole']
             if 'mydesign' in request.POST:
-                pane.ArticleDesign = request.POST['mydesign']
+                pane.ArticleDesign = request.FILES['mydesign']
 
             if 'format' in request.POST:
                 pane.size_id = request.POST['format']
@@ -390,24 +391,23 @@ def cart(request):
     # datetime.datetime.now()+datetime.timedelta
     total = 0
     for cart in carts:
-        if cart.finition:
+        if cart.finition != None:
             finition = cart.finition.price
         else:
             finition = 1
-        if cart.paperType:
+        if cart.paperType != None:
             paperType = cart.paperType.price
         else:
             paperType = 1
 
-        if cart.Quantity:
+        if cart.Quantity != None:
             quantity = cart.Quantity
         else:
             quantity = cart.CostumQuantity
 
-        total = (finition * paperType * quantity + (cart.delevery.price + cart.FileControle.price))
+        total += (finition * paperType * quantity) + cart.delevery.price + cart.FileControle.price
 
-    return HttpResponse('f')
-    # return render(request, 'cart.html', {'carts': carts,'total':total})
+    return render(request, 'product/cart.html', {'carts': carts, 'total': total})
 
 
 def deleveryfilter(request):
@@ -504,3 +504,55 @@ def pricefilter(request):
         return HttpResponse(str(total))
     else:
         return redirect('/')
+
+
+def commande(request):
+    if request.method == 'POST':
+        panes = Pane.objects.filter(user_id=request.user.id).all()
+        commande = Commande.objects.create(User=request.user)
+        for pane in panes:
+            commande.Pane.add(pane)
+        return HttpResponse('pane')
+    else:
+        return redirect('/')
+
+
+def infoverify(request):
+    return render(request, 'verify/infoverify.html')
+
+
+def infoverifyclick(request):
+    if (request.method == "POST"):
+        request.user.username = request.POST['name'] + ' ' + request.POST['lastname']
+        request.user.first_name = request.POST['name']
+        request.user.last_name = request.POST['lastname']
+        request.user.email = request.POST['mail']
+        Client.objects.update_or_create(user_id=request.user.id,
+                                        defaults={
+                                            'type': request.POST['type'],
+                                            'civilite': request.POST['civilite'],
+                                            'tele': request.POST['tele'],
+                                        })
+        request.user.save()
+        return redirect('/adresseverify')
+    else:
+        return redirect('/cart')
+
+
+def adresseverify(request):
+    return render(request, 'verify/adresseverify.html')
+
+
+def adresseverifyclick(request):
+    if (request.method == 'POST'):
+        Client.objects.update_or_create(user_id=request.user.id,
+                                        defaults={
+                                            'adresse1': request.POST['adresse1'],
+                                            'adresse2': request.POST['adresse2'],
+                                            'codepostal': request.POST['codepostal'],
+                                            'city': request.POST['ville'],
+                                            'country': request.POST['pays']
+                                        })
+        return redirect('/adresses')
+    else:
+        return redirect('/cart')
