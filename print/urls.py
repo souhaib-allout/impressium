@@ -49,6 +49,17 @@ urlpatterns = [
     path('adresseverify', views.adresseverify),
     path('adresseverifyclick', views.adresseverifyclick),
 
+    path('livraisonverify', views.livraisonverify),
+    path('livraisondelevertverify', views.livraisondelevertverify),
+    path('livraisonfilecontroleverify', views.livraisonfilecontroleverify),
+    path('livraisonverifyclick', views.livraisonverifyclick),
+
+    path('payementverify', views.payementverify),
+    path('payementverifyclick', views.payementverifyclick),
+
+    path('commandeverify', views.commandeverify),
+    path('commandeverifyclick', views.commandeverifyclick),
+
 
     path('deleteppan', views.deleteppan),
     path('updatepanpage/<int:id>', views.updatepanpage),
@@ -58,6 +69,7 @@ urlpatterns = [
     path('cart', views.cart),
     path('deleveryfilter', views.deleveryfilter),
     path('filecontrolefilter', views.filecontrolefilter),
+
 
     path('contact', views.contact),
     path('sendmessage', views.sendmessage),

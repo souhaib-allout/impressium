@@ -553,6 +553,59 @@ def adresseverifyclick(request):
                                             'city': request.POST['ville'],
                                             'country': request.POST['pays']
                                         })
-        return redirect('/adresses')
+        return redirect('/livraisonverify')
     else:
         return redirect('/cart')
+
+
+def livraisonverify(request):
+    dilevies = Delivery.objects.all()
+    fileControles = FileControle.objects.all()
+    return render(request, 'verify/deleveryvirify.html', {'dilevies': dilevies, 'fileControles': fileControles})
+
+
+def livraisondelevertverify(request):
+    if request.method == "POST":
+        delevery = Delivery.objects.get(id=request.POST['deleveryid'])
+        data = json.dumps({
+            'mindate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.mindays)).strftime('%A %d %B')),
+            'maxdate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.maxdays)).strftime('%A %d %B')),
+            'price': delevery.price,
+        })
+
+        return HttpResponse(data, content_type='application/json')
+    else:
+        return redirect('cart')
+
+
+def livraisonfilecontroleverify(request):
+    if request.method == "POST":
+        filecontrole = FileControle.objects.get(id=request.POST['filecontroleid'])
+        data = json.dumps({
+            'name': filecontrole.name,
+            'price': filecontrole.price,
+        })
+        # return HttpResponse('good')
+        return HttpResponse(data, content_type='application/json')
+    else:
+        return redirect('cart')
+
+
+def livraisonverifyclick(request):
+    if request.method == 'POST':
+        pane=Pane.objects.filter(user_id=request.user.id).update(delevery=request.POST['delevery'],FileControle=request.POST['filecontrole'])
+        return redirect('payementverify')
+    else:
+        return redirect('cart')
+
+def payementverify(request):
+    return render(request, 'verify/payementverify.html')
+
+def payementverifyclick(request):
+    return HttpResponse('ff')
+
+def commandeverify(request):
+    return render(request, 'verify/commandeverify.html')
+
+def commandeverifyclick(request):
+    return HttpResponse('ff')
