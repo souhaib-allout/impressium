@@ -1,0 +1,567 @@
+{% load static %}
+{% load CustomFilters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+    <title>Product</title>
+    <style>
+        * {
+            color: #333e48;
+        }
+
+        .swiper-container-product {
+            text-align: center;
+            width: 90%;
+        }
+
+        .swiper-slide-product {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-slide-product img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-tabs .active {
+            background-color: #ffcf10;
+        }
+
+        .nav-tabs .nav-item:hover {
+            background-color: #ffcf10 !important;
+
+        }
+
+        /***************related items**************/
+        .swiper-container-newitems {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide-newitems {
+            text-align: center;
+            font-size: 18px;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+{% include 'parts/header.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-flex justify-content-between" style="height: 50px;background-color: #eeeeee">
+            <div></div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'Icons/Euro.png' %}" height="23" width="23"/>
+                <span style="font-size: 12px">DES PRIX COMPETITIFS</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'Icons/Truck.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">LIVRAISON OFFERTE</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'Icons/Correct.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">CONTROLE DES FICHIERS</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'Icons/Like.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">PRODUITS DE QUALITE</span>
+            </div>
+            <div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-2">
+    <div class="row">
+        <div class="col-11" style="font-size: 17px">
+            <span><a href="/" class="text-dark text-decoration-none">Accueil</a> </span>
+            <span class="me-1 ms-1"> > </span>
+            <span><a href="/products/{{ product.childcategory }}"
+                     class="text-dark text-decoration-none">{{ product.childcategory }}</a></span>
+            <span class="me-1 ms-1"> > </span>
+            <span style="font-weight:bold;text-decoration:underline;text-decoration-color: #ffcf10;text-decoration-width: 2px">{{ product.title }}</span>
+        </div>
+        <div class="col-1"></div>
+    </div>
+    <div class="row mt-3 mb-3">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
+            <h2 class="mb-0 ms-2 me-2">{{ product.title |upper }}</h2>
+            <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
+        </div>
+    </div>
+    <form method="post" action="/updatepan" class="row">
+        {% csrf_token %}
+        <div class="col-4">
+            <p class="text-center" style="text-decoration: underline #ffcf10;font-weight: 600;font-size: 22px">
+                Configurez votre produit
+            </p>
+            <div class="swiper-container swiper-container-product ">
+                <div class="swiper-wrapper swiper-wrapper-product">
+                    <div class="swiper-slide swiper-slide-product">
+                        {% for image in product.articleimages.all %}
+                            <img src="{{ image.name.url }}" class="img-fluid w-75">
+                        {% endfor %}
+                    </div>
+
+                </div>
+                <div class="swiper-button-next swiper-button-next-product"
+                     style="color:white;background-color: rgb(213,212,212,0.80);height: 50px;width: 50px;border-radius: 100px"></div>
+                <div class="swiper-button-prev swiper-button-prev-product"
+                     style="color:white;background-color: rgb(213,212,212,0.80);height: 50px;width: 50px;border-radius: 100px"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <div class="row mt-4 justify-content-center">
+                <div class="btn  mb-2"
+                     style="border: solid 2px #ffcf10;border-radius: 6px;width: 270px">
+                    <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                         data-bs-target="#Gabarit" role="button" aria-expanded="false">
+                        <img src="{% static 'icons/Download.svg' %}" style="width: 30px;height: 30px"/>
+                        <p class="mb-0" style="font-weight: 600">Télécharger un Gabarit</p>
+                        <img src="{% static 'icons/arrowbottom.svg' %}" style="width: 20px;height: 20px"/>
+                    </div>
+                    <div class="collapse mt-3" id="Gabarit">
+                        <a href="/download" style="font-weight: 400">Cliquez sur les gabarits à télécharger</a>
+                    </div>
+                </div>
+                <div class="btn mb-2"
+                     style="border: solid 2px #ffcf10;border-radius: 6px;width: 270px">
+                    <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                         data-bs-target="#techniques" role="button" aria-expanded="false">
+                        <img src="{% static 'icons/Download.svg' %}" style="width: 30px;height: 30px"/>
+                        <p class="mb-0" style="font-weight: 600">Spécifications techniques</p>
+                        <img src="{% static 'icons/arrowbottom.svg' %}" style="width: 20px;height: 20px"/>
+                    </div>
+                    <div class="collapse mt-3" id="techniques">
+                        <p style="font-weight: 400"> Cliquez sur les fiches techniques à télécharger</p>
+                        <button class="btn pe-0 ps-0" style="background-color:#ffcf10 ">fiche technique sticker en
+                            planche
+                        </button>
+                    </div>
+                </div>
+                <div class="btn mb-2"
+                     style="border: solid 2px #ffcf10;border-radius: 6px;width: 270px">
+                    <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                         data-bs-target="#préparermesfichiers" role="button" aria-expanded="false">
+                        <img src="{% static 'icons/Opentab.svg' %}" style="width: 30px;height: 30px"/>
+                        <p class="mb-0" style="font-weight: 600">Bien préparer mes fichiers</p>
+                        <img src="{% static 'icons/arrowbottom.svg' %}" style="width: 20px;height: 20px"/>
+                    </div>
+                    <div class="collapse mt-3" id="préparermesfichiers">
+                        <button class="btn pe-0 ps-0" style="background-color:#ffcf10 ">Aide à la préparation de fichier
+                        </button>
+                    </div>
+                </div>
+                {% if product.SpecificationArticle.customDesign == 1 %}
+                    <div class="btn mb-2" style="border: solid 2px #ffcf10;border-radius: 6px;width: 270px">
+                        <div class="d-flex align-items-center">
+                            <img src="{% static 'icons/upload.svg' %}" class="me-2" style="width: 30px;height: 30px"/>
+                            <label for="mydesign" style="font-weight: 600">Charger mon deisgn</label>
+                            <input type="file" id="mydesign" name="mydesign" style="display: none">
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-5">
+            <input type="hidden" name="articleid" value="{{ product.id }}">
+            {% if product.SpecificationArticle.forma.all %}
+                <div class="row align-items-center mb-3">
+                    <div class="col-4">
+                        <label for="formatype" style="font-weight: 600">Type de format</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="formatype" name="formatype">
+                            {% for forma in product.SpecificationArticle.formattype.all %}
+                                <option value="{{ forma.nb }}">{{ forma.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+            {% if product.SpecificationArticle.forma.all %}
+                <div class="row align-items-center mb-3">
+                    <div class="col-4">
+                        <label for="format" style="font-weight: 600">Format</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="format" name="format">
+                            {% for size in product.SpecificationArticle.size.all %}
+                                <option value="{{ size.id }}">{{ size.width |floatformat }}x{{ size.height |floatformat }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+            {% if product.SpecificationArticle.fontColor.all %}
+                <div class="row align-items-center mb-3">
+                    <div class="col-4">
+                        <label for="color" style="font-weight: 600">Coleur</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="color" name="color">
+                            {% for fontColor in product.SpecificationArticle.fontColor.all %}
+                                <option value="{{ fontColor.id }}">{{ fontColor.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+            {% if product.SpecificationArticle.paperColor.all %}
+                <div class="row align-items-center mb-3">
+                    <div class="col-4">
+                        <label for="papercolor" style="font-weight: 600">Papier coleur</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="papercolor" name="papercolor">
+                            {% for papercolor in product.SpecificationArticle.paperColor.all %}
+                                <option value="{{ papercolor.id }}">{{ papercolor.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+            {% if product.SpecificationArticle.paperType.all %}
+                <div class="row align-items-center mb-3">
+                    <div class="col-4">
+                        <label for="papertype" style="font-weight: 600">Matiére</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="papertype" name="papertype">
+                            {% for paperType in product.SpecificationArticle.paperType.all %}
+                                <option value="{{ paperType.id }}">{{ paperType.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+            {% if product.SpecificationArticle.finition.all %}
+                <div class="row align-items-center mb-3">
+                    <div class="col-4">
+                        <label for="finitions" style="font-weight: 600">Finition</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="finitions" name="finitions">
+                            {% for finition in product.SpecificationArticle.finition.all %}
+                                <option value="{{ finition.id }}">{{ finition.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+            {% if product.SpecificationArticle.side.all %}
+                <div class="row align-items-center mb-3">
+                    <div class="col-4">
+                        <label for="formadeplace" style="font-weight: 600">Format de plance</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="formadeplace" name="formadeplace">
+                            {% for side in product.SpecificationArticle.side.all %}
+                                <option value="{{ side.id }}">{{ side.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+            {% if product.SpecificationArticle.orientation.all %}
+                <div class="row align-items-center mb-3">
+                    <div class="col-4">
+                        <label for="orientation" style="font-weight: 600">Orientation</label>
+                    </div>
+                    <div class="col-8">
+                        <select class="form-select" id="orientation" name="orientation">
+                            {% for orientation in product.SpecificationArticle.orientation.all %}
+                                <option value="{{ orientation.id }}">{{ orientation.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row align-items-center mb-3">
+                <div class="col-4">
+                    <label for="" style="font-weight: 600">Quantité</label>
+                </div>
+                <div class="col-8">
+                    {% if product.SpecificationArticle.customQuantite == 1 %}
+                        <input type="number" class="form-control" id="quantite" name="quantite" value="1" min="1">
+                    {% elif product.SpecificationArticle.customQuantite == 0 %}
+                        <select class="form-select" id="quantite" name="quantite">
+                            {% for qte in product.SpecificationArticle.Quantity.all %}
+                                <option value="{{ qte.id }}">{{ qte.nb }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-3">
+            <p class="text-center" style="text-decoration: underline #ffcf10;font-weight: 600;font-size: 22px">
+                Tarif & Délai</p>
+            <div class="row pt-3 pb-3 ps-2 pe-2" style="border: solid 1px black ">
+                <div class="col-12 mb-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <img src="{% static 'icons/Correct.svg' %}" style="width:20px"/>
+                        <p class="mb-0 ms-2"> Contrôle des fichiers</p>
+                    </div>
+                    <select class="form-select" id="filecontrole" name="filecontrole" style="width: 250px">
+                        {% for fileControle in fileControles %}
+                            <option value="{{ fileControle.id }}">{{ fileControle.name }}({{ fileControle.price }}Dh)</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12 ">
+                    <div class="d-flex align-items-center mb-2">
+                        <img src="{% static 'icons/Truck.svg' %}" style="height:20px"/>
+                        <p class="mb-0 ms-2"> Choisissez votre délai</p>
+                    </div>
+                    <select class="form-select" id="delevery" name="delevery" style="width: 250px">
+                        {% for dilevy in dilevies %}
+                            <option value="{{ dilevy.id }}" deleveryid="{{ dilevy.id }}" mindate="{{ dilevy.mindays }}"
+                                    maxdate="{{ dilevy.maxdays }}">
+                                {{ dilevy.name | title }} {{ dilevy.price | floatformat }}Dh
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12 text-center mt-3">
+                    <p class="mb-0">Livraison prévue entre :</p>
+                    <p class="mb-0 deleveryrange" style="font-weight: 600"
+                       deleveryid="{{ dilevies.first.id }} mindays="{{ dilevies.first.mindays }}"
+                    maxdays="{{ dilevies.first.maxdays }}">
+                    {{ datetimenow |adddate:dilevies.first.mindays }}
+                    et {{ datetimenow| adddate:dilevies.first.maxdays }}
+                    </p>
+                </div>
+                <div class="col-12 text-center">
+                    <div class="d-flex justify-content-center">
+                        <hr class="w-75 text-center" style="color: #ff0747;height: 2px;opacity: 1"/>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <p class="mb-0" style="font-weight: 700;font-size: 17px">Prix Livraison </p>
+                        <p class="mb-0 delevreyprice"
+                           style="font-weight: 700;font-size: 22px">{{ dilevies.first.price }} Dh</p>
+                    </div>
+                    <div class="d-flex  align-items-center justify-content-between ">
+                        <p class="mb-0" style="font-size: 17px">Prix de Controle </p>
+                        <p class="mb-0 controlefile"
+                           style="font-size: 22px">{{ fileControles.first.price | floatformat }} Dh</p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <p class="mb-0" style="font-weight: 700;font-size: 17px">Prix Total</p>
+                        <p class="mb-0" style="font-weight: 700;font-size: 20px">50.5 Dh</p>
+                    </div>
+                </div>
+                <div class="col-12 text-center mt-3">
+                    <button class="btn text-light" style="font-weight: 700;background-color: #ff0747">
+                        Mettre à jour le panier
+                    </button>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="text-center mb-2" style="text-decoration: underline #ffcf10;font-weight: 600;font-size: 22px">
+                    Un besoin spécifique ?</p>
+                <p class="mb-2">Vous ne trouvez pas un produit sur le site ?</p>
+                <button class="btn" style="background-color: #abbac2">Demande de devis</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container">
+    <div class="row mt-3 mb-3">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
+            <h2 class="mb-0 ms-2 me-2">INFOS & CONSEILS</h2>
+            <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 nav nav-tabs border-0" role="tablist">
+            <a href="" class="btn nav-item active me-2" data-bs-toggle="tab" data-bs-target="#info" type="button"
+               role="tab"
+               aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Info produit</a>
+            <a href="" class="btn nav-item me-2" data-bs-toggle="tab" data-bs-target="#options" type="button" role="tab"
+               aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Options - Finitions</a>
+            <a href="" class="btn nav-item me-2" data-bs-toggle="tab" data-bs-target="#Conseils" type="button"
+               role="tab"
+               aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Conseils Techniques</a>
+            <a href="" class="btn nav-item me-2" data-bs-toggle="tab" data-bs-target="#complémentaires" type="button"
+               role="tab"
+               aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Produits complémentaires</a>
+            <a href="" class="btn nav-item me-2" data-bs-toggle="tab" data-bs-target="#Avis" type="button" role="tab"
+               aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Avis Client</a>
+        </div>
+        <div class="tab-content mt-4" id="infotabs">
+            <div class="tab-pane fade active show" id="info" role="tabpanel" aria-labelledby="home-tab">
+                {{ product.info |safe }}
+            </div>
+            <div class="tab-pane fade" id="options" role="tabpanel" aria-labelledby="profile-tab">
+                {{ product.options |safe }}
+            </div>
+            <div class="tab-pane fade" id="Conseils" role="tabpanel" aria-labelledby="home-tab">
+                {{ product.conseil |safe }}
+            </div>
+            <div class="tab-pane fade" id="complémentaires" role="tabpanel" aria-labelledby="profile-tab">
+                {{ product.complementes |safe }}
+            </div>
+            <div class="tab-pane fade" id="Avis" role="tabpanel" aria-labelledby="home-tab">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid pt-4 pb-5" style="background-color: #eeeeee">
+    <div class="row mt-3 mb-3">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
+            <h2 class="mb-0 ms-2 me-2">SUPPORTS DE COMMUNICATION COMPLEMENTAIRES</h2>
+            <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-1">
+        </div>
+        <div class="col-10">
+            <div class="swiper-container swiper-container-newitems">
+                <div class="swiper-wrapper swiper-wrapper-newitems">
+                    {% for realtedproduct in realtedproducts %}
+                        <div class="swiper-slide swiper-slide-newitems">
+                            <a href="/product/{{ realtedproduct.id }}" class="card"
+                               style="background-color:transparent;width: 190px;border: none;color: black;text-decoration: none">
+                                <img src="{{ realtedproduct.articleimages.first.name.url }}" class="card-img-top"
+                                     style="height: 200px" alt="...">
+                                <div class="card-body p-0">
+                                    <p class="card-title "
+                                       style="text-align:left;font-size:17px;color: #0062bd;font-weight: 700;">{{ realtedproduct.title }}</p>
+                                    <div class="d-flex justify-content-between align-items-end">
+                                        <div class="d-flex flex-column">
+                                            <span style="font-size: 12px;font-weight: 700">A partir de</span>
+                                            <span style="font-size: 19px;font-weight: 700">52 Euro</span>
+                                        </div>
+                                        <button style="height:30px;font-size: 12px;background-color: #ffcf10;border: solid 0px #ffcf10">
+                                            COMMANDEZ
+                                        </button>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next swiper-button-next-relatedproduct"
+                     style="color:white;background-color: rgb(213,212,212,0.80);height: 70px;width: 70px;border-radius: 100px"></div>
+                <div class="swiper-button-prev swiper-button-prev-relatedproduct"
+                     style="color:white;background-color: rgb(213,212,212,0.80);height: 70px;width: 70px;border-radius: 100px"></div>
+            </div>
+        </div>
+        <div class="col-1">
+        </div>
+    </div>
+
+</div>
+
+{% include 'parts/footer.html' %}
+
+<script>
+    $(document).ready(function () {
+        $('#delevery').change(function () {
+            $deleveryid = $(this).val()
+            $.ajax({
+                url: '/deleveryfilter',
+                method: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{csrf_token }}',
+                    deleveryid: $deleveryid
+                },
+                success: function (e) {
+                    {#$('.deleveryrange').attr('mindays', e[0].mindays)#}
+                    {#$('.deleveryrange').attr('maxdays', e[0].maxdays)#}
+                    $('.deleveryrange').text(e.mindate + ' et ' + e.maxdate)
+                    $('.delevreyprice').text(e.price + ' Dh')
+
+                },
+                error: function (e) {
+                }
+            })
+        })
+        $('#filecontrole').change(function () {
+            $filecontroleid = $(this).val()
+            $.ajax({
+                url: '/filecontrolefilter',
+                method: 'POST',
+                data: {
+                    csrfmiddlewaretoken: '{{csrf_token }}',
+                    filecontroleid: $filecontroleid
+                },
+                success: function (e) {
+                    console.log(e)
+                    $('.controlefile').text(e.price + ' Dh')
+                },
+                error: function (e) {
+                }
+            })
+        })
+
+    })
+    var swiper = new Swiper(".swiper-container-product", {
+        cssMode: true,
+        navigation: {
+            nextEl: ".swiper-button-next-product",
+            prevEl: ".swiper-button-prev-product",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+        },
+        loop: true,
+        mousewheel: true,
+        keyboard: true,
+    });
+
+    /*****new items slider******/
+    var swiper = new Swiper('.swiper-container-newitems', {
+        slidesPerView: 5,
+        spaceBetween: 30,
+        {#slidesPerGroup: 3,#}
+        loop: true,
+        loopFillGroupWithBlank: true,
+        navigation: {
+            nextEl: '.swiper-button-next-relatedproduct',
+            prevEl: '.swiper-button-prev-relatedproduct',
+        },
+    });
+</script>
+</body>
+</html>

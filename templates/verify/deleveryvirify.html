@@ -1,0 +1,159 @@
+{% load static %}
+{% load CustomFilters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+    <title>Adresse verification</title>
+    <style>
+        * {
+            color: #333e48;
+        }
+
+        .deleverytab {
+            background-color: #3d3d3d !important;
+        }
+
+        .deleverytab span {
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+{% include 'parts/header.html' %}
+<div class="container">
+    {#    <p>Profile verification</p>#}
+    <div class="row mt-3 mb-3">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
+            <h2 class="mb-0 ms-2 me-2">FINALISATION DE COMMANDE</h2>
+            <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
+        </div>
+        <div class="col-12 text-end mt-2">
+            <a href="adresseverify" class="btn" style="background-color: #ffcf10">
+                <img src="{% static 'Icons/right-arrow.svg' %}" style="height: 20px">
+                Etape precedente
+            </a>
+        </div>
+    </div>
+    {% include 'parts/verificationtabs.html' %}
+    <div class="row pb-3" style="border:solid 1px #e0d6d6">
+        <div class="col-12 d-flex align-items-center py-2" style="background-color: #ffcf10">
+            <span class="justify-content-center text-center me-1 "
+                  style="width:30px;height:30px;background-color: #3d3d3d;border-radius: 100px;color: white">3</span>
+            <span style="font-weight: 700">Livraison Verification & controle de fichier</span>
+        </div>
+        <div class="col-12">
+            <form method="post" action="/livraisonverifyclick" class="container-fluid mt-4">
+                {% csrf_token %}
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <label for="delevery">Livraison</label>
+                    </div>
+                    <div class="col-4">
+                        <select id="delevery" name="delevery" class="form-select">
+                            {% for dilevy in dilevies %}
+                                <option value="{{ dilevy.id }}" deleveryid="{{ dilevy.id }}"
+                                        mindate="{{ dilevy.mindays }}"
+                                        maxdate="{{ dilevy.maxdays }}">
+                                    {{ dilevy.name | title }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-2">
+                        <label for="filecontrole">Contrôle des fichiers</label>
+                    </div>
+                    <div class="col-4">
+                        <select class="form-select" id="filecontrole" name="filecontrole">
+                            {% for fileControle in fileControles %}
+                                <option value="{{ fileControle.id }}">{{ fileControle.name }}({{ fileControle.price }}Mad)</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-3">
+                        <p class="mb-0 mt-2" style="font-size: 18px">Livraison prévue entre :</p>
+                        <p class="mb-0 mt-2" style="font-size: 18px">Prix Livraison </p>
+                        <p class="mb-0 mt-2" style="font-size: 18px">Prix de Controle </p>
+                    </div>
+                    <div class="col-6">
+                        <span class="mb-0 deleveryrange mt-2" style="font-size: 18px"
+                              deleveryid="{{ dilevies.first.id }}" mindays="{{ dilevies.first.mindays }}"
+                              maxdays="{{ dilevies.first.maxdays }}">
+                            {{ datetimenow |adddate:dilevies.first.mindays }}
+                            et {{ datetimenow| adddate:dilevies.first.maxdays }}
+                        </span>
+                        <p class="mb-0 delevreyprice mt-2"
+                           style="font-size: 18px">{{ dilevies.first.price }} Mad</p>
+                        <p class="mb-0 controlefile mt-2"
+                           style="font-size: 18px">{{ fileControles.first.price | floatformat }} Mad</p>
+                    </div>
+
+                </div>
+                <div class="row mt-4">
+                    <div class="col-12 text-end">
+                        <button class="btn" id="create"
+                                style="font-weight:700;background-color:#ffcf10;width: 320px;height: 45px ">Suivant
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% include 'parts/footer.html' %}
+
+<script>
+    $('#delevery').change(function () {
+        $deleveryid = $(this).val()
+        $.ajax({
+            url: '/livraisondelevertverify',
+            method: 'POST',
+            data: {
+                csrfmiddlewaretoken: '{{csrf_token }}',
+                deleveryid: $deleveryid,
+
+            },
+            success: function (e) {
+                {#$('.deleveryrange').attr('mindays', e[0].mindays)#}
+                {#$('.deleveryrange').attr('maxdays', e[0].maxdays)#}
+                $('.deleveryrange').text(e.mindate + ' et ' + e.maxdate)
+                $('.delevreyprice').text(e.price + ' Mad')
+            },
+            error: function (e) {
+                console.log(e.responseText)
+            }
+        })
+    })
+    $('#filecontrole').change(function () {
+        $filecontroleid = $(this).val()
+        $.ajax({
+            url: '/livraisonfilecontroleverify',
+            method: 'POST',
+            data: {
+                csrfmiddlewaretoken: '{{csrf_token }}',
+                filecontroleid: $filecontroleid,
+                quantity: $('#quantite').val(),
+                finitions: $('#finitions').val(),
+                papertype: $('#papertype').val(),
+                delevery: $('#hiddendeleveryprice').val(),
+            },
+            success: function (e) {
+                $('.controlefile').text(e.price + ' Mad')
+                $('#hiddencontrolefile').val(e.price)
+                $('.totalprice').text(e.total + 'MAD')
+            },
+            error: function (e) {
+                console.log(e.responseText)
+            }
+        })
+    })
+</script>
+</body>
+</html>

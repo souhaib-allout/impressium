@@ -1,0 +1,277 @@
+{% load CustomFilters %}
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+    <title>Panier</title>
+    <style>
+
+    </style>
+</head>
+<body>
+{% include 'parts/header.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="d-flex justify-content-between" style="height: 50px;background-color: #eeeeee">
+            <div></div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'Icons/Euro.png' %}" height="23" width="23"/>
+                <span style="font-size: 12px">DES PRIX COMPETITIFS</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'Icons/Truck.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">LIVRAISON OFFERTE</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'Icons/Correct.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">CONTROLE DES FICHIERS</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <img src="{% static 'Icons/Like.svg' %}" height="28" width="28"/>
+                <span style="font-size: 12px">PRODUITS DE QUALITE</span>
+            </div>
+            <div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid pt-4 pb-5" style="background-color: #eeeeee">
+    <div class="row mt-3 mb-3">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
+            <h2 class="mb-0 ms-2 me-2">MON PANIER</h2>
+            <hr style="width: 200px;height:2px;color: #ffcf10;opacity: 1"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 ps-5">
+            <a href="/" class="btn align-items-center pe-4 ps-4" style="background-color: #ffcf10;font-weight: 700">
+                <img src="{% static 'Icons/right-arrow.svg' %}" style="width: 20px"/>
+                <span>Continuer mes achats</span>
+            </a>
+        </div>
+        <div class="col-4 text-center">
+        </div>
+        <form method="post" action="" class="col-4 text-end pe-5">
+            {% csrf_token %}
+            <button class="btn align-items-center pe-4 ps-4" style="background-color: #fe0946;font-weight: 700">
+                <img src="{% static 'Icons/Correct3.svg' %}" style="width: 20px"/>
+                <span class="text-light">Commander</span>
+            </button>
+        </form>
+    </div>
+    <div class="row mt-4">
+        <div class="col-9 ps-5">
+            <table class="table table-bordered border-dark">
+                <thead>
+                <tr>
+                    <th class="text-center" scope="col">Nom du produit</th>
+                    <th class="text-center" scope="col">Livraison</th>
+                    <th class="text-center" scope="col">Fichiers</th>
+                    <th class="text-center" scope="col">Prix</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for cart in carts %}
+                    <tr>
+                        <td style="width: 30%">
+                            <p class="text-center" style="font-weight: 500">{{ cart.article.title }}</p>
+                            <p class="mb-0" style="font-weight: 500">Option :</p>
+                            {% if cart.size %}
+                                <p><span style="font-weight: 700;">Foramt :</span> {{ cart.size }}</p>
+                            {% endif %}
+                            {% if cart.formattype %}
+                                <p class="mb-0"><span
+                                        style="font-weight: 700;">Type de format:</span> {{ cart.formattype }}</p>
+                            {% endif %}
+                            {% if cart.paperType %}
+                                <p class="mb-0"><span
+                                        style="font-weight: 700;">Matière de format:</span> {{ cart.paperType }}</p>
+                            {% endif %}
+                            {% if cart.paperColor %}
+                                <p class="mb-0"><span
+                                        style="font-weight: 700;">Foram coleur:</span> {{ cart.paperColor }}</p>
+                            {% endif %}
+                            {% if cart.fontColor %}
+                                <p class="mb-0"><span style="font-weight: 700;">Font coleur: </span>{{ cart.fontColor }}
+                                </p>
+                            {% endif %}
+                            {% if cart.side %}
+                                <p class="mb-0"><span style="font-weight: 700;">Format de plance:</span> {{ cart.side }}
+                                </p>
+                            {% endif %}
+                            {% if cart.finition %}
+                                <p class="mb-0"><span style="font-weight: 700;">Finition: </span>{{ cart.finition }}</p>
+                            {% endif %}
+                            {% if cart.orientation %}
+                                <p class="mb-0"><span
+                                        style="font-weight: 700;">Orientation:</span> {{ cart.orientation }}</p>
+                            {% endif %}
+                            {% if cart.Quantity %}
+                                <p class="mb-0"><span style="font-weight: 700;">Quantité :</span> {{ cart.Quantity }}
+                                </p>
+                            {% endif %}
+                            {% if cart.CostumQuantity %}
+                                <p class="mb-0"><span
+                                        style="font-weight: 700;">Quantité :</span> {{ cart.CostumQuantity }}
+                                </p>
+                            {% endif %}
+                            <p class="mb-0"><span
+                                    style="font-weight: 700;">Contrôle des fichiers :</span> {{ cart.FileControle.name }}
+                            </p>
+                            <p class="mb-0"><span
+                                    style="font-weight: 700;">Choisissez votre délai :</span> {{ cart.delevery.name }}
+                            </p>
+                            <div class="mt-3 d-flex justify-content-between">
+                                <form method="post" action="/deleteppan">
+                                    <input type="hidden" name="cartid" id="cartid" value="{{ cart.id }}">
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger btn-sm">
+                                        <img src="{% static 'Icons/Trash.svg' %}" style="height: 17px"/>
+                                    </button>
+                                </form>
+                                <a href="/updatepanpage/{{ cart.article_id }}" class="btn btn-sm "
+                                   style="background-color: #d2cdcd">
+                                    <img src="{% static 'Icons/Croll.svg' %}" style="height: 17px"/>
+                                    Modifier
+                                </a>
+                                <form method="post" action="/duplicatepan">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="cartid" id="cartid" value="{{ cart.id }}">
+                                    <button type="submit" class="btn btn-sm " style="background-color: #d2cdcd">
+                                        <img src="{% static 'Icons/Duplicate.svg' %}" style="height: 17px"/>
+                                        Duplicate
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                        <td class="text-center" style="width: 30%;font-weight: 500">
+                            <p>Entre {{ d|adddate:cart.delevery.mindays }} et {{ d|adddate:cart.delevery.maxdays }}
+                                ({{ cart.delevery | title }})
+                            </p>
+                        </td>
+                        <td class="py-5"
+                            style="width: 30%;background-color: rgb(168,220,248,0.8);border: 1px black dotted;height: 100%">
+                            <form method="post" enctype="multipart/form-data" class="uploadfile "
+                                  style="">
+                                {% csrf_token %}
+                                <input type="hidden" name="paneid" value="{{ cart.id }}">
+                                <label class="text-center" for="file{{ forloop.counter }}"
+                                       style="cursor:pointer;">
+                                    <img src="{% static 'icons/upload.svg' %}" style="width: 75px"><br>
+                                    <p class="mt-3">Faites glisser vos fichiers ou cliquer ici pour les envoyer</p>
+                                    <p>Formats acceptés : pdf, jpg ou jpeg</p>
+                                </label>
+                                <input class="d-none " type="file" name="file"
+                                       id="file{{ forloop.counter }}" paneid="{{ cart.id }}">
+                                <div class="fileinfo text-center">
+                                    {% if cart.ArticleDesign %}
+                                        <div class="d-flex flex-column justify-content-center py-2 mx-4"
+                                             style="border-radius:10px;font-size:18px;background-color: #e6e6e6;">
+                                            <p>
+                                                {{ cart.ArticleDesign.name|split }}
+
+                                            </p>
+                                            <p>{{ cart.ArticleDesign.size |filesizeformat }} </p>
+                                        </div>
+
+                                    {% endif %}
+                                </div>
+                            </form>
+                            {% if cart.ArticleDesign %}
+                                <form method="post" action="deletefileuploaded" class="text-center">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="deletepaneid" value="{{ cart.id }}">
+                                    <button class="btn btn-danger btn-sm mt-3">Supprimer</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                        <td style="width: 10%">
+                            {{ cart.total }} Mad
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-3 text-center">
+            <div class="pt-3 pb-3 pe-3 ps-3" style="border: solid 1px black">
+                <p style="text-decoration: underline #ffcf10 4px;font-size:20px;font-weight: 600">Mon code promo</p>
+                <div class="d-flex">
+                    <input type="text" class="form-control">
+                    <button class="btn" style="background-color: #ffcf10;font-weight: 600">Ok</button>
+                </div>
+            </div>
+            <div class="pt-3 pb-3 pe-3 ps-3 mt-3" style="border: solid 1px black">
+                <div class="d-flex justify-content-lg-between ">
+                    <span style="font-size:20px;font-weight: 600">Livraison</span>
+                    <span style="font-size:20px;font-weight: 600">Offert</span>
+                </div>
+                <div class="d-flex justify-content-lg-between mt-2">
+                    <span style="font-size:20px;font-weight: 600">Total</span>
+                    <span style="font-size:20px;font-weight: 600">
+                    {{ total | floatformat }}
+                        MAD
+                    </span>
+                </div>
+                <form method="post" action="/commande" class="mt-3">
+                    {% csrf_token %}
+                    <button class="btn text-light pe-4 ps-4" style="background-color: #fe0946">
+                        <img src="{% static 'Icons/Correct3.svg' %}" style="width: 20px"/>
+                        <span class="ps-2">Commander</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% include 'parts/footer.html' %}
+
+<script>
+    $(document).ready(function () {
+        $('.uploadfile').change(function () {
+            {#$size = $(this).files[0].size / 1024 / 1024#}
+            {#$splitsize = ($size + '').split(".")#}
+            {#$splitsize = $splitsize[0] + '.' + $splitsize[1].substr(0, 2)#}
+            {#$name = $(this).val().split('\\').pop()#}
+            $this = $(this)
+            var form = new FormData(this)
+            $.ajax({
+                url: '/addfiletopane',
+                method: 'POST',
+                data: form,
+                {#data: {#}
+                {#    csrfmiddlewaretoken: '{{csrf_token }}',#}
+                {#    paneid: $(this).attr('paneid'),#}
+                {#    file: $(this).val()#}
+                {# }, #}
+                success: function (e) {
+                    console.log(e[0].name)
+                    $this.children('.fileinfo').html('')
+                    $this.children('.fileinfo').html('<div class="d-flex flex-column justify-content-center py-2 mx-4" style="border-radius:10px;font-size:18px;background-color: #e6e6e6;">' +
+                        '<p>' + e[0].name + '</p>' +
+                        '<p>' + e[0].size + ' KB </p>' +
+                        '</div> ')
+                    $this.children('.fileinfo').append('<button class="btn btn-danger btn-sm mt-3">Supprimer</button>')
+                },
+                error: function (e) {
+                    console.log(e)
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+
+            })
+
+        })
+    })
+
+</script>
+</body>
+</html>
