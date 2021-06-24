@@ -1,0 +1,129 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+    <title>Mes commandes</title>
+     <style>
+        .commandestab{
+            background-color: #ffcf10;
+        }
+    </style>
+</head>
+<body>
+{% include 'parts/header.html' %}
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-3">
+            {% include 'parts/clientnavbar.html' %}
+        </div>
+        <div class="col-9 " style="">
+            <form method="post" action="/updateadresse" class="container-fluid mt-4">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center align-items-center pt-2 pb-2"
+                         style="background-color: #1e202c;color: white">
+                        <img src="{% static 'Icons/Box2.svg' %}" class="me-3" style="width: 30px;height: 30px">
+                        <p class="mb-0" style="font-size: 20px;font-weight: 900">Mes commandes</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <table class="table table-bordered" style="">
+                        <thead class="table-light">
+                        <tr>
+                            <th scope="col" style="">Nom du produit</th>
+                            <th>Livraison</th>
+                            <th scope="col" style="">Total</th>
+                            <th scope="col" style="">Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for commade in commades %}
+                            <tr>
+                                <td>
+                                    {% for pane in commade.Pane.all %}
+                                        <div class="py-3" {% if forloop.last == False %}style="border-bottom: solid 1px #aca8a8" {% endif %}>
+                                            <p class="mb-2" style="font-size: 20px;font-weight: 700">{{ pane.article.title |title }}</p>
+                                            <div class="ps-2">
+                                                {% if pane.size %}
+                                                    <p><span>Foramt :</span>
+                                                        {{ pane.size }}
+                                                    </p>
+                                                {% endif %}
+                                                {% if pane.formattype %}
+                                                    <p class="mb-0"><span>Type de format:</span> {{ pane.formattype }}
+                                                    </p>
+                                                {% endif %}
+                                                {% if pane.paperType %}
+                                                    <p class="mb-0"><span>Matière de format:</span> {{ pane.paperType }}
+                                                    </p>
+                                                {% endif %}
+                                                {% if pane.paperColor %}
+                                                    <p class="mb-0"><span>Foram coleur:</span> {{ pane.paperColor }}
+                                                    </p>
+                                                {% endif %}
+                                                {% if pane.fontColor %}
+                                                    <p class="mb-0"><span>Font coleur: </span>{{ pane.fontColor }}
+                                                    </p>
+                                                {% endif %}
+                                                {% if pane.side %}
+                                                    <p class="mb-0"><span>Format de plance:</span> {{ pane.side }}
+                                                    </p>
+                                                {% endif %}
+                                                {% if pane.finition %}
+                                                    <p class="mb-0"><span>Finition: </span>{{ pane.finition }}
+                                                    </p>
+                                                {% endif %}
+                                                {% if pane.orientation %}
+                                                    <p class="mb-0"><span>Orientation:</span> {{ pane.orientation }}
+                                                    </p>
+                                                {% endif %}
+                                                {% if pane.Quantity %}
+                                                    <p class="mb-0"><span>Quantité :</span> {{ pane.Quantity }}
+                                                    </p>
+                                                {% endif %}
+                                                {% if pane.CostumQuantity %}
+                                                    <p class="mb-0"><span>Quantité :</span> {{ pane.CostumQuantity }}
+                                                    </p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </td>
+                                <td>{{ commade.delevery.name }} ({{ commade.delevery.price }} MAD)</td>
+                                <td>{{ commade.total }} MAD</td>
+                                <td>{{ commade.created_at }}</td>
+                            </tr>
+                        {% endfor %}
+
+                        {#                        <tr>#}
+                        {#                            <th>Total</th>#}
+                        {#                            <th>{{ total }} MAD</th>#}
+                        {#                        </tr>#}
+                        </tbody>
+                    </table>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% include 'parts/footer.html' %}
+<script>
+    $(document).ready(function () {
+        $('#changepasswpord').prop("checked", false)
+        $('.changepasswpord').click(function () {
+            if ($('#changepasswpord').prop('checked')) {
+                $('.passpordarea').show()
+            } else {
+                $('.passpordarea').hide()
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

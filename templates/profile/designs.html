@@ -1,0 +1,78 @@
+{% load static %}
+{% load CustomFilters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include 'parts/files.html' %}
+    <title>Mes designs</title>
+      <style>
+        .designtabs{
+            background-color: #ffcf10;
+        }
+    </style>
+</head>
+<body>
+{% include 'parts/header.html' %}
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-3">
+            {% include 'parts/clientnavbar.html' %}
+        </div>
+        <div class="col-9 ps-0" style="">
+            <div class="row">
+                <div class="col-12 d-flex justify-content-center align-items-center pt-2 pb-2"
+                     style="background-color: #1e202c;color: white">
+                    <img src="{% static 'Icons/Art2.svg' %}" class="me-3" style="width: 30px;height: 30px">
+                    <p class="mb-0" style="font-size: 20px;font-weight: 900">Mes designs</p>
+                </div>
+            </div>
+            {% if designs %}
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col">design</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for design in designs %}
+                        <tr>
+                            <td>
+                                <form method="post" action="/downloadmydesign">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="paneid" value="{{ design.id }}">
+                                    <button style="background-color: transparent;border: none">
+                                        {{ design.ArticleDesign.name|split }}
+                                    </button>
+                                </form>
+                            </td>
+                            <td>{{ design.created_at }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            {% else %}
+                <p class="text-center mt-5" style="font-size: 25px">Vous avez 0 design(s)</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% include 'parts/footer.html' %}
+<script>
+    $(document).ready(function () {
+        $('#changepasswpord').prop("checked", false)
+        $('.changepasswpord').click(function () {
+            if ($('#changepasswpord').prop('checked')) {
+                $('.passpordarea').show()
+            } else {
+                $('.passpordarea').hide()
+            }
+        })
+    })
+
+</script>
+</body>
+</html>
