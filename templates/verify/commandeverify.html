@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     {% include 'parts/files.html' %}
-    <title>Adresse verification</title>
+    <title>Commander</title>
     <style>
         * {
             color: #333e48;
@@ -44,6 +44,92 @@
             <span class="justify-content-center text-center me-1 "
                   style="width:30px;height:30px;background-color: #3d3d3d;border-radius: 100px;color: white">5</span>
             <span style="font-weight: 700">Commander</span>
+        </div>
+        <div class="col-12">
+            <div class="px-3 py-3" style="font-size: 14px">
+                <table class="table table-bordered" style="">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col" style="width: 80%">Nom du produit</th>
+                        <th scope="col" style="width: 20%">Sous-total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for cart in carts %}
+                        <tr>
+                            <td>
+                                <p class="mb-1">{{ cart.article.title |title }}</p>
+                                <p class="mb-0" style="font-weight: 700">Options : </p>
+                                <div class="ps-2">
+                                    {% if cart.size %}
+                                        <p><span style="font-weight: 700;">Foramt :</span> {{ cart.size }}</p>
+                                    {% endif %}
+                                    {% if cart.formattype %}
+                                        <p class="mb-0"><span
+                                                style="font-weight: 700;">Type de format:</span> {{ cart.formattype }}
+                                        </p>
+                                    {% endif %}
+                                    {% if cart.paperType %}
+                                        <p class="mb-0"><span
+                                                style="font-weight: 700;">Matière de format:</span> {{ cart.paperType }}
+                                        </p>
+                                    {% endif %}
+                                    {% if cart.paperColor %}
+                                        <p class="mb-0"><span
+                                                style="font-weight: 700;">Foram coleur:</span> {{ cart.paperColor }}</p>
+                                    {% endif %}
+                                    {% if cart.fontColor %}
+                                        <p class="mb-0"><span
+                                                style="font-weight: 700;">Font coleur: </span>{{ cart.fontColor }}
+                                        </p>
+                                    {% endif %}
+                                    {% if cart.side %}
+                                        <p class="mb-0"><span
+                                                style="font-weight: 700;">Format de plance:</span> {{ cart.side }}
+                                        </p>
+                                    {% endif %}
+                                    {% if cart.finition %}
+                                        <p class="mb-0"><span
+                                                style="font-weight: 700;">Finition: </span>{{ cart.finition }}</p>
+                                    {% endif %}
+                                    {% if cart.orientation %}
+                                        <p class="mb-0"><span
+                                                style="font-weight: 700;">Orientation:</span> {{ cart.orientation }}</p>
+                                    {% endif %}
+                                    {% if cart.Quantity %}
+                                        <p class="mb-0"><span
+                                                style="font-weight: 700;">Quantité :</span> {{ cart.Quantity }}
+                                        </p>
+                                    {% endif %}
+                                    {% if cart.CostumQuantity %}
+                                        <p class="mb-0"><span
+                                                style="font-weight: 700;">Quantité :</span> {{ cart.CostumQuantity }}
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td>{{ cart.total }} MAD</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <th>Livraison</th>
+                        <th>{{ carts.first.delevery.price }} MAD</th>
+                    </tr>
+                     <tr>
+                        <th>Total</th>
+                        <th>{{ total }} MAD</th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <form method="POST" action="/commande" class="row mt-4">
+                {% csrf_token %}
+                <div class="col-12 text-end">
+                    <button class="btn" id="create"
+                            style="font-weight:700;background-color:#ffcf10;width: 320px;height: 45px ">Commander
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

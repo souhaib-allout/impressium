@@ -224,10 +224,35 @@ class Specification(models.Model):
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
-        return self.article.title
+        quanity = self.Quantity.first().nb
+        if self.finition is None:
+            finition = 1
+        else:
+            finition = self.finition.first().price
+        if self.paperType is None:
+            paperType = 1
+        else:
+            paperType = self.paperType.first().price
+
+        return (quanity * finition * paperType)
+        # return self.article.title
 
     class Meta:
         verbose_name = 'Specification'
+
+    @property
+    def minprice(self):
+        quanity = self.Quantity.first().nb
+        if self.finition is None:
+            finition = 1
+        else:
+            finition = self.finition.first().price
+        if self.paperType is None:
+            paperType = 1
+        else:
+            paperType = self.paperType.first().price
+
+        return (quanity*finition*paperType)
 
 
 class Bestarticle(models.Model):
@@ -282,7 +307,7 @@ class Pane(models.Model):
     user = models.ForeignKey(User, related_name='UserPane', on_delete=models.CASCADE)
     FileControle = models.ForeignKey(FileControle, related_name='FileControlePane', on_delete=models.CASCADE)
     delevery = models.ForeignKey(Delivery, related_name='DeleveryPane', on_delete=models.CASCADE)
-    ArticleDesign = models.FileField(verbose_name='Nom', upload_to='static/pane_images', null=True, blank=True)
+    ArticleDesign = models.FileField(verbose_name='Nom', upload_to='static/pane_images', null=True)
     size = models.ForeignKey(Size1, verbose_name='Size', related_name="SizePane", null=True, blank=True,
                              on_delete=models.CASCADE)
     formattype = models.ForeignKey(FormatType, verbose_name='Forma type',
@@ -307,26 +332,33 @@ class Pane(models.Model):
     def __str__(self):
         return str(self.article)
 
+    @property
     def total(self):
-        if self.Quantity:
+        if self.Quantity is not None:
             quanity = self.Quantity
-        elif self.CostumQuantity != '':
+        elif self.CostumQuantity is not None:
             quanity = self.CostumQuantity
-
-        if self.finition:
-            finition = self.finition.price
         else:
+            quanity=1
+        if self.finition is None:
             finition = 1
-        if self.paperType:
-            paperType = self.paperType.price
         else:
+            finition = self.finition.price
+        if self.paperType is None:
             paperType = 1
+        else:
+            paperType = self.paperType.price
         FileControle = float(self.FileControle.price)
         price = float(self.delevery.price)
-        return (finition * quanity * paperType) + FileControle + price
+        return (finition * quanity * paperType) + FileControle
 
 
 class Commande(models.Model):
     Pane = models.ManyToManyField(Pane, related_name='panes')
-    User=models.ForeignKey(User, related_name='user',on_delete=models.CASCADE)
+    User = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
+    total = models.FloatField()
+    delevery = models.ForeignKey(Delivery, related_name='Deleverycommande', on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=datetime.datetime.now)
+
+    class Meta:
+        ordering = ['-created_at']

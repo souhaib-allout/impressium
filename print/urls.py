@@ -36,12 +36,14 @@ urlpatterns = [
     path('onsearch', views.onsearch, name='onsearch'),
 
     path('download', views.download),
+    path('downloadpreparemyfile', views.downloadpreparemyfile),
 
     path('addtppan', views.addtppan),
     path('addfiletopane', views.addfiletopane),
     path('deletefileuploaded', views.deletefileuploaded),
 
     path('commande', views.commande),
+    path('mes_commendes', views.mes_commendes),
 
     path('infoverify', views.infoverify),
     path('infoverifyclick', views.infoverifyclick),
@@ -69,6 +71,7 @@ urlpatterns = [
     path('cart', views.cart),
     path('deleveryfilter', views.deleveryfilter),
     path('filecontrolefilter', views.filecontrolefilter),
+    path('cartdeleveryprice', views.cartdeleveryprice),
 
 
     path('contact', views.contact),
@@ -89,4 +92,10 @@ urlpatterns = [
 
     path('adresses', views.adresses),
     path('updateadresse', views.updateadresse),
+
+    path('mes_designs', views.mydesigns),
+    path('downloadmydesign', views.downloadmydesign),
+
+    path('test', views.test),
+
 ]

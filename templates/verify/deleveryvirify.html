@@ -63,35 +63,21 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-2">
-                        <label for="filecontrole">Contrôle des fichiers</label>
-                    </div>
-                    <div class="col-4">
-                        <select class="form-select" id="filecontrole" name="filecontrole">
-                            {% for fileControle in fileControles %}
-                                <option value="{{ fileControle.id }}">{{ fileControle.name }}({{ fileControle.price }}Mad)</option>
-                            {% endfor %}
-                        </select>
-
-                    </div>
                 </div>
                 <div class="row mt-5">
                     <div class="col-3">
                         <p class="mb-0 mt-2" style="font-size: 18px">Livraison prévue entre :</p>
                         <p class="mb-0 mt-2" style="font-size: 18px">Prix Livraison </p>
-                        <p class="mb-0 mt-2" style="font-size: 18px">Prix de Controle </p>
                     </div>
                     <div class="col-6">
-                        <span class="mb-0 deleveryrange mt-2" style="font-size: 18px"
+                        <p class="mb-0 deleveryrange mt-2" style="font-size: 18px"
                               deleveryid="{{ dilevies.first.id }}" mindays="{{ dilevies.first.mindays }}"
                               maxdays="{{ dilevies.first.maxdays }}">
                             {{ datetimenow |adddate:dilevies.first.mindays }}
                             et {{ datetimenow| adddate:dilevies.first.maxdays }}
-                        </span>
+                        </p>
                         <p class="mb-0 delevreyprice mt-2"
                            style="font-size: 18px">{{ dilevies.first.price }} Mad</p>
-                        <p class="mb-0 controlefile mt-2"
-                           style="font-size: 18px">{{ fileControles.first.price | floatformat }} Mad</p>
                     </div>
 
                 </div>

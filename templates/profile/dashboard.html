@@ -4,7 +4,12 @@
 <head>
     <meta charset="UTF-8">
     {% include 'parts/files.html' %}
-    <title>Profile</title>
+    <title>board</title>
+    <style>
+        .boardtab{
+            background-color: #ffcf10;
+        }
+    </style>
 </head>
 <body>
 {% include 'parts/header.html' %}
@@ -41,7 +46,7 @@
                         <p>{{ user.email }}</p>
                     </div>
                     <div>
-                        <a href="{{ /profile }}" class="btn" style="background-color: #ffcf10">Modifier le mot de passe</a>
+                        <a href="/profile" class="btn" style="background-color: #ffcf10">Modifier le mot de passe</a>
                     </div>
 
                 </div>
@@ -67,40 +72,21 @@
                         <p class="mb-0">Vous n'avez pas spécifié d'adresse de livraison par défaut. .</p>
                         <a href="" class="btn mt-3" style="background-color: #ffcf10">Modifier</a></div>
                 </div>
-
-
             </div>
-
             <div class="row" style="border: solid 1px black;margin-top: 50px;padding-bottom: 20px">
                 <div class="col-12 d-flex align-items-center"
                      style="background-color: #1e202c;color: white;min-height: 50px">
-                    <img src="{% static 'Icons/euro2.png' %}" class="me-4"
+                    <img src="{% static 'Icons/Box2.svg' %}" class="me-4"
                          style="width:25px;height:25px;fill: white"/>
-                    <p class="me-4 mb-0">Ma cagnotte</p>
-                    <a href="" class="btn btn-light">DETAILS</a>
+                    <p class="me-4 mb-0">Commandes</p>
+                    <a href="/mes_commendes" class="btn btn-light">DETAILS</a>
                 </div>
                 <div class="col-12 text-center"
                      style="padding-left: 50px;padding-top: 30px;">
-                    <p style="font-weight: 600;font-size: 18px ">Je dispose de : 0</p>
-                </div>
-
-
-            </div>
-
-            <div class="row" style="border: solid 1px black;margin-top: 50px;padding-bottom: 20px">
-                <div class="col-12 d-flex align-items-center"
-                     style="background-color: #1e202c;color: white;min-height: 50px">
-                    <img src="{% static 'Icons/2Users2.svg' %}" class="me-4"
-                         style="width:25px;height:25px;fill: white"/>
-                    <p class="me-4 mb-0">Parrainage</p>
-                    <a href="" class="btn btn-light">DETAILS</a>
-                </div>
-                <div class="col-12 text-center"
-                     style="padding-left: 50px;padding-top: 30px;">
-                    <p style="font-weight: 600;font-size: 18px ">Filleul(s) actif(s) : 0</p>
+                    <p style="font-weight: 600;font-size: 18px ">Mes commandes : {{ nbcommandes| length }}</p>
                     <div class="d-flex justify-content-evenly">
-                        <a href="" class="btn" style="background-color: #ffcf10">Comment parrainer ?</a>
-                        <a href="" class="btn" style="background-color: #ffcf10">Parrainez des amis</a>
+                        <a href="mes_commendes" class="btn" style="background-color: #ffcf10">Voir mes commande</a>
+                        <a href="/" class="btn" style="background-color: #ffcf10">Voir notre produits</a>
                     </div>
                 </div>
 

@@ -4,7 +4,10 @@ from wsgiref.util import FileWrapper
 
 from django.contrib.auth import authenticate, login as loginnow, logout
 from django.contrib.auth.hashers import check_password, make_password
+from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
+
 from clientside.models import *
 from django.http import HttpResponse, JsonResponse, FileResponse
 from django.contrib.auth.models import User
@@ -74,7 +77,8 @@ def logoutcheck(request):
 
 def dashboard(request):
     categories = Category.objects.all()
-    return render(request, 'profile/dashboard.html', {'categories': categories})
+    nbcommandes=Commande.objects.filter(User=request.user).all()
+    return render(request, 'profile/dashboard.html', {'categories': categories,'nbcommandes':nbcommandes})
 
 
 def profile(request):
@@ -126,6 +130,17 @@ def updateadresse(request):
 
     return redirect('/')
 
+def mydesigns(request):
+    designs = Pane.objects.filter(user=request.user,ArticleDesign__isnull=False).all()
+    return render(request, 'profile/designs.html', {'designs': designs})
+
+def downloadmydesign(request):
+    if(request.method=='POST'):
+        designs = Pane.objects.get(id=request.POST['paneid'],user=request.user)
+        return FileResponse(open(designs.ArticleDesign.name,'rb'))
+    else:
+        return redirect('/mes_designs')
+
 
 def contact(request):
     categories = Category.objects.all()
@@ -146,7 +161,7 @@ def products(request):
 
     # return JsonResponse(products[0]['ArticleImage'])
 
-    return render(request, 'products.html',
+    return render(request, 'product/products.html',
                   {'products': products, 'swiper-bundle.Css': 'good', 'categories': categories})
 
 
@@ -195,10 +210,10 @@ def updatepanpage(request, id):
 def productsbyCategory(request, category):
     categories = Category.objects.all()
     products = Article.objects.filter(childcategory__name=category).all()
-    categoryid = ChildCategory.objects.get(name=category).id
+    categoryid = ChildCategory.objects.filter(name=category).first().id
     CategoryHistory.objects.create(childcategory_id=categoryid)
-    category = ChildCategory.objects.get(name=category)
-    return render(request, 'products.html',
+    category = ChildCategory.objects.filter(name=category).first()
+    return render(request, 'product/products.html',
                   {'products': products, 'swiper-bundle.Css': 'good', 'categories': categories, 'category': category})
 
 
@@ -219,9 +234,10 @@ def search(request):
 
 def onsearch(request):
     if request.method == 'POST':
-        lists = Article.objects.filter(title__contains=request.POST['searchtext']).values('title',
+        total=Specification.objects.first().minprice
+        lists = Article.objects.filter(title__icontains=request.POST['searchtext']).values('title',
                                                                                           'articleimages__name',
-                                                                                          'Sizearticle__price')[0:6]
+                                                                                          'SpecificationArticle')[0:6]
         return JsonResponse(list(lists), safe=False)
     else:
         return HttpResponse('baaad')
@@ -239,6 +255,8 @@ def download(request):
 
     return FileResponse(open('static/files/file1.pdf', 'rb'))
 
+def downloadpreparemyfile(request):
+    return FileResponse(open('static/files/fileprepare.pdf', 'rb'))
 
 def addtppan(request):
     if (request.method == 'POST'):
@@ -391,23 +409,32 @@ def cart(request):
     # datetime.datetime.now()+datetime.timedelta
     total = 0
     for cart in carts:
-        if cart.finition != None:
-            finition = cart.finition.price
-        else:
-            finition = 1
-        if cart.paperType != None:
-            paperType = cart.paperType.price
-        else:
-            paperType = 1
+        total += cart.total + cart.FileControle.price
+    dilevies = Delivery.objects.all()
+    total += dilevies.first().price
+    datetimenow = str(datetime.datetime.now().strftime('%A %d %B'))
+    return render(request, 'product/cart.html',
+                  {'carts': carts, 'total': total, 'dilevies': dilevies, 'datetimenow': datetimenow})
 
-        if cart.Quantity != None:
-            quantity = cart.Quantity
-        else:
-            quantity = cart.CostumQuantity
 
-        total += (finition * paperType * quantity) + cart.delevery.price + cart.FileControle.price
+def cartdeleveryprice(request):
+    if request.method == "POST":
+        delevery = Delivery.objects.get(id=request.POST['deleveryid'])
+        carts = Pane.objects.filter(user=request.user)
+        total=0
+        for cart in carts:
+            total=total+cart.total
+        total+=delevery.price
+        data = json.dumps({
+            'mindate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.mindays)).strftime('%A %d %B')),
+            'maxdate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.maxdays)).strftime('%A %d %B')),
+            'price': delevery.price,
+            'total':total
+        })
 
-    return render(request, 'product/cart.html', {'carts': carts, 'total': total})
+        return HttpResponse(data, content_type='application/json')
+    else:
+        return redirect('/')
 
 
 def deleveryfilter(request):
@@ -512,10 +539,12 @@ def commande(request):
         commande = Commande.objects.create(User=request.user)
         for pane in panes:
             commande.Pane.add(pane)
-        return HttpResponse('pane')
+        return redirect('mes_commendes')
     else:
         return redirect('/')
-
+def mes_commendes(request):
+    commades=Commande.objects.filter(User=request.user).all()
+    return render(request,'profile/commandes.html',{'commades':commades})
 
 def infoverify(request):
     return render(request, 'verify/infoverify.html')
@@ -593,19 +622,43 @@ def livraisonfilecontroleverify(request):
 
 def livraisonverifyclick(request):
     if request.method == 'POST':
-        pane=Pane.objects.filter(user_id=request.user.id).update(delevery=request.POST['delevery'],FileControle=request.POST['filecontrole'])
-        return redirect('payementverify')
+        pane = Pane.objects.filter(user_id=request.user.id).update(delevery=request.POST['delevery'])
+        return redirect('/payementverify')
     else:
-        return redirect('cart')
+        return redirect('/cart')
+
 
 def payementverify(request):
     return render(request, 'verify/payementverify.html')
 
+
 def payementverifyclick(request):
-    return HttpResponse('ff')
+    return redirect('/commandeverify')
+
 
 def commandeverify(request):
-    return render(request, 'verify/commandeverify.html')
+    carts=Pane.objects.filter(user_id=request.user.id).all()
+    total=0
+    for cart in carts:
+        total = total + cart.total
+    delevery=carts.first().delevery.price
+    total += delevery
+    return render(request, 'verify/commandeverify.html',{'carts':carts,'total':total})
+
 
 def commandeverifyclick(request):
     return HttpResponse('ff')
+
+def test(request):
+    body=render_to_string('mails/signupMail.html')
+    msg=EmailMessage('test', body,'info@impresiion.com' ,['del.souhaib@gmail.com'])
+    msg.content_subtype = "html"
+    msg.send()
+    # send_mail(
+    #     'Subject here',
+    #     body,
+    #     'info@impresiion.com',
+    #     ['del.souhaib@gmail.com'],
+    #     fail_silently=False,
+    # )
+    return HttpResponse('good')

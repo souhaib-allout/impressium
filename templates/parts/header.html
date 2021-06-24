@@ -110,14 +110,16 @@
                     <div class="d-flex dropdowntoggle  flex-column justify-items-center text-dark align-items-center me-5 text-decoration-none"
                          data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{% static 'Icons/User.svg' %}" height="24" width="24"/>
-                        <span style="font-size: 15px;font-weight: 600;">Mon Compte</span>
+                        <span style="font-size: 15px;font-weight: 600;">
+                            Mon Compte
+                        </span>
                     </div>
                     <ul class="dropdown-menu comptedropdownmenue" style="background-color: #1e202c;">
                         <li><a class="dropdown-item text-light" href="/profile">Mon compte</a></li>
-                        <li><a class="dropdown-item text-light" href="#">Mes commandes</a></li>
+                        <li><a class="dropdown-item text-light" href="/mes_commendes">Mes commandes</a></li>
                         <li><a class="dropdown-item text-light" href="#">Mes devis</a></li>
                         <li><a class="dropdown-item text-light" href="/adresses">Mes adresses</a></li>
-                        <li><a class="dropdown-item text-light" href="#">Mes designs</a></li>
+                        <li><a class="dropdown-item text-light" href="/mes_designs">Mes designs</a></li>
                         <li><a class="dropdown-item text-light" href="/logoutcheck">Se déconnecter</a></li>
                     </ul>
                 </div>
@@ -125,14 +127,19 @@
                 <a href="/login"
                    class="d-flex flex-column justify-items-center text-dark align-items-center me-5 text-decoration-none">
                     <img src="{% static 'Icons/User.svg' %}" height="24" width="24"/>
-                    <span style="font-size: 15px;font-weight: 600;">Se connecter</span>
+                    <span style="font-size: 15px;font-weight: 600;">
+                        Se connecter
+                    </span>
                 </a>
             {% endif %}
-            <a href="/cart" class="d-flex text-dark flex-column justify-content-center align-items-center me-5 text-decoration-none">
-                <div>
-                    <img src="{% static 'Icons/Bag.svg' %}" height="24" width="24"/>
+            <a href="/cart" class="d-flex text-decoration-none me-5">
+                <div class="d-flex text-dark flex-column justify-content-center align-items-center  ">
+                    <div>
+                        <img src="{% static 'Icons/Bag.svg' %}" height="24" width="24"/>
+                    </div>
+                    <span style="font-size: 15px;font-weight: 600;">Panier</span>
                 </div>
-                <span style="font-size: 15px;font-weight: 600;">Panier</span>
+                <div class="pt-0 text-center" style="border-radius:100px;background-color: #ffcf10;width: 20px;height:20px">{{ nbpanes|length }}</div>
             </a>
             <div class="d-flex flex-column justify-content-center me-4 ">
                 <span style="font-family: 'Lobster', cursive;" class="mb-1 text-center">Avis verifier</span>
@@ -185,7 +192,7 @@
                         <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
                             style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
                             <div class="d-flex  justify-content-evenly">
-                              {% for topcategorie in topcategories %}
+                                {% for topcategorie in topcategories %}
                                     <li><a class="dropdown-item "
                                            href="/products/{{ topcategorie.childcategory__name }}">{{ topcategorie.childcategory__name }}</a>
                                     </li>
@@ -248,25 +255,26 @@
             $.ajax({
                 method: 'POST',
                 {#dataType: 'json',#}
-                url: '{% url "onsearch" %}',
+                url: '/onsearch',
                 data: {
                     csrfmiddlewaretoken: '{{ csrf_token }}',
                     searchtext: $searchtext
                 },
                 success: function (e) {
+                    console.log(e)
                     $('.onsearchresults').html('')
                     $.each(e, function (index, value) {
                         $('.onsearchresults').append('' +
                             '<div class="card mb-3 border-0" style="width: 50%">' +
                             '     <div class="row g-0">' +
                             '        <div class="col-md-4">' +
-                            '           <img src="' + value.articleimages__name.url + '" class="img-fluid" alt="...">' +
+                            '           <img src="' + value.articleimages__name + '" class="img-fluid" alt="...">' +
                             '      </div>' +
                             '     <div class="col-md-8">' +
                             '        <div class="card-body  ps-1 p-0">' +
                             '           <p class="mb-0" style="font-size: 17px">' + value.title + '</p>' +
                             '          <p class="mb-0">A partir de</p>' +
-                            '         <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">' + value.Sizearticle__price +
+                            '         <p class="" style="color: #21adac;font-size: 20px;font-weight: 800">' + value.SpecificationArticle +
                             '            Euro</p>' +
                             '   </div>' +
                             '</div>' +

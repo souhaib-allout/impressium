@@ -183,8 +183,8 @@
                         <img src="{% static 'icons/arrowbottom.svg' %}" style="width: 20px;height: 20px"/>
                     </div>
                     <div class="collapse mt-3" id="préparermesfichiers">
-                        <button class="btn pe-0 ps-0" style="background-color:#ffcf10 ">Aide à la préparation de fichier
-                        </button>
+                        <a href="/downloadpreparemyfile" class="btn pe-0 ps-0" style="background-color:#ffcf10 ">Aide à la préparation de fichier
+                        </a>
                     </div>
                 </div>
                 {% if product.SpecificationArticle.customDesign == 1 %}
@@ -406,7 +406,7 @@
                 <p class="text-center mb-2" style="text-decoration: underline #ffcf10;font-weight: 600;font-size: 22px">
                     Un besoin spécifique ?</p>
                 <p class="mb-2">Vous ne trouvez pas un produit sur le site ?</p>
-                <button class="btn" style="background-color: #abbac2">Demande de devis</button>
+                <a href="/contact" class="btn" style="text-decoration:none;background-color: #abbac2">Demande de devis</a>
             </div>
         </div>
     </form>
