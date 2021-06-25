@@ -1,0 +1,117 @@
+{% load static %}
+<style>
+    * {
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+    }
+
+    .table {
+        padding: .5rem .5rem;
+        background-color: var(--bs-table-bg);
+        border-bottom-width: 1px;
+        box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+        border-collapse: collapse;
+
+    }
+
+    tbody, td, tfoot, th, thead, tr {
+        border-color: inherit;
+        border-style: solid;
+        border-width: 1;
+    }
+
+    .table > :not(caption) > * > * {
+        padding: .5rem .5rem;
+        background-color: var(--bs-table-bg);
+        border-bottom-width: 1px;
+        box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+    }
+
+    th {
+        text-align: inherit;
+    }
+</style>
+<div>
+    <img src="http://localhost:8000/static/Icons/logo.svg" height="75" alt="logo" style="margin-bottom: 30px"/>
+    <p>
+        Bonjour {{ user }}, votre achat a été un succès nous vous contacterons dans les plus brefs délais
+    </p>
+    <p>Voici votre achat</p>
+    <table class="table table-bordered" style="margin-bottom: 40px">
+        <thead class="table-light">
+        <tr>
+            <td style="width: 80%">Nom du produit</td>
+            <td style="width: 20%">Sous-total</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cart in carts %}
+            <tr>
+                <td>
+                    <p style="margin-bottom: 10px">{{ cart.article.title |title }}</p>
+                    <p class="mb-0" style="font-weight: 700">Options : </p>
+                    <div style="margin-left: 20px">
+                        {% if cart.size %}
+                            <p><span style="font-weight: 700;">Foramt :</span> {{ cart.size }}</p>
+                        {% endif %}
+                        {% if cart.formattype %}
+                            <p class="mb-0"><span
+                                    style="font-weight: 700;">Type de format:</span> {{ cart.formattype }}
+                            </p>
+                        {% endif %}
+                        {% if cart.paperType %}
+                            <p class="mb-0"><span
+                                    style="font-weight: 700;">Matière de format:</span> {{ cart.paperType }}
+                            </p>
+                        {% endif %}
+                        {% if cart.paperColor %}
+                            <p class="mb-0"><span
+                                    style="font-weight: 700;">Foram coleur:</span> {{ cart.paperColor }}</p>
+                        {% endif %}
+                        {% if cart.fontColor %}
+                            <p class="mb-0"><span
+                                    style="font-weight: 700;">Font coleur: </span>{{ cart.fontColor }}
+                            </p>
+                        {% endif %}
+                        {% if cart.side %}
+                            <p class="mb-0"><span
+                                    style="font-weight: 700;">Format de plance:</span> {{ cart.side }}
+                            </p>
+                        {% endif %}
+                        {% if cart.finition %}
+                            <p class="mb-0"><span
+                                    style="font-weight: 700;">Finition: </span>{{ cart.finition }}</p>
+                        {% endif %}
+                        {% if cart.orientation %}
+                            <p class="mb-0"><span
+                                    style="font-weight: 700;">Orientation:</span> {{ cart.orientation }}</p>
+                        {% endif %}
+                        {% if cart.Quantity %}
+                            <p class="mb-0"><span
+                                    style="font-weight: 700;">Quantité :</span> {{ cart.Quantity }}
+                            </p>
+                        {% endif %}
+                        {% if cart.CostumQuantity %}
+                            <p class="mb-0"><span
+                                    style="font-weight: 700;">Quantité :</span> {{ cart.CostumQuantity }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </td>
+                <td>{{ cart.total }} MAD</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <th>Livraison</th>
+            <th>{{ carts.first.delevery.price }} MAD</th>
+        </tr>
+        <tr>
+            <th>Total</th>
+            <th>{{ total }} MAD</th>
+        </tr>
+        </tbody>
+    </table>
+
+    <p style="margin-bottom: 30px">Meilleures salutations</p>
+    <p style="text-align: end;font-size: 15px">Impression equipe</p>
+
+</div>
