@@ -21,17 +21,18 @@
         </div>
         <div class="col-6">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 mb-2">
                     <label for="fullname" class="mb-2">Nom *</label>
                     <input type="text" class="form-control" id="fullname" value="{{ user.username }}"
                            name="fullname">
                 </div>
-                <div class="col-12">
-                    <label for="email" class="mb-2">Nom *</label>
+                <div class="col-12 mb-2">
+                    <label for="email" class="mb-2">Email *</label>
                     <input type="email" class="form-control" id="email" value="{{ user.email }}"
                            name="email">
                 </div>
-                <div class="col-12">
+
+                <div class="col-12 mb-2">
                     <label for="tele" class="mb-2">Télephone</label>
                     <input type="tel" class="form-control" id="tele" value="{{ user.ClientUser.tele }}"
                            name="tele">
@@ -39,6 +40,14 @@
             </div>
         </div>
         <div class="col-6">
+              <div class="col-12 mb-2">
+                    <label for="subject" class="mb-2">Sujet *</label>
+                    <select class="form-control" name="subject" id="subject" required>
+                        <option value="devie">Demande de devis</option>
+                        <option value="clientservice">Service client</option>
+                        <option value="other">Autre</option>
+                    </select>
+                </div>
             <label for="message" class="mb-2">Message *</label>
             <textarea class="form-control" id="message" name="message" rows="4">
             </textarea>

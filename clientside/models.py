@@ -25,6 +25,7 @@ class Client(models.Model):
 
 class Message(models.Model):
     full_name = models.CharField(max_length=100)
+    subject = models.CharField(max_length=100, null=True)
     email = models.EmailField(max_length=100)
     tele = models.TextField(null=True, max_length=100)
     message = models.TextField(max_length=5000)
@@ -252,7 +253,7 @@ class Specification(models.Model):
         else:
             paperType = self.paperType.first().price
 
-        return (quanity*finition*paperType)
+        return (quanity * finition * paperType)
 
 
 class Bestarticle(models.Model):
@@ -339,7 +340,7 @@ class Pane(models.Model):
         elif self.CostumQuantity is not None:
             quanity = self.CostumQuantity
         else:
-            quanity=1
+            quanity = 1
         if self.finition is None:
             finition = 1
         else:

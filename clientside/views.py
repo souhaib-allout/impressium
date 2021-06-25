@@ -17,6 +17,15 @@ import static
 from django.core import serializers
 from django.core.files.storage import default_storage
 
+try:
+    from urllib.parse import urlencode
+    from urllib.request import build_opener, Request, HTTPHandler
+    from urllib.error import HTTPError, URLError
+except ImportError:
+    from urllib import urlencode
+    from urllib2 import build_opener, Request, HTTPHandler, HTTPError, URLError
+import json
+
 
 # Create your views here.
 
@@ -81,8 +90,8 @@ def logoutcheck(request):
 
 def dashboard(request):
     categories = Category.objects.all()
-    nbcommandes=Commande.objects.filter(User=request.user).all()
-    return render(request, 'profile/dashboard.html', {'categories': categories,'nbcommandes':nbcommandes})
+    nbcommandes = Commande.objects.filter(User=request.user).all()
+    return render(request, 'profile/dashboard.html', {'categories': categories, 'nbcommandes': nbcommandes})
 
 
 def profile(request):
@@ -134,14 +143,16 @@ def updateadresse(request):
 
     return redirect('/')
 
+
 def mydesigns(request):
-    designs = Pane.objects.filter(user=request.user,ArticleDesign__isnull=False).all()
+    designs = Pane.objects.filter(user=request.user, ArticleDesign__isnull=False).all()
     return render(request, 'profile/designs.html', {'designs': designs})
 
+
 def downloadmydesign(request):
-    if(request.method=='POST'):
-        designs = Pane.objects.get(id=request.POST['paneid'],user=request.user)
-        return FileResponse(open(designs.ArticleDesign.name,'rb'))
+    if (request.method == 'POST'):
+        designs = Pane.objects.get(id=request.POST['paneid'], user=request.user)
+        return FileResponse(open(designs.ArticleDesign.name, 'rb'))
     else:
         return redirect('/mes_designs')
 
@@ -153,7 +164,7 @@ def contact(request):
 
 def sendmessage(request):
     if request.method == 'POST':
-        Message.objects.create(full_name=request.POST['fullname'], email=request.POST['email'],
+        Message.objects.create(full_name=request.POST['fullname'],subject=request.POST['subject'], email=request.POST['email'],
                                tele=request.POST['tele'], message=request.POST['message'])
         return redirect('/contact?messagesent=message sent')
 
@@ -238,10 +249,10 @@ def search(request):
 
 def onsearch(request):
     if request.method == 'POST':
-        total=Specification.objects.first().minprice
+        total = Specification.objects.first().minprice
         lists = Article.objects.filter(title__icontains=request.POST['searchtext']).values('title',
-                                                                                          'articleimages__name',
-                                                                                          'SpecificationArticle')[0:6]
+                                                                                           'articleimages__name',
+                                                                                           'SpecificationArticle')[0:6]
         return JsonResponse(list(lists), safe=False)
     else:
         return HttpResponse('baaad')
@@ -259,8 +270,10 @@ def download(request):
 
     return FileResponse(open('static/files/file1.pdf', 'rb'))
 
+
 def downloadpreparemyfile(request):
     return FileResponse(open('static/files/fileprepare.pdf', 'rb'))
+
 
 def addtppan(request):
     if (request.method == 'POST'):
@@ -425,15 +438,15 @@ def cartdeleveryprice(request):
     if request.method == "POST":
         delevery = Delivery.objects.get(id=request.POST['deleveryid'])
         carts = Pane.objects.filter(user=request.user)
-        total=0
+        total = 0
         for cart in carts:
-            total=total+cart.total
-        total+=delevery.price
+            total = total + cart.total
+        total += delevery.price
         data = json.dumps({
             'mindate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.mindays)).strftime('%A %d %B')),
             'maxdate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.maxdays)).strftime('%A %d %B')),
             'price': delevery.price,
-            'total':total
+            'total': total
         })
 
         return HttpResponse(data, content_type='application/json')
@@ -537,18 +550,10 @@ def pricefilter(request):
         return redirect('/')
 
 
-def commande(request):
-    if request.method == 'POST':
-        panes = Pane.objects.filter(user_id=request.user.id).all()
-        commande = Commande.objects.create(User=request.user)
-        for pane in panes:
-            commande.Pane.add(pane)
-        return redirect('mes_commendes')
-    else:
-        return redirect('/')
 def mes_commendes(request):
-    commades=Commande.objects.filter(User=request.user).all()
-    return render(request,'profile/commandes.html',{'commades':commades})
+    commades = Commande.objects.filter(User=request.user).all()
+    return render(request, 'profile/commandes.html', {'commades': commades})
+
 
 def infoverify(request):
     return render(request, 'verify/infoverify.html')
@@ -627,42 +632,149 @@ def livraisonfilecontroleverify(request):
 def livraisonverifyclick(request):
     if request.method == 'POST':
         pane = Pane.objects.filter(user_id=request.user.id).update(delevery=request.POST['delevery'])
-        return redirect('/payementverify')
+        return redirect('/commandeverify')
     else:
         return redirect('/cart')
 
 
+def commandeverify(request):
+    carts = Pane.objects.filter(user_id=request.user.id).all()
+    total = 0
+    for cart in carts:
+        total = total + cart.total
+    delevery = carts.first().delevery.price
+    total += delevery
+    return render(request, 'verify/commandeverify.html', {'carts': carts, 'total': total})
+
+
+def commandeverifyclick(request):
+    if request.method == 'POST':
+        # carts = Pane.objects.filter(user_id=request.user.id).all()
+        # total = 0
+        # for cart in carts:
+        #     total = total + cart.total
+        # delevery = carts.first().delevery.price
+        # total += delevery
+        #
+        # panes = Pane.objects.filter(user_id=request.user.id).all()
+        # commande = Commande.objects.create(User=request.user, total=total, delevery=panes.first().delevery)
+        # for pane in panes:
+        #     commande.Pane.add(pane)
+        #
+        # body = render_to_string('mails/commandeMail.html',
+        #                         {'user': request.user.username, 'carts': carts, 'total': total})
+        # msg = EmailMessage('test', body, 'info@impresiion.com', ['del.souhaib@gmail.com'])
+        # msg.content_subtype = "html"
+        # msg.send()
+        # return redirect('/mes_commendes')
+
+        return redirect('/payementverify')
+    else:
+        return redirect('/')
+
+
+def payementrequest():
+    url = "https://test.oppwa.com/v1/checkouts"
+    data = {
+        'entityId': '8a8294174b7ecb28014b9699220015ca',
+        'amount': '92.00',
+        'currency': 'EUR',
+        'paymentType': 'DB'
+    }
+    try:
+        opener = build_opener(HTTPHandler)
+        request = Request(url, data=urlencode(data).encode('utf-8'))
+        request.add_header('Authorization', 'Bearer OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=')
+        request.get_method = lambda: 'POST'
+        response = opener.open(request)
+        return json.loads(response.read())
+    except HTTPError as e:
+        return json.loads(e.read())
+    except URLError as e:
+        return e.reason
+
+
 def payementverify(request):
-    return render(request, 'verify/payementverify.html')
+    data = payementrequest()
+    return render(request, 'verify/payementverify.html', {'checkoutid': data})
+
+
+def payementstatutrequest(id, resourcePath):
+    url = "https://test.oppwa.com/v1/checkouts/" + id + "/payment"
+    url += '?entityId=8a8294174b7ecb28014b9699220015ca'
+    try:
+        opener = build_opener(HTTPHandler)
+        request = Request(url, data=b'')
+        request.add_header('Authorization', 'Bearer OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=')
+        request.get_method = lambda: 'GET'
+        response = opener.open(request)
+        return json.loads(response.read())
+    except HTTPError as e:
+        return json.loads(e.read())
+    except URLError as e:
+        return e.reason
+
+
+def payementstatut(request):
+    responseData = payementstatutrequest(request.GET['id'], request.GET['resourcePath'])
+    if responseData['result']['code'] == '000.100.110':
+        carts = Pane.objects.filter(user_id=request.user.id).all()
+        total = 0
+        for cart in carts:
+            total = total + cart.total
+        delevery = carts.first().delevery.price
+        total += delevery
+
+        panes = Pane.objects.filter(user_id=request.user.id).all()
+        commande = Commande.objects.create(User=request.user, total=total, delevery=panes.first().delevery)
+        for pane in panes:
+            commande.Pane.add(pane)
+
+        body = render_to_string('mails/commandeMail.html',
+                                {'user': request.user.username, 'carts': carts, 'total': total})
+        msg = EmailMessage('test', body, 'info@impresiion.com', ['del.souhaib@gmail.com'])
+        msg.content_subtype = "html"
+        msg.send()
+        return redirect('/mes_commendes?statut=sucess&&amount='+responseData['amount'])
+    else:
+        return redirect(request.META.get('HTTP_REFERER')+'?statut=error')
+
 
 
 def payementverifyclick(request):
     return redirect('/commandeverify')
 
 
-def commandeverify(request):
-    carts=Pane.objects.filter(user_id=request.user.id).all()
-    total=0
-    for cart in carts:
-        total = total + cart.total
-    delevery=carts.first().delevery.price
-    total += delevery
-    return render(request, 'verify/commandeverify.html',{'carts':carts,'total':total})
-
-
-def commandeverifyclick(request):
-    return HttpResponse('ff')
-
 def test(request):
-    body=render_to_string('mails/signupMail.html',{'user':request.user.username})
-    msg=EmailMessage('test', body,'info@impresiion.com' ,['del.souhaib@gmail.com'])
-    msg.content_subtype = "html"
-    msg.send()
-    # send_mail(
-    #     'Subject here',
-    #     body,
-    #     'info@impresiion.com',
-    #     ['del.souhaib@gmail.com'],
-    #     fail_silently=False,
-    # )
+    try:
+        from urllib.parse import urlencode
+        from urllib.request import build_opener, Request, HTTPHandler
+        from urllib.error import HTTPError, URLError
+    except ImportError:
+        from urllib import urlencode
+        from urllib2 import build_opener, Request, HTTPHandler, HTTPError, URLError
+    import json
+
+    def request():
+        url = "https://test.oppwa.com/v1/checkouts"
+        data = {
+            'entityId': '8a8294174b7ecb28014b9699220015ca',
+            'amount': '92.00',
+            'currency': 'EUR',
+            'paymentType': 'DB'
+        }
+        try:
+            opener = build_opener(HTTPHandler)
+            request = Request(url, data=urlencode(data).encode('utf-8'))
+            request.add_header('Authorization', 'Bearer OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=')
+            request.get_method = lambda: 'POST'
+            response = opener.open(request)
+            return json.loads(response.read())
+        except HTTPError as e:
+            return json.loads(e.read())
+        except URLError as e:
+            return e.reason
+
+    responseData = request()
+    return JsonResponse(responseData)
     return HttpResponse('good')

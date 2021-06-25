@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     {% include 'parts/files.html' %}
-    <title>Adresse verification</title>
+    <title>Paiement</title>
     <style>
         * {
             color: #333e48;
@@ -19,7 +19,52 @@
         .payementtab span {
             color: white !important;
         }
+
+        /********payement***********/
+        .wpwl-container {
+            margin-top: 35px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .wpwl-container input {
+            border-radius: .25rem !important;
+            background-color: #fff !important;
+            background-clip: padding-box !important;
+            border: 1px solid #ced4da !important;
+                padding: .375rem .75rem;
+
+        }
+
+        .wpwl-form {
+            max-width: 100% !important;
+        }
+
+        .wpwl-button-pay {
+            border-radius: .25rem;
+            font-weight: 700;
+            background-color: #ffcf10;
+            width: 320px;
+            height: 45px;
+            color: #212529;
+            border: 1px solid transparent;
+        }
+
+        .wpwl-button-pay:hover {
+            background-color: #ffcf10;
+            color: #212529;
+            border: 1px solid transparent;
+        }
+.wpwl-group-billing{
+    display: none;
+}
+.wpwl-wrapper>.wpwl-icon {
+
+    top: .2025em;
+}
     </style>
+    <script src="https://test.oppwa.com/v1/paymentWidgets.js?checkoutId={{ checkoutid.id }}"></script>
+
 </head>
 <body>
 {% include 'parts/header.html' %}
@@ -42,27 +87,51 @@
     <div class="row pb-3" style="border:solid 1px #e0d6d6">
         <div class="col-12 d-flex align-items-center py-2" style="background-color: #ffcf10">
             <span class="justify-content-center text-center me-1 "
-                  style="width:30px;height:30px;background-color: #3d3d3d;border-radius: 100px;color: white">4</span>
+                  style="width:30px;height:30px;background-color: #3d3d3d;border-radius: 100px;color: white">5</span>
             <span style="font-weight: 700">Paiement Verification</span>
         </div>
-        <form method="post" action="/payementverifyclick" class="container">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-12 text-end">
-                    <button class="btn" id="create"
-                            style="font-weight:700;background-color:#ffcf10;width: 320px;height: 45px ">Suivant
-                    </button>
-                </div>
+        <form action="/payementstatut" class="paymentWidgets mt-5" data-brands="VISA MASTER CARTEBANCAIRE PAYPAL"></form>
+        {% if request.GET.statut == 'error' %}
+            <div class="alert alert-danger" role="alert">
+                Ereur ressayer
             </div>
-        </form>
+        {% endif %}
+
 
     </div>
 </div>
 
 {% include 'parts/footer.html' %}
-
 <script>
+    var wpwlOptions = {
+        style: "plain",
+        locale: "fr",
+
+        billingAddress: {
+            country: "US",
+            state: "NY",
+            city: "New York",
+            street1: "111 6th Avenu",
+            street2: "",
+            postcode: "12312"
+        },
+        forceCardHolderEqualsBillingName: true,
+        showCVVHint: true,
+        brandDetection: true,
+        onReady: function () {
+            $(".wpwl-group-cardNumber").after($(".wpwl-group-brand").detach());
+            $(".wpwl-group-cvv").after($(".wpwl-group-cardHolder").detach());
+            var visa = $(".wpwl-brand:first").clone().removeAttr("class").attr("class", "wpwl-brand-card wpwl-brand-custom wpwl-brand-VISA")
+            var master = $(visa).clone().removeClass("wpwl-brand-VISA").addClass("wpwl-brand-MASTER");
+            $(".wpwl-brand:first").after($(master)).after($(visa));
+        },
+        onChangeBrand: function (e) {
+            $(".wpwl-brand-custom").css("opacity", "0.3");
+            $(".wpwl-brand-" + e).css("opacity", "1");
+        }
+    }
 
 </script>
+
 </body>
 </html>

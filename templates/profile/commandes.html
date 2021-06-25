@@ -22,6 +22,7 @@
         <div class="col-9 " style="">
             <form method="post" action="/updateadresse" class="container-fluid mt-4">
                 {% csrf_token %}
+            statut :{{ request.GET.statut}}
                 <div class="row">
                     <div class="col-12 d-flex justify-content-center align-items-center pt-2 pb-2"
                          style="background-color: #1e202c;color: white">
@@ -112,8 +113,28 @@
     </div>
 </div>
 {% include 'parts/footer.html' %}
+
+
+<div class="modal fade" id="payementsuccessmodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0 pb-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body d-flex align-items-center">
+          <img src="{% static 'Icons/sucess.svg' %}" style="height: 50px" class="me-3">
+        <p>Paiement de {{ request.GET.amount }} effectué avec succès ,Nous vous contacterons bientôt</p>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
     $(document).ready(function () {
+         {% if request.GET.statut == 'sucess' %}
+           $('#payementsuccessmodal').modal('show')
+        {% endif %}
+
+
         $('#changepasswpord').prop("checked", false)
         $('.changepasswpord').click(function () {
             if ($('#changepasswpord').prop('checked')) {

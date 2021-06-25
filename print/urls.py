@@ -42,7 +42,6 @@ urlpatterns = [
     path('addfiletopane', views.addfiletopane),
     path('deletefileuploaded', views.deletefileuploaded),
 
-    path('commande', views.commande),
     path('mes_commendes', views.mes_commendes),
 
     path('infoverify', views.infoverify),
@@ -58,6 +57,8 @@ urlpatterns = [
 
     path('payementverify', views.payementverify),
     path('payementverifyclick', views.payementverifyclick),
+    path('payementstatut', views.payementstatut),
+
 
     path('commandeverify', views.commandeverify),
     path('commandeverifyclick', views.commandeverifyclick),
