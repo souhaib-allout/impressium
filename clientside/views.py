@@ -64,6 +64,10 @@ def logupcheck(request):
                                             password=request.POST['password1'])
             Client.objects.create(user_id=user.id, type=request.POST['type'], civilite=request.POST['civilite'],
                                   tele=request.POST['tele'])
+            body = render_to_string('mails/signupMail.html', {'user': user.username})
+            msg = EmailMessage('test', body, 'info@impresiion.com', [user.email])
+            msg.content_subtype = "html"
+            msg.send()
             return redirect('/dashboard')
         else:
             return redirect('/')
@@ -650,7 +654,7 @@ def commandeverifyclick(request):
     return HttpResponse('ff')
 
 def test(request):
-    body=render_to_string('mails/signupMail.html')
+    body=render_to_string('mails/signupMail.html',{'user':request.user.username})
     msg=EmailMessage('test', body,'info@impresiion.com' ,['del.souhaib@gmail.com'])
     msg.content_subtype = "html"
     msg.send()
