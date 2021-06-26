@@ -31,9 +31,9 @@ import json
 
 def index(request):
     newarticles = Article.objects.order_by('-id')[:5]
-    article=Article.objects.get(id=6)
-    min=str(article.SpecificationArticle.minprice)
-    print(min)
+    article = Article.objects.get(id=6)
+    min = str(article.SpecificationArticle.minprice)
+    print()
     # topsearch = CategoryHistory.objects.annotate(nb_search=Count('title')).order_by('nb_search')[0:8]
     # for newarticle in newarticles:
     #     if newarticle.SpecificationArticle :
@@ -257,7 +257,7 @@ def search(request):
 def onsearch(request):
     if request.method == 'POST':
         total = Specification.objects.first().minprice
-        lists = Article.objects.filter(title__icontains=request.POST['searchtext']).values('id','title',
+        lists = Article.objects.filter(title__icontains=request.POST['searchtext']).values('id', 'title',
                                                                                            'articleimages__name',
                                                                                            'SpecificationArticle')[0:6]
         return JsonResponse(list(lists), safe=False)
@@ -293,8 +293,8 @@ def addtppan(request):
             pane.delevery_id = request.POST['delevery']
             pane.article_id = request.POST['articleid']
             pane.FileControle_id = request.POST['filecontrole']
-            if 'mydesign' in request.POST:
-                pane.ArticleDesign = request.FILES['mydesign']
+            # if 'mydesign' in request.POST:
+            #     pane.ArticleDesign = request.FILES['mydesign']
 
             if 'format' in request.POST:
                 pane.size_id = request.POST['format']
@@ -752,35 +752,9 @@ def payementverifyclick(request):
 
 
 def test(request):
-    try:
-        from urllib.parse import urlencode
-        from urllib.request import build_opener, Request, HTTPHandler
-        from urllib.error import HTTPError, URLError
-    except ImportError:
-        from urllib import urlencode
-        from urllib2 import build_opener, Request, HTTPHandler, HTTPError, URLError
-    import json
-
-    def request():
-        url = "https://test.oppwa.com/v1/checkouts"
-        data = {
-            'entityId': '8a8294174b7ecb28014b9699220015ca',
-            'amount': '92.00',
-            'currency': 'EUR',
-            'paymentType': 'DB'
-        }
-        try:
-            opener = build_opener(HTTPHandler)
-            request = Request(url, data=urlencode(data).encode('utf-8'))
-            request.add_header('Authorization', 'Bearer OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg=')
-            request.get_method = lambda: 'POST'
-            response = opener.open(request)
-            return json.loads(response.read())
-        except HTTPError as e:
-            return json.loads(e.read())
-        except URLError as e:
-            return e.reason
-
-    responseData = request()
-    return JsonResponse(responseData)
+    # send_sms(
+    #     'Here is the message',
+    #     '+12065550100',
+    #     ['+212771705545', '+212684019181']
+    # )
     return HttpResponse('good')

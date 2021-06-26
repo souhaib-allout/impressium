@@ -1,4 +1,5 @@
 {% load static %}
+{% load CustomFilters %}
 <style>
     .nav-link {
         font-size: 13.5px;
@@ -35,6 +36,10 @@
 
     .comptedropdownmenue a:hover {
         background-color: #1e202c !important;
+    }
+
+    .first-nav-link:hover svg {
+        fill: white !important;
     }
 
     .toprecherches a {
@@ -139,7 +144,11 @@
                     </div>
                     <span style="font-size: 15px;font-weight: 600;">Panier</span>
                 </div>
-                <div class="pt-0 text-center" style="color:black;border-radius:100px;background-color: #ffcf10;width: 20px;height:20px">{{ nbpanes|length }}</div>
+                {% if user.is_authenticated %}
+                    <div class="pt-0 text-center"
+                         style="color:black;border-radius:100px;background-color: #ffcf10;width: 20px;height:20px">{{ nbpanes|length }}
+                    </div>
+                {% endif %}
             </a>
             <div class="d-flex flex-column justify-content-center me-4 ">
                 <span style="font-family: 'Lobster', cursive;" class="mb-1 text-center">Avis verifier</span>
@@ -165,7 +174,8 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mb-2 w-100 mb-lg-0 d-flex justify-content-between">
                     <li class="nav-item dropdown" style="position: static">
-                        <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link first-nav-link" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
                                  class="bi bi-list" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
@@ -174,16 +184,30 @@
                         </a>
                         <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
                             style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
-                            <div class="d-flex  justify-content-evenly">
-                                <li><a class="dropdown-item " href="#">Action</a></li>
-                                <li><a class="dropdown-item " href="#">Another action</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
+                            <div class="d-flex flex-column  justify-content-evenly px-4 flex-wrap"
+                                 style="font-size: 14px;">
+                                {% for article in allptoducts %}
+                                    {% if forloop.first %}
+                                        {% currentword article.title|upper|first as currentword %}
+                                        <p class="text-light" style="text-decoration: underline">{{ currentword }}</p>
+                                    {% endif %}
+                                    {% if article.title|upper|first != currentword %}
+{#                                        <div>#}
+                                        <p class="text-light"
+                                           style="text-decoration: underline">{{ article.title|upper|first }}</p>
+                                    {% endif %}
+                                <li>
+                                    <a class="dropdown-item " href="#">{{ article.title }}</a>
+                                </li>
+                                {% currentword article.title|upper|first as currentword %}
+{#                                {% if article.allptoducts[for.forloop.counter+1]|upper|first != currentword %}#}
+{#                                    </div>#}
+{#                                {% endif %}#}
+{{ allptoducts.forloop.counter }}
+                                {% endfor %}
                             </div>
                         </ul>
-
                     </li>
-
-
                     <li class="nav-item d-flex align-items-center dropdown"
                         style="position:static;background-color: #ff0747;">
                         <a class="nav-link active text-light" role="button" data-bs-toggle="dropdown"
@@ -265,7 +289,7 @@
                     $('.onsearchresults').html('')
                     $.each(e, function (index, value) {
                         $('.onsearchresults').append('' +
-                            '<a href="/product/'+value.id+'" class="card mb-3 border-0" style="color:#333e48;width: 50%;text-decoration: none">' +
+                            '<a href="/product/' + value.id + '" class="card mb-3 border-0" style="color:#333e48;width: 50%;text-decoration: none">' +
                             '     <div class="row g-0">' +
                             '        <div class="col-md-4">' +
                             '           <img src="/' + value.articleimages__name + '" class="img-fluid" alt="...">' +

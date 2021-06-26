@@ -59,25 +59,25 @@
         {% if products|length >= 1 %}
             {% for product in products %}
                 <div class="col-3">
-                    <div class="card" style="width: 250px;">
-                        <img src="{{ product.articleimages.first.name.url }}" style="height: 200px;width: 250px"
+                    <div class="card" >
+                        <img src="{{ product.articleimages.first.name.url }}" style="height: 200px"
                              class="img-fluid" alt="...">
                         {#                    {% for image in product.articleimages.all %}#}
                         {#                        <p>{{ product.articleimages.first.name }}</p>#}
                         {#                    {% endfor %}#}
                         <div class="card-body text-center">
                             <p class="card-title"
-                               style="font-size:18px;font-weight: bold">{{ product.title | slice:":18" }}
+                               style="font-size: 16px;font-weight: bold">{{ product.title | slice:":18" }}
                                 {% if product.title|length  > 7 %} .. {% endif %}</p>
-                            <p style="font-size: 18px" class="card-text">À partir de
+                            <p style="font-size: 16px" class="card-text">À partir de
                                 {% if product.SpecificationArticle.minprice != None%}
                                 <span style="font-weight: bold">
                                     {{ product.SpecificationArticle.minprice }} MAD
                                 </span>
                                 {% endif %}
                             </p>
-                            <a href="/product/{{ product.id }}" class="btn text-light"
-                               style="font-size:18px;background-color: #16a4fa;width: 220px;border-radius: 100px">Commander</a>
+                            <a href="/product/{{ product.id }}" class="btn btn-sm text-light "
+                               style="font-size:18px;width: 100%;background-color: #16a4fa;border-radius: 100px">Commander</a>
                         </div>
                     </div>
                 </div>

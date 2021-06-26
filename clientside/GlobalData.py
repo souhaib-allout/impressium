@@ -8,6 +8,10 @@ def globaldata(request):
     topcategories = CategoryHistory.objects.values('childcategory', 'childcategory__name').annotate(
         nb_search=Count('childcategory_id')).order_by('childcategory_id')[0:8]
     categories = Category.objects.all()
-    nbpanes=Pane.objects.filter(user=request.user).all()
+    allptoducts=Article.objects.all().order_by('title')
+    if(request.user.is_authenticated):
+        nbpanes=Pane.objects.filter(user=request.user).all()
+    else:
+        nbpanes=0
     return {'bestarticles': bestarticles, 'topcategories': topcategories,
-                   'categories': categories,'nbpanes':nbpanes}
+                   'categories': categories,'nbpanes':nbpanes,'allptoducts':allptoducts}
