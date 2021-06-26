@@ -387,7 +387,7 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <p class="mb-0" style="font-weight: 700;font-size: 17px">Prix Total</p>
-                        <p class="mb-0 totalprice" style="font-weight: 700;font-size: 20px">50.5 Mad</p>
+                        <p class="mb-0 totalprice" style="font-weight: 700;font-size: 20px">{{ product.SpecificationArticle.minprice }} Mad</p>
                     </div>
                 </div>
                 <div class="col-12 text-center mt-3">
@@ -479,7 +479,7 @@
                                     <div class="d-flex justify-content-between align-items-end">
                                         <div class="d-flex flex-column">
                                             <span style="font-size: 12px;font-weight: 700">A partir de</span>
-                                            <span style="font-size: 19px;font-weight: 700">52 Euro</span>
+                                            <span style="font-size: 19px;font-weight: 700">{{ realtedproduct.SpecificationArticle.minprice }} Euro</span>
                                         </div>
                                         <button style="height:30px;font-size: 12px;background-color: #ffcf10;border: solid 0px #ffcf10">
                                             COMMANDEZ
@@ -522,6 +522,7 @@
                 success: function (e) {
                     $('.totalprice').text(e+ 'MAD')
                 }, error: function (e) {
+                    console.log(e.responseText)
                 }
             })
         })
@@ -548,6 +549,7 @@
                     $('.totalprice').text(e.total+' MAD')
                 },
                 error: function (e) {
+                                        console.log(e.responseText)
                 }
             })
         })
@@ -570,6 +572,7 @@
                     $('.totalprice').text(e.total+ 'MAD')
                 },
                 error: function (e) {
+                                        console.log(e.responseText)
                 }
             })
         })

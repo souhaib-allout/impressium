@@ -69,8 +69,13 @@
                             <p class="card-title"
                                style="font-size:18px;font-weight: bold">{{ product.title | slice:":18" }}
                                 {% if product.title|length  > 7 %} .. {% endif %}</p>
-                            <p style="font-size: 18px" class="card-text">À partir de <span
-                                    style="font-weight: bold">76,00 €</span></p>
+                            <p style="font-size: 18px" class="card-text">À partir de
+                                {% if product.SpecificationArticle.minprice != None%}
+                                <span style="font-weight: bold">
+                                    {{ product.SpecificationArticle.minprice }} MAD
+                                </span>
+                                {% endif %}
+                            </p>
                             <a href="/product/{{ product.id }}" class="btn text-light"
                                style="font-size:18px;background-color: #16a4fa;width: 220px;border-radius: 100px">Commander</a>
                         </div>

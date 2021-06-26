@@ -168,7 +168,9 @@
                                     <div class="d-flex justify-content-between align-items-end">
                                         <div class="d-flex flex-column">
                                             <span style="font-size: 10px;font-weight: 700">A partir de</span>
-                                            <span style="font-size: 17px;font-weight: 700">{{ article.Sizearticle.first.price }} Euro</span>
+                                            {% if article.SpecificationArticle.minprice != None %}
+                                                <span style="font-size: 17px;font-weight: 700">{{ article.SpecificationArticle.minprice }} MAD</span>
+                                            {% endif %}
                                         </div>
                                         <button style="height:25px;font-size: 10px;background-color: #ffcf10;border: solid 0px #ffcf10">
                                             COMMANDEZ
@@ -220,7 +222,9 @@
                                     <div class="d-flex justify-content-between align-items-end">
                                         <div class="d-flex flex-column">
                                             <span style="font-size: 10px;font-weight: 700">A partir de</span>
-                                            <span style="font-size: 17px;font-weight: 700">{{ article.Sizearticle.first.price }} Euro</span>
+                                            {% if article.SpecificationArticle.minprice != None %}
+                                                <span style="font-size: 17px;font-weight: 700">{{ article.SpecificationArticle.minprice }} MAD</span>
+                                            {% endif %}
                                         </div>
                                         <button style="height:25px;font-size: 10px;background-color: #ffcf10;border: solid 0px #ffcf10">
                                             COMMANDEZ
@@ -271,10 +275,10 @@
                 processus simple et rassurant grâce à notre service client toujours disponible pour tous conseils.</p>
         </div>
         <div class="col-5">
-{#            <iframe width="560" height="315" src="https://www.youtube.com/embed/sjyAHJzC2kg"#}
-{#                    title="YouTube video player" frameborder="0"#}
-{#                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"#}
-{#                    allowfullscreen></iframe>#}
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/4Tr0otuiQuU"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
         </div>
         <div class="col-1"></div>
     </div>

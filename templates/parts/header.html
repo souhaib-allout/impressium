@@ -265,10 +265,10 @@
                     $('.onsearchresults').html('')
                     $.each(e, function (index, value) {
                         $('.onsearchresults').append('' +
-                            '<div class="card mb-3 border-0" style="width: 50%">' +
+                            '<a href="/product/'+value.id+'" class="card mb-3 border-0" style="color:#333e48;width: 50%;text-decoration: none">' +
                             '     <div class="row g-0">' +
                             '        <div class="col-md-4">' +
-                            '           <img src="' + value.articleimages__name + '" class="img-fluid" alt="...">' +
+                            '           <img src="/' + value.articleimages__name + '" class="img-fluid" alt="...">' +
                             '      </div>' +
                             '     <div class="col-md-8">' +
                             '        <div class="card-body  ps-1 p-0">' +
@@ -279,7 +279,7 @@
                             '   </div>' +
                             '</div>' +
                             '</div>' +
-                            '</div>'
+                            '</a>'
                         )
                     })
                 }

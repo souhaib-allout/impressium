@@ -31,7 +31,13 @@ import json
 
 def index(request):
     newarticles = Article.objects.order_by('-id')[:5]
+    article=Article.objects.get(id=6)
+    min=str(article.SpecificationArticle.minprice)
+    print(min)
     # topsearch = CategoryHistory.objects.annotate(nb_search=Count('title')).order_by('nb_search')[0:8]
+    # for newarticle in newarticles:
+    #     if newarticle.SpecificationArticle :
+    #         print(newarticle.SpecificationArticle)
     return render(request, 'index.html',
                   {'newarticles': newarticles, })
 
@@ -164,7 +170,8 @@ def contact(request):
 
 def sendmessage(request):
     if request.method == 'POST':
-        Message.objects.create(full_name=request.POST['fullname'],subject=request.POST['subject'], email=request.POST['email'],
+        Message.objects.create(full_name=request.POST['fullname'], subject=request.POST['subject'],
+                               email=request.POST['email'],
                                tele=request.POST['tele'], message=request.POST['message'])
         return redirect('/contact?messagesent=message sent')
 
@@ -250,7 +257,7 @@ def search(request):
 def onsearch(request):
     if request.method == 'POST':
         total = Specification.objects.first().minprice
-        lists = Article.objects.filter(title__icontains=request.POST['searchtext']).values('title',
+        lists = Article.objects.filter(title__icontains=request.POST['searchtext']).values('id','title',
                                                                                            'articleimages__name',
                                                                                            'SpecificationArticle')[0:6]
         return JsonResponse(list(lists), safe=False)
@@ -509,7 +516,7 @@ def filecontrolefilter(request):
 
         quantite = float(request.POST['quantity'])
         delevery = float(request.POST['delevery'])
-        filecontrollerprice = float(filecontrole.price)
+        filecontrollerprice = filecontrole.price
 
         total = (finitionprice * papertypeprice * quantite) + delevery + filecontrollerprice
 
@@ -735,10 +742,9 @@ def payementstatut(request):
         msg = EmailMessage('test', body, 'info@impresiion.com', ['del.souhaib@gmail.com'])
         msg.content_subtype = "html"
         msg.send()
-        return redirect('/mes_commendes?statut=sucess&&amount='+responseData['amount'])
+        return redirect('/mes_commendes?statut=sucess&&amount=' + responseData['amount'])
     else:
-        return redirect(request.META.get('HTTP_REFERER')+'?statut=error')
-
+        return redirect(request.META.get('HTTP_REFERER') + '?statut=error')
 
 
 def payementverifyclick(request):
