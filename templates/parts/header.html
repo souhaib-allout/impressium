@@ -192,73 +192,74 @@
                                         <p class="text-light" style="text-decoration: underline">{{ currentword }}</p>
                                     {% endif %}
                                     {% if article.title|upper|first != currentword %}
-{#                                        <div>#}
+                                        {#                                        <div>#}
                                         <p class="text-light"
                                            style="text-decoration: underline">{{ article.title|upper|first }}</p>
                                     {% endif %}
-                                <li>
-                                    <a class="dropdown-item " href="#">{{ article.title }}</a>
-                                </li>
-                                {% currentword article.title|upper|first as currentword %}
-{#                                {% if article.allptoducts[for.forloop.counter+1]|upper|first != currentword %}#}
-{#                                    </div>#}
-{#                                {% endif %}#}
-{{ allptoducts.forloop.counter }}
-                                {% endfor %}
-                            </div>
-                        </ul>
-                    </li>
-                    <li class="nav-item d-flex align-items-center dropdown"
-                        style="position:static;background-color: #ff0747;">
-                        <a class="nav-link active text-light" role="button" data-bs-toggle="dropdown"
-                           style="color: white !important;"
-                           aria-expanded="false">TOP PRODUITS</a>
-                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
-                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
-                            <div class="d-flex  justify-content-evenly">
-                                {% for topcategorie in topcategories %}
-                                    <li><a class="dropdown-item "
-                                           href="/products/{{ topcategorie.childcategory__name }}">{{ topcategorie.childcategory__name }}</a>
+                                    <li>
+                                        <a class="dropdown-item " href="#">{{ article.title }}</a>
                                     </li>
+                                    {% currentword article.title|upper|first as currentword %}
+{#                                    {% if article.allptoducts[for.forloop.counter+1]|upper|first != currentword %}#}
+{#                                        </div>#}
+{#                                    {% endif %}#}
+                                    <p class="text-light">nb={{ allptoducts.forloop.counter }}</p>
                                 {% endfor %}
-                            </div>
-                        </ul>
-                    </li>
-                    {% for categorie in  categories %}
-
-                        <li class="nav-item d-flex align-items-center dropdown" style="position:static;">
-                            <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {{ categorie.name |upper }}
-                            </a>
-                            <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
-                                style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
-                                <div class="d-flex  justify-content-evenly">
-                                    {% for childcategory in categorie.ChildCategory.all %}
-                                        <li><a class="dropdown-item "
-                                               href="/products/{{ childcategory.name }}">{{ childcategory.name }}</a>
-                                        </li>
-                                    {% endfor %}
-                                </div>
-                            </ul>
-                        </li>
-                    {% endfor %}
-
-                    <li class="nav-item d-flex align-items-center" style="position:static;background-color: #21adac">
-                        <a class="nav-link text-light" role="button" data-bs-toggle="dropdown" aria-expanded="false">SUR-MESURE</a>
-                        <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
-                            style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
-                            <div class="d-flex  justify-content-evenly">
-                                <li><a class="dropdown-item " href="#">Action</a></li>
-                                <li><a class="dropdown-item " href="#">Another action</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-                                <li><a class="dropdown-item " href="#">Something else here</a></li>
-
-                            </div>
-                        </ul>
-                    </li>
-                </ul>
             </div>
+            </ul>
+            </li>
+            <li class="nav-item d-flex align-items-center dropdown"
+                style="position:static;background-color: #ff0747;">
+                <a class="nav-link active text-light" role="button" data-bs-toggle="dropdown"
+                   style="color: white !important;"
+                   aria-expanded="false">TOP PRODUITS</a>
+                <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                    style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                    <div class="d-flex  justify-content-evenly">
+                        {% for topcategorie in topcategories %}
+                            <li><a class="dropdown-item "
+                                   href="/products/{{ topcategorie.childcategory__name }}">{{ topcategorie.childcategory__name }}</a>
+                            </li>
+                        {% endfor %}
+                    </div>
+                </ul>
+            </li>
+            {% for categorie in  categories %}
+
+                <li class="nav-item d-flex align-items-center dropdown" style="position:static;">
+                    <a class="nav-link" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{ categorie.name |upper }}
+                    </a>
+                    <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                        style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                        <div class="d-flex  justify-content-evenly">
+                            {% for childcategory in categorie.ChildCategory.all %}
+                                <li><a class="dropdown-item "
+                                       href="/products/{{ childcategory.name }}">{{ childcategory.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </div>
+                    </ul>
+                </li>
+            {% endfor %}
+
+            <li class="nav-item d-flex align-items-center" style="position:static;background-color: #21adac">
+                <a class="nav-link text-light" role="button" data-bs-toggle="dropdown"
+                   aria-expanded="false">SUR-MESURE</a>
+                <ul class="dropdown-menu mt-0" aria-labelledby="navbarDropdown"
+                    style="width: 100%;background-color: #333e48;border: #333e48;border-radius: 0px">
+                    <div class="d-flex  justify-content-evenly">
+                        <li><a class="dropdown-item " href="#">Action</a></li>
+                        <li><a class="dropdown-item " href="#">Another action</a></li>
+                        <li><a class="dropdown-item " href="#">Something else here</a></li>
+                        <li><a class="dropdown-item " href="#">Something else here</a></li>
+                        <li><a class="dropdown-item " href="#">Something else here</a></li>
+
+                    </div>
+                </ul>
+            </li>
+            </ul>
+        </div>
         </div>
     </nav>
 </header>

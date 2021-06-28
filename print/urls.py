@@ -99,4 +99,6 @@ urlpatterns = [
 
     path('test', views.test),
 
+    path('accounts/', include('allauth.urls')),
+
 ]

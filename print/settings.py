@@ -40,6 +40,13 @@ INSTALLED_APPS = [
     'clientside',
     'adminside',
 
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+
 ]
 
 MIDDLEWARE = [
@@ -135,3 +142,35 @@ EMAIL_HOST = 'smtp.mailtrap.io'
 EMAIL_HOST_USER = 'df783b07058352'
 EMAIL_HOST_PASSWORD = '1bb64000205777'
 EMAIL_PORT = '2525'
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '730149087805-gsh6f82hglgubp82b7lqdabfq76a6454.apps.googleusercontent.com',
+            'secret': 'cn4AHkuIfZJa-G4og0MYvQ6S',
+            'key': ''
+        }
+    },
+    'facebook': {
+        'APP': {
+            'client_id': '935785147264618',
+            'secret': 'ce5955a394a3c3ed5718184d0f2eb707',
+            'key': ''
+            # 03e36a6cb7e1aec277c17e808059d31b
+        }
+    }
+}
