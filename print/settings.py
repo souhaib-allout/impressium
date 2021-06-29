@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+# from allauth.account.adapter import DefaultAccountAdapter
+from social_core.pipeline import user
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -163,14 +166,20 @@ SOCIALACCOUNT_PROVIDERS = {
             'client_id': '730149087805-gsh6f82hglgubp82b7lqdabfq76a6454.apps.googleusercontent.com',
             'secret': 'cn4AHkuIfZJa-G4og0MYvQ6S',
             'key': ''
-        }
+        },
+
     },
     'facebook': {
         'APP': {
-            'client_id': '935785147264618',
-            'secret': 'ce5955a394a3c3ed5718184d0f2eb707',
+            'client_id': '228297152269686',
+            'secret': 'a5ed6e101400dafc68f00bfb05799322',
             'key': ''
             # 03e36a6cb7e1aec277c17e808059d31b
-        }
+        },
+
+
     }
+
 }
+ACCOUNT_ADAPTER = 'users.adapter.MyAccountAdapter'
+

@@ -101,4 +101,8 @@ urlpatterns = [
 
     path('accounts/', include('allauth.urls')),
 
+    path('privacy&policy', views.privacypolicy),
+
+
+
 ]

@@ -2,6 +2,7 @@ import datetime
 import os
 from wsgiref.util import FileWrapper
 
+import allauth
 from django.contrib.auth import authenticate, login as loginnow, logout
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
@@ -758,3 +759,9 @@ def test(request):
     #     ['+212771705545', '+212684019181']
     # )
     return HttpResponse('good')
+
+def privacypolicy(request):
+    return render(request,'privacy&policy.html')
+
+
+

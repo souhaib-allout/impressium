@@ -1,4 +1,6 @@
 {% load static %}
+{% load socialaccount %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +41,8 @@
                 </p>
                 <p class="mb-0">Un service client disponible et à votre écoute</p>
             </div>
-            <a href="/logup" class="mt-5 btn" style="height: 40px;width: 250px;background-color:#ffcf10;border: #ffcf10 ">
+            <a href="/logup" class="mt-5 btn"
+               style="height: 40px;width: 250px;background-color:#ffcf10;border: #ffcf10 ">
                 Créer un compte
             </a>
         </div>
@@ -62,10 +65,21 @@
             <div class="ms-5">
                 <button class="mt-5 btn" style="height: 40px;width: 250px;background-color:#ffcf10;border: #ffcf10 ">
                     Se connecter
-                </button><br>
+                </button>
+                <br>
                 <a href="" class="text-dark" style="font-size: 14px">Mot de passe oublié ?</a>
-{#                <a href="{% url "social:begin" "google-oauth2" %}">Google+</a>#}
-
+            </div>
+            <div class="ms-5 mt-2 d-flex flex-wrap">
+                <a class="btn text-decoration-none text-light mb-2" style="background-color: #0076bc;width: 250px"
+                   href="{% provider_login_url "facebook" method="oauth2" %}" >
+                    <img src="{% static 'Icons/fb2.svg' %}" style="height: 25px;">
+                    Connecter avec Facebook
+                </a>
+                <a class="btn text-decoration-none text-light" style="background-color: #db4a39;width: 250px"
+                   href="{% provider_login_url "google" method="oauth2" %}">
+                    <img src="{% static 'Icons/google-plus.svg' %}" style="height: 25px;">
+                    Connecter avec Google
+                </a>
             </div>
         </form>
     </div>
