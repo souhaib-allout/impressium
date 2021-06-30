@@ -16,28 +16,22 @@
 <body>
 {% include 'parts/header.html' %}
 <div class="container-fluid">
-    <div class="row">
-        <div class="d-flex justify-content-between" style="height: 50px;background-color: #eeeeee">
-            <div></div>
-            <div class="col-lg-3 col-md-3 col-6 d-flex align-items-center">
-                <img src="{% static 'Icons/Euro.png' %}" height="23" width="23"/>
-                <span style="font-size: 12px">DES PRIX COMPETITIFS</span>
-            </div>
-            <div class="col-lg-3 col-md-3 col-6 d-flex align-items-center">
-                <img src="{% static 'Icons/Truck.svg' %}" height="28" width="28"/>
-                <span style="font-size: 12px">LIVRAISON OFFERTE</span>
-            </div>
-            <div class="col-lg-3 col-md-3 col-6 d-flex align-items-center">
-                <img src="{% static 'Icons/Correct.svg' %}" height="28" width="28"/>
-                <span style="font-size: 12px">CONTROLE DES FICHIERS</span>
-            </div>
-            <div class="col-lg-3 col-md-3 col-6 d-flex align-items-center">
-                <img src="{% static 'Icons/Like.svg' %}" height="28" width="28"/>
-                <span style="font-size: 12px">PRODUITS DE QUALITE</span>
-            </div>
-            <div>
-
-            </div>
+   <div class="row mt-3">
+        <div class="col-lg-3 col-md-3 col-6 d-flex mb-sm-3 justify-content-center align-items-center">
+            <img src="{% static 'Icons/Euro.png' %}" height="23" width="23"/>
+            <span style="font-size: 12px">DES PRIX COMPETITIFS</span>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6 d-flex mb-sm-3 justify-content-center align-items-center">
+            <img src="{% static 'Icons/Truck.svg' %}" height="28" width="28"/>
+            <span style="font-size: 12px">LIVRAISON OFFERTE</span>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6 d-flex mb-sm-3 justify-content-center align-items-center">
+            <img src="{% static 'Icons/Correct.svg' %}" height="28" width="28"/>
+            <span style="font-size: 12px">CONTROLE DES FICHIERS</span>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6 d-flex mb-sm-3 justify-content-center align-items-center">
+            <img src="{% static 'Icons/Like.svg' %}" height="28" width="28"/>
+            <span style="font-size: 12px">PRODUITS DE QUALITE</span>
         </div>
     </div>
 </div>
@@ -57,8 +51,8 @@
     </div>
     <div class="row">
         {% for product in products %}
-            <div class="col-3">
-                <div class="card" >
+            <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                <div class="card" style="max-width: 300px">
                     <img src="{{ product.articleimages.first.name.url }}" class="img-fluid" alt="..." style="height: 200px">
 {#                    {% for image in product.articleimages.all %}#}
 {#                        <p>{{ product.articleimages.first.name }}</p>#}

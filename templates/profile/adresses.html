@@ -16,10 +16,10 @@
 
 <div class="container-fluid mt-5">
     <div class="row">
-        <div class="col-3">
+        <div class="col-xl-3 col-lg-4">
             {% include 'parts/clientnavbar.html' %}
         </div>
-        <div class="col-9 " style="">
+        <div class="col-xl-9 col-lg-8" style="">
             <form method="post" action="/updateadresse" class="container-fluid mt-4">
                 {% csrf_token %}
                 <div class="row">
@@ -30,16 +30,16 @@
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-4">
+                    <div class="col-sm-6 col-md-4 mt-3 mt-lg-0">
                         <label for="name" class="mb-2">Nom *</label>
                         <input type="text" class="form-control" value="{{ user.last_name }}" id="name" name="name">
                     </div>
-                    <div class="col-4">
+                    <div class="col-sm-6 col-md-4 mt-3 mt-lg-0">
                         <label for="prenon" class="mb-2">Prenom *</label>
                         <input type="text" class="form-control" id="prenon" value="{{ user.first_name }}"
                                name="lastname">
                     </div>
-                    <div class="col-4">
+                    <div class="col-sm-6 col-md-4 mt-3 mt-lg-0">
                         <label for="tele" class="mb-2">Téléphone *</label>
                         <input type="tel" name="tele" class="form-control" id="tele" value="{{ user.ClientUser.tele }}">
                     </div>
@@ -54,16 +54,16 @@
                     </div>
                 </div>
                 <div class="row mt-4">
-                    <div class="col-4">
+                    <div class="col-sm-6 col-md-4 mt-3 mt-lg-0">
                         <label for="codepostal" class="mb-2">Code postal *</label>
                         <input type="text" class="form-control" value="{{ user.ClientUser.codepostal }}" id="codepostal" name="codepostal">
                     </div>
-                    <div class="col-4">
+                    <div class="col-sm-6 col-md-4 mt-3 mt-lg-0">
                         <label for="ville" class="mb-2">Ville *</label>
                         <input type="text" class="form-control" id="ville" value="{{ user.ClientUser.city }}"
                                name="ville">
                     </div>
-                    <div class="col-4">
+                    <div class="col-sm-6 col-md-4 mt-3 mt-lg-0">
                         <label for="pays" class="mb-2">Pays *</label>
                         <select class="form-select" id="pays" name="pays">
                             <option value="morocco">Morocco</option>

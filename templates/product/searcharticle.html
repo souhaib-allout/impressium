@@ -16,7 +16,7 @@
 <body>
 {% include 'parts/header.html' %}
 <div class="container-fluid">
-   <div class="row">
+   <div class="row pt-3" style="min-height: 50px;background-color: #eeeeee">
         <div class="col-lg-3 col-md-3 col-6 d-flex mb-sm-3 justify-content-center align-items-center">
             <img src="{% static 'Icons/Euro.png' %}" height="23" width="23"/>
             <span style="font-size: 12px">DES PRIX COMPETITIFS</span>
@@ -52,9 +52,9 @@
     <div class="row">
         {% if products|length >= 1 %}
             {% for product in products %}
-                <div class="col-lg-2 col-md-3">
-                    <div class="card">
-                        <img src="{{ product.articleimages.first.name.url }}" style="height: 200px"
+                <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6 mb-3">
+                    <div class="card" style="max-width: 300px">
+                        <img src="{{ product.articleimages.first.name.url }}" style="height: 200px;"
                              class="img-fluid" alt="...">
                         {#                    {% for image in product.articleimages.all %}#}
                         {#                        <p>{{ product.articleimages.first.name }}</p>#}

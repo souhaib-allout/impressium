@@ -81,28 +81,22 @@
 <body>
 {% include 'parts/header.html' %}
 <div class="container-fluid">
-    <div class="row">
-        <div class="d-flex justify-content-between" style="height: 50px;background-color: #eeeeee">
-            <div></div>
-            <div class="d-flex align-items-center">
-                <img src="{% static 'Icons/Euro.png' %}" height="23" width="23"/>
-                <span style="font-size: 12px">DES PRIX COMPETITIFS</span>
-            </div>
-            <div class="d-flex align-items-center">
-                <img src="{% static 'Icons/Truck.svg' %}" height="28" width="28"/>
-                <span style="font-size: 12px">LIVRAISON OFFERTE</span>
-            </div>
-            <div class="d-flex align-items-center">
-                <img src="{% static 'Icons/Correct.svg' %}" height="28" width="28"/>
-                <span style="font-size: 12px">CONTROLE DES FICHIERS</span>
-            </div>
-            <div class="d-flex align-items-center">
-                <img src="{% static 'Icons/Like.svg' %}" height="28" width="28"/>
-                <span style="font-size: 12px">PRODUITS DE QUALITE</span>
-            </div>
-            <div>
-
-            </div>
+    <div class="row align-items-center d-flex" style="min-height: 50px;background-color: #eeeeee">
+        <div class="col-lg-3 col-md-3 col-6 d-flex  justify-content-center align-items-center">
+            <img src="{% static 'Icons/Euro.png' %}" height="23" width="23"/>
+            <span style="font-size: 12px">DES PRIX COMPETITIFS</span>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6 d-flex  justify-content-center align-items-center">
+            <img src="{% static 'Icons/Truck.svg' %}" height="28" width="28"/>
+            <span style="font-size: 12px">LIVRAISON OFFERTE</span>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6 d-flex  justify-content-center align-items-center">
+            <img src="{% static 'Icons/Correct.svg' %}" height="28" width="28"/>
+            <span style="font-size: 12px">CONTROLE DES FICHIERS</span>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6 d-flex  justify-content-center align-items-center">
+            <img src="{% static 'Icons/Like.svg' %}" height="28" width="28"/>
+            <span style="font-size: 12px">PRODUITS DE QUALITE</span>
         </div>
     </div>
 </div>
@@ -127,7 +121,7 @@
     </div>
     <form method="post" action="/addtppan" class="row">
         {% csrf_token %}
-        <div class="col-4">
+        <div class="col-xl-4 col-md-5">
             <p class="text-center" style="text-decoration: underline #ffcf10;font-weight: 600;font-size: 22px">
                 Configurez votre produit
             </p>
@@ -183,7 +177,8 @@
                         <img src="{% static 'icons/arrowbottom.svg' %}" style="width: 20px;height: 20px"/>
                     </div>
                     <div class="collapse mt-3" id="préparermesfichiers">
-                        <a href="/downloadpreparemyfile" class="btn pe-0 ps-0" style="background-color:#ffcf10 ">Aide à la préparation de fichier
+                        <a href="/downloadpreparemyfile" class="btn pe-0 ps-0" style="background-color:#ffcf10 ">Aide à
+                            la préparation de fichier
                         </a>
                     </div>
                 </div>
@@ -198,7 +193,7 @@
                 {% endif %}
             </div>
         </div>
-        <div class="col-5">
+        <div class="col-xl-5 col-md-7 mt-5 mt-md-0">
             <input type="hidden" name="articleid" value="{{ product.id }}">
             {% if product.SpecificationArticle.forma.all %}
                 <div class="row align-items-center mb-3">
@@ -330,7 +325,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-xl-3 col-lg-6 mt-xl-0 mt-5">
             <p class="text-center" style="text-decoration: underline #ffcf10;font-weight: 600;font-size: 22px">
                 Tarif & Délai</p>
             <div class="row pt-3 pb-3 ps-2 pe-2" style="border: solid 1px black ">
@@ -387,7 +382,8 @@
                     </div>
                     <div class="d-flex align-items-center justify-content-between">
                         <p class="mb-0" style="font-weight: 700;font-size: 17px">Prix Total</p>
-                        <p class="mb-0 totalprice" style="font-weight: 700;font-size: 20px">{{ product.SpecificationArticle.minprice }} Mad</p>
+                        <p class="mb-0 totalprice"
+                           style="font-weight: 700;font-size: 20px">{{ product.SpecificationArticle.minprice }} Mad</p>
                     </div>
                 </div>
                 <div class="col-12 text-center mt-3">
@@ -406,7 +402,8 @@
                 <p class="text-center mb-2" style="text-decoration: underline #ffcf10;font-weight: 600;font-size: 22px">
                     Un besoin spécifique ?</p>
                 <p class="mb-2">Vous ne trouvez pas un produit sur le site ?</p>
-                <a href="/contact" class="btn" style="text-decoration:none;background-color: #abbac2">Demande de devis</a>
+                <a href="/contact" class="btn" style="text-decoration:none;background-color: #abbac2">Demande de
+                    devis</a>
             </div>
         </div>
     </form>
@@ -421,18 +418,18 @@
     </div>
     <div class="row">
         <div class="col-12 nav nav-tabs border-0" role="tablist">
-            <a href="" class="btn nav-item active me-2" data-bs-toggle="tab" data-bs-target="#info" type="button"
+            <a href="" class="btn nav-item active me-2 mb-3" data-bs-toggle="tab" data-bs-target="#info" type="button"
                role="tab"
                aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Info produit</a>
-            <a href="" class="btn nav-item me-2" data-bs-toggle="tab" data-bs-target="#options" type="button" role="tab"
+            <a href="" class="btn nav-item me-2 mb-3" data-bs-toggle="tab" data-bs-target="#options" type="button" role="tab"
                aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Options - Finitions</a>
-            <a href="" class="btn nav-item me-2" data-bs-toggle="tab" data-bs-target="#Conseils" type="button"
+            <a href="" class="btn nav-item me-2 mb-3" data-bs-toggle="tab" data-bs-target="#Conseils" type="button"
                role="tab"
                aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Conseils Techniques</a>
-            <a href="" class="btn nav-item me-2" data-bs-toggle="tab" data-bs-target="#complémentaires" type="button"
+            <a href="" class="btn nav-item me-2 mb-3" data-bs-toggle="tab" data-bs-target="#complémentaires" type="button"
                role="tab"
                aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Produits complémentaires</a>
-            <a href="" class="btn nav-item me-2" data-bs-toggle="tab" data-bs-target="#Avis" type="button" role="tab"
+            <a href="" class="btn nav-item me-2 mb-3" data-bs-toggle="tab" data-bs-target="#Avis" type="button" role="tab"
                aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Avis Client</a>
         </div>
         <div class="tab-content mt-4" id="infotabs">
@@ -520,7 +517,7 @@
                     filecontroller: $('#hiddencontrolefile').val(),
                 },
                 success: function (e) {
-                    $('.totalprice').text(e+ 'MAD')
+                    $('.totalprice').text(e + 'MAD')
                 }, error: function (e) {
                     console.log(e.responseText)
                 }
@@ -546,10 +543,10 @@
                     $('.deleveryrange').text(e.mindate + ' et ' + e.maxdate)
                     $('.delevreyprice').text(e.price + ' Mad')
                     $('#hiddendeleveryprice').val(e.price)
-                    $('.totalprice').text(e.total+' MAD')
+                    $('.totalprice').text(e.total + ' MAD')
                 },
                 error: function (e) {
-                                        console.log(e.responseText)
+                    console.log(e.responseText)
                 }
             })
         })
@@ -569,10 +566,10 @@
                 success: function (e) {
                     $('.controlefile').text(e.price + ' Mad')
                     $('#hiddencontrolefile').val(e.price)
-                    $('.totalprice').text(e.total+ 'MAD')
+                    $('.totalprice').text(e.total + 'MAD')
                 },
                 error: function (e) {
-                                        console.log(e.responseText)
+                    console.log(e.responseText)
                 }
             })
         })
@@ -592,9 +589,20 @@
         keyboard: true,
     });
 
-    /*****new items slider******/
+    /*****related items slider******/
+     if (window.innerWidth > 1300) {
+        nbinpga = 5
+    } else if (window.innerWidth <= 1300 && window.innerWidth > 1000) {
+        nbinpga = 4
+    } else if (window.innerWidth <= 1000 && window.innerWidth > 700) {
+        nbinpga = 3
+    } else if (window.innerWidth <= 700 && window.innerWidth > 500) {
+        nbinpga = 2
+    } else {
+        nbinpga = 1
+    }
     var swiper = new Swiper('.swiper-container-newitems', {
-        slidesPerView: 5,
+        slidesPerView: nbinpga,
         spaceBetween: 30,
         {#slidesPerGroup: 3,#}
         loop: true,

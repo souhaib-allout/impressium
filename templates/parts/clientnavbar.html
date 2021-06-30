@@ -14,7 +14,83 @@
         background-color: #ffcf10;
     }
 </style>
-<div class="row" style="border: solid 1px #1e202c;margin-left: 3%">
+
+<div class="d-block d-lg-none" style="position: fixed !important;top: 40vh;background-color: rgb(30,32,44,0.5);border-radius: 100px;width: 60px;height: 60px" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+</div>
+
+<div class="offcanvas offcanvas-start row px-0 mx-0 " tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="border: solid 1px #1e202c;">
+    <div class="col-12 pt-4 pb-1 ps-5" style="background-color: #1e202c;color: white;">
+        <p class="mb-0 pb-6" style="font-size: 20px;line-height: 13px;font-weight: 400">BONJOUR,</p>
+        <p style="font-size: 20px"><b>{{ user.username | upper }}</b></p>
+    </div>
+    <div class="col-12 p-0">
+        <ul style="list-style: none;padding-left: 0">
+            <li class="pt-2 pb-2 ps-5 boardtab" >
+                <a href="/dashboard">
+                    <img src="{% static 'Icons/User.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MON TABLEAU DE BORD</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 profiletab">
+                <a href="/profile">
+                    <img src="{% static 'Icons/Settings.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MODIFIER MES INFORMATIONS</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 adressetab">
+                <a href="/adresses">
+                    <img src="{% static 'Icons/Truck.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>GÉRER MES ADRESSES</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 commandestab">
+                <a href="/mes_commendes">
+                    <img src="{% static 'Icons/Box.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MES PRODUITS COMMANDÉS</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 deviestab">
+                <a href="">
+                    <img src="{% static 'Icons/Devi.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MES DEVIS</span>
+                </a>
+            </li>
+            <li class="pt-2 pb-2 ps-5 designtabs">
+                <a href="/mes_designs">
+                    <img src="{% static 'Icons/Art.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>MES DESIGNS</span>
+                </a>
+            </li>
+{#            <li class="pt-2 pb-2 ps-5 ">#}
+{#                <a href="">#}
+{#                    <img src="{% static 'Icons/Euro.png' %}" style="width: 25px;height: 25px" class="me-5">#}
+{#                    <span>MA CAGNOTTE</span>#}
+{#                </a>#}
+{#            </li>#}
+{#            <li class="pt-2 pb-2 ps-5 ">#}
+{#                <a href="">#}
+{#                    <img src="{% static 'Icons/2Users.svg' %}" style="width: 25px;height: 25px" class="me-5">#}
+{#                    <span>PARRAINAGE</span>#}
+{#                </a>#}
+{#            </li>#}
+            <li class="pt-2 pb-2 ps-5 " style="border-top: solid 1px black">
+                <a href="">
+                    <img src="{% static 'Icons/Question.svg' %}" style="height: 25px;width: 25px" class="me-5">
+                    <span>FOIRE AUX QUESTIONS</span>
+                </a>
+            </li>
+            </li>
+            <li class="pt-2 pb-2 ps-5 ">
+                <a href="/contact">
+                    <img src="{% static 'Icons/Phone.svg' %}" style="width: 25px;height: 25px" class="me-5">
+                    <span>NOUS CONTACTER</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+<div class="row d-none d-lg-block" style="border: solid 1px #1e202c;margin-left: 3%">
     <div class="col-12 pt-4 pb-1 ps-5" style="background-color: #1e202c;color: white;">
         <p class="mb-0 pb-6" style="font-size: 20px;line-height: 13px;font-weight: 400">BONJOUR,</p>
         <p style="font-size: 20px"><b>{{ user.username | upper }}</b></p>

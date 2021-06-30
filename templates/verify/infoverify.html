@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
                         <label for="type" class="mb-2">Type *</label>
                         <select class="form-select" id="type" name="type">
                             <option value="Association"
@@ -66,7 +66,7 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
                         <label for="tele" class="mb-2">Téléphone *</label>
                         <input type="tel" name="tele" class="form-control" id="tele" value="{{ user.ClientUser.tele }}">
                     </div>
@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
                         <label for="Civilité" class="mb-2"> Civilité *</label>
                         <select class="form-select" id="Civilité" name="civilite">
                             <option value="M."
@@ -90,16 +90,16 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-4">
+                    <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
                         <label for="name" class="mb-2">Nom *</label>
                         <input type="text" class="form-control" value="{{ user.last_name }}" id="name" name="name">
                     </div>
-                    <div class="col-4">
+                    <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
                         <label for="prenon" class="mb-2">Prenom *</label>
                         <input type="text" class="form-control" id="prenon" value="{{ user.first_name }}"
                                name="lastname">
                     </div>
-                    <div class="col-4">
+                    <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
                         <label for="mail" class="mb-2"> Adresse mail *</label>
                         <input type="email" class="form-control" id="mail" name="mail" value="{{ user.email }}">
                     </div>

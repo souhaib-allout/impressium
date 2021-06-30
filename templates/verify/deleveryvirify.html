@@ -49,10 +49,10 @@
             <form method="post" action="/livraisonverifyclick" class="container-fluid mt-4">
                 {% csrf_token %}
                 <div class="row align-items-center">
-                    <div class="col-2">
+                    <div class="col-md-2 col-4">
                         <label for="delevery">Livraison</label>
                     </div>
-                    <div class="col-4">
+                    <div class="col-md-4 col-8">
                         <select id="delevery" name="delevery" class="form-select">
                             {% for dilevy in dilevies %}
                                 <option value="{{ dilevy.id }}" deleveryid="{{ dilevy.id }}"
@@ -65,21 +65,26 @@
                     </div>
                 </div>
                 <div class="row mt-5">
-                    <div class="col-3">
+                    <div class="col-md-4 col-6">
                         <p class="mb-0 mt-2" style="font-size: 18px">Livraison prévue entre :</p>
-                        <p class="mb-0 mt-2" style="font-size: 18px">Prix Livraison </p>
                     </div>
-                    <div class="col-6">
-                        <p class="mb-0 deleveryrange mt-2" style="font-size: 18px"
-                              deleveryid="{{ dilevies.first.id }}" mindays="{{ dilevies.first.mindays }}"
-                              maxdays="{{ dilevies.first.maxdays }}">
+                    <div class="col-md-6 col-6">
+                         <p class="mb-0 deleveryrange mt-2" style="font-size: 18px"
+                           deleveryid="{{ dilevies.first.id }}" mindays="{{ dilevies.first.mindays }}"
+                           maxdays="{{ dilevies.first.maxdays }}">
                             {{ datetimenow |adddate:dilevies.first.mindays }}
                             et {{ datetimenow| adddate:dilevies.first.maxdays }}
                         </p>
+                    </div>
+                </div>
+              <div class="row">
+                    <div class="col-md-4 col-6">
+                                             <p class="mb-0 mt-2" style="font-size: 18px">Prix Livraison :</p>
+                    </div>
+                    <div class="col-md-6 col-6">
                         <p class="mb-0 delevreyprice mt-2"
                            style="font-size: 18px">{{ dilevies.first.price }} Mad</p>
                     </div>
-
                 </div>
                 <div class="row mt-4">
                     <div class="col-12 text-end">
