@@ -114,27 +114,21 @@
         </div>
     </div>
     <div class="row">
-        <div class="d-flex justify-content-between" style="height: 50px;background-color: #eeeeee">
-            <div></div>
-            <div class="d-flex align-items-center">
-                <img src="{% static 'Icons/Euro.png' %}" height="23" width="23"/>
-                <span style="font-size: 12px">DES PRIX COMPETITIFS</span>
-            </div>
-            <div class="d-flex align-items-center">
-                <img src="{% static 'Icons/Truck.svg' %}" height="28" width="28"/>
-                <span style="font-size: 12px">LIVRAISON OFFERTE</span>
-            </div>
-            <div class="d-flex align-items-center">
-                <img src="{% static 'Icons/Correct.svg' %}" height="28" width="28"/>
-                <span style="font-size: 12px">CONTROLE DES FICHIERS</span>
-            </div>
-            <div class="d-flex align-items-center">
-                <img src="{% static 'Icons/Like.svg' %}" height="28" width="28"/>
-                <span style="font-size: 12px">PRODUITS DE QUALITE</span>
-            </div>
-            <div>
-
-            </div>
+        <div class="col-lg-3 col-md-3 col-6 d-flex mb-sm-3 justify-content-center align-items-center">
+            <img src="{% static 'Icons/Euro.png' %}" height="23" width="23"/>
+            <span style="font-size: 12px">DES PRIX COMPETITIFS</span>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6 d-flex mb-sm-3 justify-content-center align-items-center">
+            <img src="{% static 'Icons/Truck.svg' %}" height="28" width="28"/>
+            <span style="font-size: 12px">LIVRAISON OFFERTE</span>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6 d-flex mb-sm-3 justify-content-center align-items-center">
+            <img src="{% static 'Icons/Correct.svg' %}" height="28" width="28"/>
+            <span style="font-size: 12px">CONTROLE DES FICHIERS</span>
+        </div>
+        <div class="col-lg-3 col-md-3 col-6 d-flex mb-sm-3 justify-content-center align-items-center">
+            <img src="{% static 'Icons/Like.svg' %}" height="28" width="28"/>
+            <span style="font-size: 12px">PRODUITS DE QUALITE</span>
         </div>
     </div>
 </div>
@@ -143,10 +137,10 @@
         <div class="">
             <div class="d-flex justify-content-center align-items-center">
                 <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
-                <h1 class="mb-0 pb-0" style="font-size:24px;font-weight: 900; ">NOUVEAUX PRODUITS</h1>
+                <h1 class="mb-0 pb-0 text-center" style="font-size:24px;font-weight: 900; ">NOUVEAUX PRODUITS</h1>
                 <hr style="color: #ffcf10;height: 2px;width: 110px;opacity: 1"/>
             </div>
-            <p class="mt-0 pt-0 d-flex justify-content-center">Nos meilleurs prix pourvous</p>
+            <p class="mt-0 pt-0 d-flex justify-content-center mt-3 mt-sm-0">Nos meilleurs prix pourvous</p>
         </div>
     </div>
     <div class="row mt-3">
@@ -262,9 +256,9 @@
     </div>
     <div class="row">
         <div class="col-1"></div>
-        <div class="col-5">
+        <div class="col-lg-5">
             <p class="mb-0 pb-0" style="font-size: 25px;font-weight: 900">PrintPasCher</p>
-            <p class="mb-5" style="font-size: 15px">votre imprimeur en ligne au quotidien</p>
+            <p class="" style="font-size: 15px">votre imprimeur en ligne au quotidien</p>
             <p style="font-size: 14px">Nous vous proposons un site clair et intuitif pour que vous puissiez commander
                 vos impressions en
                 quelques clics. Grâce à un calculateur instantané, vous pourrez configurer votre commande (produit,
@@ -274,7 +268,7 @@
                 nos graphistes professionnels, vos supports seront ainsi prêts à être imprimés et livrés chez vous. Un
                 processus simple et rassurant grâce à notre service client toujours disponible pour tous conseils.</p>
         </div>
-        <div class="col-5">
+        <div class="col-lg-5">
             <iframe width="560" height="315" src="https://www.youtube.com/embed/4Tr0otuiQuU"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -299,7 +293,7 @@
     <div class="row mt-3">
         <div class="col-1">
         </div>
-        <div class="col-5 pt-3 pb-4 text-center" style="margin-right:7px;background-color: #21adac">
+        <div class="col-sm-5 pt-3 pb-4 text-center me-sm-2 mb-sm-0 mb-2" style="background-color: #21adac">
             <img src="{% static 'Icons/Art2.svg' %}" height="85" width="85"/>
             <p style="color: #ffcf10;font-size: 16px;font-weight: bold">Comment préparer mon fichier pour une impression
                 réussie ?</p>
@@ -312,7 +306,8 @@
                 En savoir +
             </a>
         </div>
-        <div class="col-5 pt-3 pb-4 text-center" style="margin-left:7px;background-color: #21adac;padding-left: -20px">
+        <div class="col-sm-5 pt-3 pb-4 text-center ms-sm-2 mt-sm-0 mt-2"
+             style="background-color: #21adac;padding-left: -20px">
             <img src="{% static 'Icons/Search2.svg' %}" height="85" width="85"/>
             <p style="color: #ffcf10;font-size: 16px;font-weight: bold"> Quelle option choisir pour le contrôle de mon
                 fichier ?
@@ -346,32 +341,37 @@
     <div class="row mt-3 text-light">
         <div class="col-1">
         </div>
-        <div class="col-10 d-flex justify-content-between">
-            <div class="d-flex pt-2 pb-1 align-items-center" style="background: #ff0b5b;width: 32%">
-                <div style="padding: 15px">
-                    <img src="{% static 'Icons/box2.svg' %}" width="62" height="62">
+        <div class="col-10 ">
+            <div class="row ">
+                <div class="col-lg-4 col-md-6 col-sm-12 d-flex pt-2 pb-1 align-items-center"
+                     style="background: #ff0b5b;">
+                    <div style="padding: 15px">
+                        <img src="{% static 'Icons/box2.svg' %}" width="62" height="62">
+                    </div>
+                    <div>
+                        <h3 style="font-size: 20px;font-weight: bold">Revendeur print</h3>
+                        <p style="font-size: 14px"> Des avantages pour les professionnels</p>
+                    </div>
                 </div>
-                <div>
-                    <h3 style="font-size: 20px;font-weight: bold">Revendeur print</h3>
-                    <p style="font-size: 14px"> Des avantages pour les professionnels</p>
+                <div class="col-lg-4 col-md-6 col-sm-12 d-flex pt-2 pb-1 align-items-center"
+                     style="background: #ff840b;">
+                    <div style="padding: 15px">
+                        <img src="{% static 'Icons/like2.svg' %}" width="62" height="62">
+                    </div>
+                    <div>
+                        <h3 style="font-size: 20px;font-weight: bold">Revendeur print</h3>
+                        <p style="font-size: 14px"> Des avantages pour les professionnels</p>
+                    </div>
                 </div>
-            </div>
-            <div class="d-flex pt-2 pb-1 align-items-center" style="background: #ff840b;width: 32%">
-                <div style="padding: 15px">
-                    <img src="{% static 'Icons/like2.svg' %}" width="62" height="62">
-                </div>
-                <div>
-                    <h3 style="font-size: 20px;font-weight: bold">Revendeur print</h3>
-                    <p style="font-size: 14px"> Des avantages pour les professionnels</p>
-                </div>
-            </div>
-            <div class="d-flex pt-2 pb-1 align-items-center" style="background: #71a016;width: 32%">
-                <div style="padding: 15px">
-                    <img src="{% static 'Icons/2Users2.svg' %}" width="62" height="62">
-                </div>
-                <div>
-                    <h3 style="font-size: 20px;font-weight: bold">Revendeur print</h3>
-                    <p style="font-size: 14px"> Des avantages pour les professionnels</p>
+                <div class="col-lg-4 col-md-6 col-sm-12 d-flex pt-2 pb-1 align-items-center"
+                     style="background: #71a016;">
+                    <div style="padding: 15px">
+                        <img src="{% static 'Icons/2Users2.svg' %}" width="62" height="62">
+                    </div>
+                    <div>
+                        <h3 style="font-size: 20px;font-weight: bold">Revendeur print</h3>
+                        <p style="font-size: 14px"> Des avantages pour les professionnels</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -395,41 +395,44 @@
     </div>
 
     <div class="row mt-3" style="background: #ffcf10">
-        <div class="col-10 d-flex justify-content-between w-100">
-            <div class="d-flex flex-column text-center pt-2 pb-1" style="width: 23%">
-                <div style="padding: 15px;padding-bottom: 20px">
-                    <img src="{% static 'Icons/Euro.png' %}" height="34">
+        <div class="col-12 ">
+            <div class="row">
+                <div class="col-sm-3 col-6 d-flex flex-column text-center pt-2 pb-1" style="">
+                    <div style="padding: 15px;padding-bottom: 20px">
+                        <img src="{% static 'Icons/Euro.png' %}" height="34">
+                    </div>
+                    <div>
+                        <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Des prix compétitifs</h3>
+                        <p style="font-size: 14px"> En gardant le top de la qualité</p>
+                    </div>
                 </div>
-                <div>
-                    <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Des prix compétitifs</h3>
-                    <p style="font-size: 14px"> En gardant le top de la qualité</p>
+                <div class="col-sm-3 col-6 d-flex flex-column text-center pt-2 pb-1">
+                    <div style="padding: 15px;padding-bottom: 20px">
+                        <img src="{% static 'Icons/Truck.svg' %}" height="34">
+                    </div>
+                    <div>
+                        <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Livraison offerte</h3>
+                        <p style="font-size: 14px"> Sans frais supplémentaire</p>
+                    </div>
                 </div>
-            </div>
-            <div class="d-flex flex-column text-center pt-2 pb-1" style="width: 23%">
-                <div style="padding: 15px;padding-bottom: 20px">
-                    <img src="{% static 'Icons/Truck.svg' %}" height="34">
+                <div class="col-sm-3 col-6 d-flex flex-column text-center pt-2 pb-1">
+                    <div style="padding: 15px;padding-bottom: 20px">
+                        <img src="{% static 'Icons/Correct.svg' %}" height="34">
+                    </div>
+                    <div>
+                        <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Contrôle humain des
+                            fichiers</h3>
+                        <p style="font-size: 14px">Effectué gratuitement</p>
+                    </div>
                 </div>
-                <div>
-                    <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Livraison offerte</h3>
-                    <p style="font-size: 14px"> Sans frais supplémentaire</p>
-                </div>
-            </div>
-            <div class="d-flex flex-column text-center pt-2 pb-1" style="width: 23%">
-                <div style="padding: 15px;padding-bottom: 20px">
-                    <img src="{% static 'Icons/Correct.svg' %}" height="34">
-                </div>
-                <div>
-                    <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Contrôle humain des fichiers</h3>
-                    <p style="font-size: 14px">Effectué gratuitement</p>
-                </div>
-            </div>
-            <div class="d-flex flex-column text-center pt-2 pb-1" style="width: 23%">
-                <div style="padding: 15px;padding-bottom: 20px">
-                    <img src="{% static 'Icons/Like.svg' %}" height="34">
-                </div>
-                <div>
-                    <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Produits de qualité</h3>
-                    <p style="font-size: 14px"> Pour une entière satisfaction</p>
+                <div class="col-sm-3 col-6 d-flex flex-column text-center pt-2 pb-1">
+                    <div style="padding: 15px;padding-bottom: 20px">
+                        <img src="{% static 'Icons/Like.svg' %}" height="34">
+                    </div>
+                    <div>
+                        <h3 style="font-size: 15px;font-weight: 700;padding-bottom: 0px">Produits de qualité</h3>
+                        <p style="font-size: 14px"> Pour une entière satisfaction</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -454,8 +457,7 @@
     </div>
 
     <div class="row mt-3 d-flex justify-content-center w-100" style="">
-
-        <div class="col-2 text-center" style="width: 20%">
+        <div class="col-lg-3 col-md-4 col-sm-6 text-center" >
             <div class="w-100 d-flex justify-content-center">
                 <div class="d-flex align-items-center justify-content-center"
                      style="background: #ffcf10;border-radius: 100px;width: 54px;height: 54px">
@@ -475,7 +477,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-2 text-center" style="width: 20%">
+        <div class="col-lg-3 col-md-4 col-sm-6 text-center" >
             <div class="w-100 d-flex justify-content-center">
                 <div class="d-flex align-items-center justify-content-center"
                      style="background: #ffcf10;border-radius: 100px;width: 54px;height: 54px">
@@ -496,7 +498,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-2 text-center" style="width: 20%">
+        <div class="col-lg-3 col-md-4 col-sm-6 text-center" >
             <div class="w-100 d-flex justify-content-center">
                 <div class="d-flex align-items-center justify-content-center"
                      style="background: #ffcf10;border-radius: 100px;width: 54px;height: 54px">
@@ -516,7 +518,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-2 text-center" style="width: 20%">
+        <div class="col-lg-3 col-md-4 col-sm-6 text-center" >
             <div class="w-100 d-flex justify-content-center">
                 <div class="d-flex align-items-center justify-content-center"
                      style="background: #ffcf10;border-radius: 100px;width: 54px;height: 54px">
@@ -549,31 +551,31 @@
 
 </div>
 <div class="container-fluid pt-2 pb-2 mt-5" style="background-color: #eeeeee">
-    <div class="d-flex justify-content-center align-items-center">
+    <div class="d-flex flex-wrap justify-content-center align-items-center">
         <div style="width: 10%">
         </div>
-        <div style="width: 10%">
+        <div class="me-2" style="">
             <p class="mb-0" style="border-right: solid 2px #373737;width: 100px">Moyens de paiement</p>
         </div>
-        <div style="width: 10%">
+        <div class="me-2">
             <img src="{% static 'paiement/pay1.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
         </div>
-        <div style="width: 10%">
+        <div class="me-2">
             <img src="{% static 'paiement/pay2.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
         </div>
-        <div style="width: 10%">
+        <div class="me-2">
             <img src="{% static 'paiement/pay3.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
         </div>
-        <div style="width: 10%">
+        <div class="me-2">
             <img src="{% static 'paiement/pay4.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
         </div>
-        <div style="width: 10%">
+        <div class="me-2">
             <img src="{% static 'paiement/pay5.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
         </div>
-        <div style="width: 10%">
+        <div class="me-2">
             <img src="{% static 'paiement/pay6.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
         </div>
-        <div style="width: 10%">
+        <div class="me-2">
             <img src="{% static 'paiement/pay7.png' %}" class="img-fluid" style="max-height: 40px;max-width: 100px">
         </div>
 
@@ -590,8 +592,19 @@
         loop: true
     });
     /*****new items slider******/
+    if (window.innerWidth > 1300) {
+        nbinpga = 5
+    } else if (window.innerWidth <= 1300 && window.innerWidth > 1000) {
+        nbinpga = 4
+    } else if (window.innerWidth <= 1000 && window.innerWidth > 700) {
+        nbinpga = 3
+    } else if (window.innerWidth <= 700 && window.innerWidth > 500) {
+        nbinpga = 2
+    } else {
+        nbinpga = 1
+    }
     var swiper = new Swiper('.swiper-container-newitems', {
-        slidesPerView: 5,
+        slidesPerView: nbinpga,
         spaceBetween: 30,
         {#slidesPerGroup: 3,#}
         loop: true,

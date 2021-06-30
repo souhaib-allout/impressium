@@ -8,7 +8,7 @@
 </head>
 <body>
 {% include 'parts/header.html' %}
-<form method="post" action="/logupcheck" class="container mt-4">
+<form method="post" action="/logupcheck" class="container px-5 mt-4">
     {% csrf_token %}
     <div class="row">
         <div class="col-12 d-flex justify-content-center align-items-center">
@@ -18,16 +18,13 @@
         </div>
     </div>
     <div class="row mt-4">
-        <div class="col-1"></div>
         <div class="col-10">
             <p style="font-size:15px;font-weight:600;border-bottom: solid 2px #ffcf10">Vos informations
                 professionnelles</p>
         </div>
     </div>
     <div class="row">
-        <div class="col-1">
-        </div>
-        <div class="col-3">
+        <div class="col-sm-6 col-lg-4 mt-3 mt-md-0">
             <label for="type" class="mb-2">Type *</label>
             <select class="form-select" id="type" name="type">
                 <option selected value="Association">Association</option>
@@ -35,13 +32,12 @@
                 <option value="Professionnel">Professionnel</option>
             </select>
         </div>
-        <div class="col-3">
+        <div class="col-sm-6 col-lg-4 mt-3 mt-md-0">
             <label for="tele" class="mb-2">Téléphone *</label>
             <input type="tel" name="tele" class="form-control" id="tele">
         </div>
     </div>
     <div class="row mt-5">
-        <div class="col-1"></div>
         <div class="col-10">
             <p style="font-size:15px;font-weight:600;border-bottom: solid 2px #ffcf10">
                 Vos informations personnelles
@@ -49,27 +45,24 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-1">
-        </div>
-        <div class="col-3">
+        <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
             <label for="Civilité" class="mb-2"> Civilité *</label>
             <select class="form-select" id="Civilité" name="civilite">
                 <option selected>M.</option>
                 <option value="1">Mm.</option>
             </select>
         </div>
-        <div class="col-3">
+        <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
             <label for="name" class="mb-2">Nom *</label>
             <input type="text" class="form-control" id="name" name="name">
         </div>
-        <div class="col-3">
+        <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
             <label for="prenon" class="mb-2">Prenom *</label>
             <input type="text" class="form-control" id="prenon" name="lastname">
         </div>
     </div>
 
     <div class="row mt-5">
-        <div class="col-1"></div>
         <div class="col-10">
             <p style="font-size:15px;font-weight:600;border-bottom: solid 2px #ffcf10">
                 Vos informations de connexion
@@ -77,24 +70,20 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-1">
-        </div>
-        <div class="col-3">
+        <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
             <label for="mail" class="mb-2"> Adresse mail *</label>
             <input type="email" class="form-control" id="mail" name="mail">
         </div>
-        <div class="col-3">
+        <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
             <label for="password" class="mb-2">Mot de passe *</label>
             <input type="password" class="form-control" id="password" name="password1">
         </div>
-        <div class="col-3">
+        <div class="col-sm-6 col-lg-4 mt-3 mt-lg-0">
             <label for="password2" class="mb-2">Confirmer le mot de passe *</label>
             <input type="password" class="form-control" id="password2" name="password2">
         </div>
     </div>
-    <div class="row mt-3 d-flex align-items-center">
-        <div class="col-1"></div>
-
+    <div class="row mt-3 d-flex">
         <div class="col-10 form-check">
             <input class="form-check-input privacy" type="checkbox" value="" id="privacy" accepted="no">
             <label class="form-check-label privacy" for="privacy" name="privacy">
