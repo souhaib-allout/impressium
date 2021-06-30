@@ -1,26 +1,50 @@
-<div class="d-flex align-items-center mt-5 mb-5">
-    <a href="infoverify" class="py-2 text-center profiletab"
-       style="text-decoration:none;width:15%;background-color: #ffcf10;border-radius: 100px;cursor: pointer">
+<style>
+    .verificationstabs a {
+        text-decoration: none;
+        background-color: #ffcf10;
+        border-radius: 100px;
+        cursor: pointer
+    }
+
+    @media only screen and (min-width: 789px) {
+        .verificationstabs a {
+            width: 15%;
+        }
+    }
+
+    @media only screen and (min-width: 519px) and (max-width: 788px) {
+        .verificationstabs a {
+            width: 20%;
+        }
+    }
+     @media only screen and (max-width: 518px) {
+         .verificationstabs{
+                         flex-wrap: wrap !important;
+         }
+        .verificationstabs a {
+            width: 30%;
+            margin-bottom: 20px;
+        }
+    }
+</style>
+<div class="d-flex align-items-center mt-5 mb-5 verificationstabs">
+    <a href="infoverify" class="py-2 text-center profiletab">
         <span>Informations</span>
     </a>
-    <hr style="width: 10%"/>
-    <a href="adresseverify" class="py-2 text-center adressetab"
-       style="text-decoration:none;width:15%;background-color: #ffcf10;border-radius: 100px;cursor: pointer">
+    <hr class="d-none d-sm-block" style="width: 10%"/>
+    <a href="adresseverify" class="py-2 text-center adressetab">
         <span>Adresse</span>
     </a>
-    <hr style="width: 10%"/>
-    <a href="livraisonverify" class="py-2 text-center deleverytab"
-       style="text-decoration:none;width:15%;background-color: #ffcf10;border-radius: 100px;cursor: pointer">
+    <hr class="d-none d-sm-block" style="width: 10%"/>
+    <a href="livraisonverify" class="py-2 text-center deleverytab">
         <span>Livraision</span>
     </a>
-    <hr style="width: 10%"/>
-       <a href="commandeverify" class="py-2 text-center commande"
-       style="text-decoration:none;width:15%;background-color: #ffcf10;border-radius: 100px;cursor: pointer">
+    <hr class="d-none d-sm-block" style="width: 10%"/>
+    <a href="commandeverify" class="py-2 text-center commande">
         <span>Commande</span>
     </a>
-        <hr style="width: 10%"/>
-    <a href="payementverify" class="py-2 text-center payementtab"
-       style="text-decoration:none;width:15%;background-color: #ffcf10;border-radius: 100px;cursor: pointer">
+    <hr class="d-none d-sm-block" style="width: 10%"/>
+    <a href="payementverify" class="py-2 text-center payementtab">
         <span>Paiement</span>
     </a>
 
