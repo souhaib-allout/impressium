@@ -226,17 +226,20 @@ class Specification(models.Model):
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
-        quanity = self.Quantity.first().nb
-        if self.finition is None:
-            finition = 1
-        else:
+        # if self.Quantity:
+        #    quanity = self.Quantity.first().nb
+        # else :
+        quanity=1
+        if self.finition.exists():
             finition = self.finition.first().price
-        if self.paperType is None:
-            paperType = 1
         else:
+            finition = 1
+        if self.paperType.exists():
             paperType = self.paperType.first().price
+        else:
+            paperType = 1
 
-        return (quanity * finition * paperType)
+        return str(quanity * finition * paperType)
         # return self.article.title
 
     class Meta:
@@ -244,17 +247,17 @@ class Specification(models.Model):
 
     @property
     def minprice(self):
-        quanity = self.Quantity.first().nb
-        if self.finition is None:
-            finition = 1
-        else:
+        quanity = 1
+        if self.finition.exists():
             finition = self.finition.first().price
-        if self.paperType is None:
-            paperType = 1
         else:
+            finition = 1
+        if self.paperType.exists():
             paperType = self.paperType.first().price
+        else:
+            paperType = 1
 
-        return (quanity * finition * paperType)
+        return str(quanity * finition * paperType)
 
 
 class Bestarticle(models.Model):

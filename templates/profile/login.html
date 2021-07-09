@@ -71,7 +71,7 @@
             </div>
             <div class="ms-5 mt-2 d-flex flex-wrap">
                 <a class="btn text-decoration-none text-light mb-2" style="background-color: #0076bc;width: 250px"
-                   href="{% provider_login_url "facebook" method="oauth2" %}" >
+                   href="{% provider_login_url "facebook" method="oauth2" %}">
                     <img src="{% static 'Icons/fb2.svg' %}" style="height: 25px;">
                     Connecter avec Facebook
                 </a>
@@ -80,6 +80,10 @@
                     <img src="{% static 'Icons/google-plus.svg' %}" style="height: 25px;">
                     Connecter avec Google
                 </a>
+            </div>
+
+            <div class="mt-5">
+                <p class="text-danger">{{ GET.infoerror }}</p>
             </div>
         </form>
     </div>

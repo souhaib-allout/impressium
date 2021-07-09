@@ -127,12 +127,11 @@
             </p>
             <div class="swiper-container swiper-container-product ">
                 <div class="swiper-wrapper swiper-wrapper-product">
-                    <div class="swiper-slide swiper-slide-product">
-                        {% for image in product.articleimages.all %}
+                    {% for image in product.articleimages.all %}
+                        <div class="swiper-slide swiper-slide-product">
                             <img src="{{ image.name.url }}" class="img-fluid w-75">
-                        {% endfor %}
-                    </div>
-
+                        </div>
+                    {% endfor %}
                 </div>
                 <div class="swiper-button-next swiper-button-next-product"
                      style="color:white;background-color: rgb(213,212,212,0.80);height: 50px;width: 50px;border-radius: 100px"></div>
@@ -383,7 +382,7 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <p class="mb-0" style="font-weight: 700;font-size: 17px">Prix Total</p>
                         <p class="mb-0 totalprice"
-                           style="font-weight: 700;font-size: 20px">{{ product.SpecificationArticle.minprice }} Mad</p>
+                           style="font-weight: 700;font-size: 20px">{{ middleprice }} Mad</p>
                     </div>
                 </div>
                 <div class="col-12 text-center mt-3">
@@ -421,15 +420,18 @@
             <a href="" class="btn nav-item active me-2 mb-3" data-bs-toggle="tab" data-bs-target="#info" type="button"
                role="tab"
                aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Info produit</a>
-            <a href="" class="btn nav-item me-2 mb-3" data-bs-toggle="tab" data-bs-target="#options" type="button" role="tab"
+            <a href="" class="btn nav-item me-2 mb-3" data-bs-toggle="tab" data-bs-target="#options" type="button"
+               role="tab"
                aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Options - Finitions</a>
             <a href="" class="btn nav-item me-2 mb-3" data-bs-toggle="tab" data-bs-target="#Conseils" type="button"
                role="tab"
                aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Conseils Techniques</a>
-            <a href="" class="btn nav-item me-2 mb-3" data-bs-toggle="tab" data-bs-target="#complémentaires" type="button"
+            <a href="" class="btn nav-item me-2 mb-3" data-bs-toggle="tab" data-bs-target="#complémentaires"
+               type="button"
                role="tab"
                aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Produits complémentaires</a>
-            <a href="" class="btn nav-item me-2 mb-3" data-bs-toggle="tab" data-bs-target="#Avis" type="button" role="tab"
+            <a href="" class="btn nav-item me-2 mb-3" data-bs-toggle="tab" data-bs-target="#Avis" type="button"
+               role="tab"
                aria-controls="home" style="border: solid 1px #ffcf10;border-radius: 30px">Avis Client</a>
         </div>
         <div class="tab-content mt-4" id="infotabs">
@@ -531,7 +533,7 @@
                 method: 'POST',
                 data: {
                     csrfmiddlewaretoken: '{{csrf_token }}',
-                    deleveryid:$('#delevery').val(),
+                    deleveryid: $('#delevery').val(),
                     quantity: $('#quantite').val(),
                     finitions: $('#finitions').val(),
                     papertype: $('#papertype').val(),
@@ -545,7 +547,7 @@
                     $('#hiddendeleveryprice').val(e.price)
                     $('.totalprice').text(e.total + ' MAD')
 
-                     $('.controlefile').text(e.filecontrollerprice + ' Mad')
+                    $('.controlefile').text(e.filecontrollerprice + ' Mad')
                     $('#hiddencontrolefile').val(e.filecontrollerprice)
                 },
                 error: function (e) {
@@ -568,33 +570,33 @@
         {#        },#}
         {#        success: function (e) {#}
         {#            console.log(e)#}
-                    {#$('.controlefile').text(e.price + ' Mad')#}
-                    {#$('#hiddencontrolefile').val(e.price)#}
-                    {#$('.totalprice').text(e.total + 'MAD')#}
+        {#$('.controlefile').text(e.price + ' Mad')#}
+        {#$('#hiddencontrolefile').val(e.price)#}
+        {#$('.totalprice').text(e.total + 'MAD')#}
         {#        },#}
         {#        error: function (e) {#}
         {#            console.log(e.responseText)#}
         {#        }#}
         {#    })#}
-        {#})#}
+        {# })#}
 
     })
     var swiper = new Swiper(".swiper-container-product", {
-        cssMode: true,
+        {#cssMode: true,#}
         navigation: {
             nextEl: ".swiper-button-next-product",
             prevEl: ".swiper-button-prev-product",
         },
         pagination: {
             el: ".swiper-pagination",
-        },
+         },
         loop: true,
-        mousewheel: true,
-        keyboard: true,
+        {#mousewheel: true,#}
+        {#keyboard: true,#}
     });
 
     /*****related items slider******/
-     if (window.innerWidth > 1300) {
+    if (window.innerWidth > 1300) {
         nbinpga = 5
     } else if (window.innerWidth <= 1300 && window.innerWidth > 1000) {
         nbinpga = 4

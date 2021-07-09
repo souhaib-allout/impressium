@@ -34,8 +34,8 @@ import json
 
 def index(request):
     newarticles = Article.objects.order_by('-id')[:5]
-    article = Article.objects.get(id=6)
-    min = str(article.SpecificationArticle.minprice)
+    # article = Article.objects.get(id=6)
+    # min = str(article.SpecificationArticle.minprice)
     print()
     # topsearch = CategoryHistory.objects.annotate(nb_search=Count('title')).order_by('nb_search')[0:8]
     # for newarticle in newarticles:
@@ -53,7 +53,6 @@ def login(request):
 def logincheck(request):
     if (request.method == 'POST'):
         username = User.objects.get(email=request.POST['email'])
-
         user = authenticate(request, username=username.username, password=request.POST['password'])
         if user is not None:
             loginnow(request, user)
@@ -65,7 +64,7 @@ def logincheck(request):
 
             return HttpResponse('good')
         else:
-            return HttpResponse('bad')
+            return redirect('/login?infoerror=email ou mot de pass est inccorect')
 
 
 def logup(request):
@@ -96,8 +95,9 @@ def logoutcheck(request):
     # return HttpResponse('good')
     return redirect('/login')
 
+
 def resetpassword(request):
-    return render(request,'profile/resetpassword.html')
+    return render(request, 'profile/resetpassword.html')
 
 
 @login_required(login_url='/login')
@@ -163,7 +163,7 @@ def updateadresse(request):
 
 @login_required(login_url='/login')
 def mydesigns(request):
-    designs = Pane.objects.filter(user=request.user, ArticleDesign__isnull=False).all()
+    designs = LastPane.objects.filter(user=request.user, ArticleDesign__isnull=False).all()
     return render(request, 'profile/designs.html', {'designs': designs})
 
 
@@ -208,6 +208,7 @@ def product(request, id):
     dilevies = Delivery.objects.all()
     fileControles = FileControle.objects.all()
     datetimenow = str(datetime.datetime.now().strftime('%A %d %B'))
+    middleprice = float(product.SpecificationArticle.minprice) + dilevies.first().price + fileControles.first().price
     if request.user.is_authenticated:
         displayexist = Pane.objects.filter(article_id=id, user=request.user).first()
         if displayexist:
@@ -219,7 +220,8 @@ def product(request, id):
 
     return render(request, 'product/product.html',
                   {'product': product, 'categories': categories, 'realtedproducts': realtedproducts,
-                   'dilevies': dilevies, 'fileControles': fileControles, 'datetimenow': datetimenow, 'exist': exist})
+                   'dilevies': dilevies, 'fileControles': fileControles, 'middleprice': middleprice,
+                   'datetimenow': datetimenow, 'exist': exist})
 
 
 @login_required(login_url='/login')
@@ -509,7 +511,7 @@ def deleveryfilter(request):
             'mindate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.mindays)).strftime('%A %d %B')),
             'maxdate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.maxdays)).strftime('%A %d %B')),
             'price': deleveryprice,
-            'filecontrollerprice':filecontroller,
+            'filecontrollerprice': filecontroller,
             'total': total
         })
 
@@ -537,7 +539,7 @@ def filecontrolefilter(request):
 
         filecontrole = FileControle.objects.filter(id=request.POST['filecontroleid']).first()
         quantite = int(request.POST['quantity'])
-        deleveryprice =  Delivery.objects.filter(id=request.POST['delevery']).first().price
+        deleveryprice = Delivery.objects.filter(id=request.POST['delevery']).first().price
         filecontrollerprice = filecontrole.price
         return HttpResponse(filecontrole)
 
@@ -697,7 +699,7 @@ def commandeverifyclick(request):
 
 
 @login_required(login_url='/login')
-def payementrequest(request,total):
+def payementrequest(request, total):
     url = "https://test.oppwa.com/v1/checkouts"
     data = {
         'entityId': '8a8294174b7ecb28014b9699220015ca',
@@ -727,7 +729,7 @@ def payementverify(request):
     delevery = carts.first().delevery.price
     total += delevery
     # return HttpResponse(int(total))
-    data = payementrequest(request,int(total))
+    data = payementrequest(request, int(total))
     return render(request, 'verify/payementverify.html', {'checkoutid': data})
 
 
@@ -808,8 +810,9 @@ def test(request):
         # return HttpResponse(categorieschart)
         return render(request, 'test.html',
                       {'userschart': userschart, 'productchart': productchart, 'categorieschart': categorieschart})
-    else :
+    else:
         return redirect('/admin')
+
 
 def privacypolicy(request):
     return render(request, 'privacy&policy.html')

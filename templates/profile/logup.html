@@ -1,4 +1,6 @@
 {% load static %}
+{% load socialaccount %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -92,10 +94,21 @@
         </div>
     </div>
     <div class="row mt-4">
-        <div class="col-12 text-center">
+        <div class="col-12 d-flex flex-column align-items-center">
             <button class="btn" disabled="disabled" id="create"
-                    style="background-color:#ffcf10;width: 320px;height: 45px ">Créer mon compte
+                    style="background-color:#ffcf10;width: 250px">Créer mon compte
             </button>
+                <a class="btn text-decoration-none text-light mb-2 mt-2" style="background-color: #0076bc;width: 250px"
+                   href="{% provider_login_url "facebook" method="oauth2" %}">
+                    <img src="{% static 'Icons/fb2.svg' %}" style="height: 25px;">
+                    Connecter avec Facebook
+                </a>
+                <a class="btn text-decoration-none text-light" style="background-color: #db4a39;width: 250px"
+                   href="{% provider_login_url "google" method="oauth2" %}">
+                    <img src="{% static 'Icons/google-plus.svg' %}" style="height: 25px;">
+                    Connecter avec Google
+                </a>
+
         </div>
     </div>
 </form>
