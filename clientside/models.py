@@ -1,5 +1,6 @@
 import datetime
 
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
@@ -24,7 +25,7 @@ class Client(models.Model):
 
 
 class Message(models.Model):
-    full_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=100, validators=[MinValueValidator(4, 'Minimun est 4 champs')])
     subject = models.CharField(max_length=100, null=True)
     email = models.EmailField(max_length=100)
     tele = models.TextField(null=True, max_length=100)
@@ -206,22 +207,22 @@ class Specification(models.Model):
     customSize = models.BooleanField(verbose_name='client choisi longeur et largeur', null=True, blank=True)
     customQuantite = models.BooleanField(verbose_name='client choisi Quantite', null=True, blank=True)
     customDesign = models.BooleanField(verbose_name='client Charger un design', null=True, blank=True)
-    size = models.ManyToManyField(Size1, verbose_name='Size', related_name="SizeSpecification", blank=True)
+    size = models.ManyToManyField(Size1, verbose_name='Size', related_name="SizeSpecification",null=True, blank=True)
     formattype = models.ManyToManyField(FormatType, verbose_name='FromaTypeSpecification',
-                                        related_name="FormaTypeSpecification", blank=True)
+                                        related_name="FormaTypeSpecification",null=True, blank=True)
     paperType = models.ManyToManyField(PaperType, verbose_name='Papier type', related_name="PaperSpecification",
-                                       blank=True)
+                                       null=True, blank=True)
     paperColor = models.ManyToManyField(PaperColor, verbose_name='Papier coleur',
-                                        related_name="PaperColorSpecification", blank=True)
+                                        related_name="PaperColorSpecification",null=True, blank=True)
     fontColor = models.ManyToManyField(FontColor, verbose_name='Font coleur', related_name="FontColorSpecification",
-                                       blank=True)
-    side = models.ManyToManyField(Side, verbose_name='direction', related_name="SideSpecification", blank=True)
+                                       null=True,blank=True)
+    side = models.ManyToManyField(Side, verbose_name='direction', related_name="SideSpecification",null=True, blank=True)
     orientation = models.ManyToManyField(Orientation, verbose_name='Orientation',
-                                         related_name="OrientationSpecification", blank=True)
+                                         related_name="OrientationSpecification",null=True, blank=True)
     finition = models.ManyToManyField(Finition, verbose_name='Finition', related_name="FinitionSpecification",
-                                      blank=True)
+                                      null=True, blank=True)
     Quantity = models.ManyToManyField(Quantity, related_name='QuantitySpecification', verbose_name='Quantite',
-                                      blank=True)
+                                      null=True, blank=True)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
@@ -354,12 +355,71 @@ class Pane(models.Model):
         return (finition * quanity * paperType) + FileControle
 
 
+
 class Commande(models.Model):
-    Pane = models.ManyToManyField(Pane, related_name='panes')
+    # LastPane = models.ManyToManyField(LastPane, related_name='panes')
     User = models.ForeignKey(User, related_name='user', on_delete=models.CASCADE)
     total = models.FloatField()
     delevery = models.ForeignKey(Delivery, related_name='Deleverycommande', on_delete=models.CASCADE)
+    statutchoises = [
+        ('En attente','En attente'),
+        ('En Livraison','En Livraison'),
+        ('Livrée','Livrée'),
+    ]
+    statut=models.CharField(choices=statutchoises,default='En attente',max_length=50)
     created_at = models.DateTimeField(default=datetime.datetime.now)
 
     class Meta:
         ordering = ['-created_at']
+
+class LastPane(models.Model):
+    commande=models.ForeignKey(Commande, related_name='CommandeLastPane', on_delete=models.CASCADE,default='')
+    article = models.ForeignKey(Article, related_name='ArticleLastPane', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='UserLastPane', on_delete=models.CASCADE)
+    FileControle = models.ForeignKey(FileControle, related_name='FileControleLastPane', on_delete=models.CASCADE)
+    delevery = models.ForeignKey(Delivery, related_name='DeleveryLastPane', on_delete=models.CASCADE)
+    ArticleDesign = models.FileField(verbose_name='Nom', upload_to='static/pane_images', null=True)
+    size = models.ForeignKey(Size1, verbose_name='Size', related_name="SizeLastPane", null=True, blank=True,
+                             on_delete=models.CASCADE)
+    formattype = models.ForeignKey(FormatType, verbose_name='Forma type',
+                                   related_name="FormaTypeLastPane", null=True, blank=True, on_delete=models.CASCADE)
+    paperType = models.ForeignKey(PaperType, verbose_name='Papier type', related_name="PaperLastPane",
+                                  null=True, blank=True, on_delete=models.CASCADE)
+    paperColor = models.ForeignKey(PaperColor, verbose_name='Papier coleur',
+                                   related_name="PaperColorLastPane", null=True, blank=True, on_delete=models.CASCADE)
+    fontColor = models.ForeignKey(FontColor, verbose_name='Font coleur', related_name="FontColorLastPane",
+                                  null=True, blank=True, on_delete=models.CASCADE)
+    side = models.ForeignKey(Side, verbose_name='direction', related_name="SideLastPane", null=True, blank=True,
+                             on_delete=models.CASCADE)
+    orientation = models.ForeignKey(Orientation, verbose_name='Orientation',
+                                    related_name="OrientationLastPane", null=True, blank=True, on_delete=models.CASCADE)
+    finition = models.ForeignKey(Finition, verbose_name='Finition', related_name="FinitionLastPane",
+                                 null=True, blank=True, on_delete=models.CASCADE)
+    Quantity = models.ForeignKey(Quantity, related_name='QuantityLastPane', verbose_name='Quantite',
+                                 null=True, blank=True, on_delete=models.CASCADE)
+    CostumQuantity = models.IntegerField(null=True)
+    created_at = models.DateTimeField(default=datetime.datetime.now)
+
+    def __str__(self):
+        return str(self.article)
+
+    @property
+    def total(self):
+        if self.Quantity is not None:
+            quanity = self.Quantity
+        elif self.CostumQuantity is not None:
+            quanity = self.CostumQuantity
+        else:
+            quanity = 1
+        if self.finition is None:
+            finition = 1
+        else:
+            finition = self.finition.price
+        if self.paperType is None:
+            paperType = 1
+        else:
+            paperType = self.paperType.price
+        FileControle = float(self.FileControle.price)
+        price = float(self.delevery.price)
+        return (finition * quanity * paperType) + FileControle
+

@@ -524,18 +524,18 @@
             })
         })
 
-        $('#delevery').change(function () {
+        $('#delevery,#filecontrole').change(function () {
             $deleveryid = $(this).val()
             $.ajax({
                 url: '/deleveryfilter',
                 method: 'POST',
                 data: {
                     csrfmiddlewaretoken: '{{csrf_token }}',
-                    deleveryid: $deleveryid,
+                    deleveryid:$('#delevery').val(),
                     quantity: $('#quantite').val(),
                     finitions: $('#finitions').val(),
                     papertype: $('#papertype').val(),
-                    filecontroller: $('#hiddencontrolefile').val(),
+                    filecontroller: $('#filecontrole').val(),
                 },
                 success: function (e) {
                     {#$('.deleveryrange').attr('mindays', e[0].mindays)#}
@@ -544,35 +544,39 @@
                     $('.delevreyprice').text(e.price + ' Mad')
                     $('#hiddendeleveryprice').val(e.price)
                     $('.totalprice').text(e.total + ' MAD')
+
+                     $('.controlefile').text(e.filecontrollerprice + ' Mad')
+                    $('#hiddencontrolefile').val(e.filecontrollerprice)
                 },
                 error: function (e) {
                     console.log(e.responseText)
                 }
             })
         })
-        $('#filecontrole').change(function () {
-            $filecontroleid = $(this).val()
-            $.ajax({
-                url: '/filecontrolefilter',
-                method: 'POST',
-                data: {
-                    csrfmiddlewaretoken: '{{csrf_token }}',
-                    filecontroleid: $filecontroleid,
-                    quantity: $('#quantite').val(),
-                    finitions: $('#finitions').val(),
-                    papertype: $('#papertype').val(),
-                    delevery: $('#hiddendeleveryprice').val(),
-                },
-                success: function (e) {
-                    $('.controlefile').text(e.price + ' Mad')
-                    $('#hiddencontrolefile').val(e.price)
-                    $('.totalprice').text(e.total + 'MAD')
-                },
-                error: function (e) {
-                    console.log(e.responseText)
-                }
-            })
-        })
+        {#$('#filecontrole').change(function () {#}
+        {#    $filecontroleid = $(this).val()#}
+        {#    $.ajax({#}
+        {#        url: '/filecontrolefilter',#}
+        {#        method: 'POST',#}
+        {#        data: {#}
+        {#            csrfmiddlewaretoken: '{{csrf_token }}',#}
+        {#            filecontroleid: $filecontroleid,#}
+        {#            quantity: $('#quantite').val(),#}
+        {#            finitions: $('#finitions').val(),#}
+        {#            papertype: $('#papertype').val(),#}
+        {#            delevery: $('#delevery').attr('deleveryid'),#}
+        {#        },#}
+        {#        success: function (e) {#}
+        {#            console.log(e)#}
+                    {#$('.controlefile').text(e.price + ' Mad')#}
+                    {#$('#hiddencontrolefile').val(e.price)#}
+                    {#$('.totalprice').text(e.total + 'MAD')#}
+        {#        },#}
+        {#        error: function (e) {#}
+        {#            console.log(e.responseText)#}
+        {#        }#}
+        {#    })#}
+        {#})#}
 
     })
     var swiper = new Swiper(".swiper-container-product", {

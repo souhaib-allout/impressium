@@ -13,15 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import self
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path, include
+from django.contrib.auth import views as auth_views
 
 from clientside import views
 
 urlpatterns = [
 
     # path('tinymce/', include('tinymce.urls')),
+    path('test', views.test),
 
     path('admin/', admin.site.urls),
 
@@ -59,10 +62,8 @@ urlpatterns = [
     path('payementverifyclick', views.payementverifyclick),
     path('payementstatut', views.payementstatut),
 
-
     path('commandeverify', views.commandeverify),
     path('commandeverifyclick', views.commandeverifyclick),
-
 
     path('deleteppan', views.deleteppan),
     path('updatepanpage/<int:id>', views.updatepanpage),
@@ -74,7 +75,6 @@ urlpatterns = [
     path('filecontrolefilter', views.filecontrolefilter),
     path('cartdeleveryprice', views.cartdeleveryprice),
 
-
     path('contact', views.contact),
     path('sendmessage', views.sendmessage),
 
@@ -85,6 +85,8 @@ urlpatterns = [
     path('logupcheck', views.logupcheck),
 
     path('logoutcheck', views.logoutcheck),
+    path('password_reset', views.resetpassword),
+
 
     path('dashboard', views.dashboard),
 
@@ -97,12 +99,12 @@ urlpatterns = [
     path('mes_designs', views.mydesigns),
     path('downloadmydesign', views.downloadmydesign),
 
-    path('test', views.test),
-
     path('accounts/', include('allauth.urls')),
 
     path('privacy&policy', views.privacypolicy),
 
-
-
+    path('/admin/password_reset/', auth_views.PasswordResetView.as_view(), name='admin_password_reset', ),
+    path('/admin/password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done', ),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm', ),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete', ),
 ]

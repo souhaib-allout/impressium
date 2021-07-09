@@ -4,6 +4,7 @@ from wsgiref.util import FileWrapper
 
 import allauth
 from django.contrib.auth import authenticate, login as loginnow, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password, make_password
 from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
 from django.shortcuts import render, redirect
@@ -17,6 +18,7 @@ import json
 import static
 from django.core import serializers
 from django.core.files.storage import default_storage
+from django.urls import path
 
 try:
     from urllib.parse import urlencode
@@ -84,7 +86,7 @@ def logupcheck(request):
             msg = EmailMessage('test', body, 'info@impresiion.com', [user.email])
             msg.content_subtype = "html"
             msg.send()
-            return redirect('/dashboard')
+            return redirect('/login')
         else:
             return redirect('/')
 
@@ -94,18 +96,24 @@ def logoutcheck(request):
     # return HttpResponse('good')
     return redirect('/login')
 
+def resetpassword(request):
+    return render(request,'profile/resetpassword.html')
 
+
+@login_required(login_url='/login')
 def dashboard(request):
     categories = Category.objects.all()
     nbcommandes = Commande.objects.filter(User=request.user).all()
     return render(request, 'profile/dashboard.html', {'categories': categories, 'nbcommandes': nbcommandes})
 
 
+@login_required(login_url='/login')
 def profile(request):
     categories = Category.objects.all()
     return render(request, 'profile/profile.html', {'categories': categories})
 
 
+@login_required(login_url='/login')
 def updateprofile(request):
     if (request.method == "POST"):
         request.user.username = request.POST['name'] + ' ' + request.POST['lastname']
@@ -130,10 +138,12 @@ def updateprofile(request):
     return redirect('/profile')
 
 
+@login_required(login_url='/login')
 def adresses(request):
     return render(request, 'profile/adresses.html')
 
 
+@login_required(login_url='/login')
 def updateadresse(request):
     if (request.method == 'POST'):
         Client.objects.update_or_create(user_id=request.user.id,
@@ -151,11 +161,13 @@ def updateadresse(request):
     return redirect('/')
 
 
+@login_required(login_url='/login')
 def mydesigns(request):
     designs = Pane.objects.filter(user=request.user, ArticleDesign__isnull=False).all()
     return render(request, 'profile/designs.html', {'designs': designs})
 
 
+@login_required(login_url='/login')
 def downloadmydesign(request):
     if (request.method == 'POST'):
         designs = Pane.objects.get(id=request.POST['paneid'], user=request.user)
@@ -210,6 +222,7 @@ def product(request, id):
                    'dilevies': dilevies, 'fileControles': fileControles, 'datetimenow': datetimenow, 'exist': exist})
 
 
+@login_required(login_url='/login')
 def updatepanpage(request, id):
     exist = Pane.objects.filter(article_id=id, user=request.user).first()
     if exist:
@@ -283,6 +296,7 @@ def downloadpreparemyfile(request):
     return FileResponse(open('static/files/fileprepare.pdf', 'rb'))
 
 
+@login_required(login_url='/login')
 def addtppan(request):
     if (request.method == 'POST'):
         ifexist = Pane.objects.filter(user=request.user, article_id=request.POST['articleid']).first()
@@ -333,6 +347,7 @@ def addtppan(request):
         return redirect('/')
 
 
+@login_required(login_url='/login')
 def addfiletopane(request):
     if request.method == 'POST':
         # return JsonResponse(request.POST['file'])
@@ -350,6 +365,7 @@ def addfiletopane(request):
         return redirect('')
 
 
+@login_required(login_url='/login')
 def deletefileuploaded(request):
     if request.method == 'POST':
         pane = Pane.objects.get(id=request.POST['deletepaneid'], user_id=request.user.id)
@@ -359,6 +375,7 @@ def deletefileuploaded(request):
         return redirect('/')
 
 
+@login_required(login_url='/login')
 def updatepan(request):
     if (request.method == 'POST'):
         pane = Pane.objects.get(user=request.user, article_id=request.POST['articleid'])
@@ -399,6 +416,7 @@ def updatepan(request):
     return redirect('/cart')
 
 
+@login_required(login_url='/login')
 def duplicatepan(request):
     if request.method == 'POST':
         newpanel = Pane.objects.get(id=request.POST['cartid'], user=request.user)
@@ -423,12 +441,14 @@ def duplicatepan(request):
         return redirect('/')
 
 
+@login_required(login_url='/login')
 def deleteppan(request):
     if request.method == 'POST':
         Pane.objects.filter(id=request.POST['cartid'], user=request.user).delete()
         return redirect('/cart')
 
 
+@login_required(login_url='/login')
 def cart(request):
     carts = Pane.objects.filter(user=request.user)
     # datetime.datetime.now()+datetime.timedelta
@@ -482,13 +502,14 @@ def deleveryfilter(request):
 
         quantite = float(request.POST['quantity'])
         deleveryprice = float(delevery.price)
-        filecontroller = float(request.POST['filecontroller'])
+        filecontroller = FileControle.objects.filter(id=request.POST['filecontroller']).first().price
 
         total = (finitionprice * papertypeprice * quantite) + deleveryprice + filecontroller
         data = json.dumps({
             'mindate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.mindays)).strftime('%A %d %B')),
             'maxdate': str((datetime.datetime.now() + datetime.timedelta(days=delevery.maxdays)).strftime('%A %d %B')),
-            'price': delevery.price,
+            'price': deleveryprice,
+            'filecontrollerprice':filecontroller,
             'total': total
         })
 
@@ -499,27 +520,28 @@ def deleveryfilter(request):
 
 def filecontrolefilter(request):
     if request.method == "POST":
+        # return HttpResponse(Finition.objects.filter(id=request.POST['finitions']).first().price)
         if 'finitions' in request.POST:
-            finitionprice = int(Finition.objects.get(id=request.POST['finitions']).price)
+            finitionprice = float(Finition.objects.filter(id=request.POST['finitions']).first().price)
             if finitionprice == 0:
                 finitionprice = 1
         else:
             finitionprice = 1
 
         if 'papertype' in request.POST:
-            papertypeprice = int(PaperType.objects.get(id=request.POST['papertype']).price)
+            papertypeprice = float(PaperType.objects.filter(id=request.POST['papertype']).first().price)
             if papertypeprice == 0:
                 papertypeprice = 1
         else:
             papertypeprice = 1
 
-        filecontrole = FileControle.objects.get(id=request.POST['filecontroleid'])
-
-        quantite = float(request.POST['quantity'])
-        delevery = float(request.POST['delevery'])
+        filecontrole = FileControle.objects.filter(id=request.POST['filecontroleid']).first()
+        quantite = int(request.POST['quantity'])
+        deleveryprice =  Delivery.objects.filter(id=request.POST['delevery']).first().price
         filecontrollerprice = filecontrole.price
+        return HttpResponse(filecontrole)
 
-        total = (finitionprice * papertypeprice * quantite) + delevery + filecontrollerprice
+        total = (finitionprice * papertypeprice * quantite) + deleveryprice + filecontrollerprice
 
         data = json.dumps({
             'name': filecontrole.name,
@@ -558,15 +580,18 @@ def pricefilter(request):
         return redirect('/')
 
 
+@login_required(login_url='/login')
 def mes_commendes(request):
-    commades = Commande.objects.filter(User=request.user).all()
+    commades = Commande.objects.filter(User=request.user).order_by('-created_at').all()
     return render(request, 'profile/commandes.html', {'commades': commades})
 
 
+@login_required(login_url='/login')
 def infoverify(request):
     return render(request, 'verify/infoverify.html')
 
 
+@login_required(login_url='/login')
 def infoverifyclick(request):
     if (request.method == "POST"):
         request.user.username = request.POST['name'] + ' ' + request.POST['lastname']
@@ -585,10 +610,12 @@ def infoverifyclick(request):
         return redirect('/cart')
 
 
+@login_required(login_url='/login')
 def adresseverify(request):
     return render(request, 'verify/adresseverify.html')
 
 
+@login_required(login_url='/login')
 def adresseverifyclick(request):
     if (request.method == 'POST'):
         Client.objects.update_or_create(user_id=request.user.id,
@@ -604,12 +631,14 @@ def adresseverifyclick(request):
         return redirect('/cart')
 
 
+@login_required(login_url='/login')
 def livraisonverify(request):
     dilevies = Delivery.objects.all()
     fileControles = FileControle.objects.all()
     return render(request, 'verify/deleveryvirify.html', {'dilevies': dilevies, 'fileControles': fileControles})
 
 
+@login_required(login_url='/login')
 def livraisondelevertverify(request):
     if request.method == "POST":
         delevery = Delivery.objects.get(id=request.POST['deleveryid'])
@@ -624,6 +653,7 @@ def livraisondelevertverify(request):
         return redirect('cart')
 
 
+@login_required(login_url='/login')
 def livraisonfilecontroleverify(request):
     if request.method == "POST":
         filecontrole = FileControle.objects.get(id=request.POST['filecontroleid'])
@@ -637,6 +667,7 @@ def livraisonfilecontroleverify(request):
         return redirect('cart')
 
 
+@login_required(login_url='/login')
 def livraisonverifyclick(request):
     if request.method == 'POST':
         pane = Pane.objects.filter(user_id=request.user.id).update(delevery=request.POST['delevery'])
@@ -645,6 +676,7 @@ def livraisonverifyclick(request):
         return redirect('/cart')
 
 
+@login_required(login_url='/login')
 def commandeverify(request):
     carts = Pane.objects.filter(user_id=request.user.id).all()
     total = 0
@@ -655,37 +687,21 @@ def commandeverify(request):
     return render(request, 'verify/commandeverify.html', {'carts': carts, 'total': total})
 
 
+@login_required(login_url='/login')
 def commandeverifyclick(request):
     if request.method == 'POST':
-        # carts = Pane.objects.filter(user_id=request.user.id).all()
-        # total = 0
-        # for cart in carts:
-        #     total = total + cart.total
-        # delevery = carts.first().delevery.price
-        # total += delevery
-        #
-        # panes = Pane.objects.filter(user_id=request.user.id).all()
-        # commande = Commande.objects.create(User=request.user, total=total, delevery=panes.first().delevery)
-        # for pane in panes:
-        #     commande.Pane.add(pane)
-        #
-        # body = render_to_string('mails/commandeMail.html',
-        #                         {'user': request.user.username, 'carts': carts, 'total': total})
-        # msg = EmailMessage('test', body, 'info@impresiion.com', ['del.souhaib@gmail.com'])
-        # msg.content_subtype = "html"
-        # msg.send()
-        # return redirect('/mes_commendes')
 
         return redirect('/payementverify')
     else:
         return redirect('/')
 
 
-def payementrequest():
+@login_required(login_url='/login')
+def payementrequest(request,total):
     url = "https://test.oppwa.com/v1/checkouts"
     data = {
         'entityId': '8a8294174b7ecb28014b9699220015ca',
-        'amount': '92.00',
+        'amount': total,
         'currency': 'EUR',
         'paymentType': 'DB'
     }
@@ -702,12 +718,21 @@ def payementrequest():
         return e.reason
 
 
+@login_required(login_url='/login')
 def payementverify(request):
-    data = payementrequest()
+    carts = Pane.objects.filter(user_id=request.user.id).all()
+    total = 0
+    for cart in carts:
+        total = total + cart.total
+    delevery = carts.first().delevery.price
+    total += delevery
+    # return HttpResponse(int(total))
+    data = payementrequest(request,int(total))
     return render(request, 'verify/payementverify.html', {'checkoutid': data})
 
 
-def payementstatutrequest(id, resourcePath):
+@login_required(login_url='/login')
+def payementstatutrequest(request, id, resourcePath):
     url = "https://test.oppwa.com/v1/checkouts/" + id + "/payment"
     url += '?entityId=8a8294174b7ecb28014b9699220015ca'
     try:
@@ -723,8 +748,9 @@ def payementstatutrequest(id, resourcePath):
         return e.reason
 
 
+@login_required(login_url='/login')
 def payementstatut(request):
-    responseData = payementstatutrequest(request.GET['id'], request.GET['resourcePath'])
+    responseData = payementstatutrequest(request, request.GET['id'], request.GET['resourcePath'])
     if responseData['result']['code'] == '000.100.110':
         carts = Pane.objects.filter(user_id=request.user.id).all()
         total = 0
@@ -736,32 +762,54 @@ def payementstatut(request):
         panes = Pane.objects.filter(user_id=request.user.id).all()
         commande = Commande.objects.create(User=request.user, total=total, delevery=panes.first().delevery)
         for pane in panes:
-            commande.Pane.add(pane)
+            lastpane = LastPane.objects.create(
+                commande=commande,
+                article=pane.article,
+                user=pane.user,
+                FileControle=pane.FileControle,
+                delevery=pane.delevery,
+                ArticleDesign=pane.ArticleDesign,
+                size=pane.size,
+                formattype=pane.formattype,
+                paperType=pane.paperType,
+                paperColor=pane.paperColor,
+                fontColor=pane.fontColor,
+                side=pane.side,
+                orientation=pane.orientation,
+                finition=pane.finition,
+                Quantity=pane.Quantity,
+                CostumQuantity=pane.CostumQuantity
+            )
+            # commande.LastPane.add(lastpane.article.id)
+            pane.delete()
 
         body = render_to_string('mails/commandeMail.html',
                                 {'user': request.user.username, 'carts': carts, 'total': total})
         msg = EmailMessage('test', body, 'info@impresiion.com', ['del.souhaib@gmail.com'])
         msg.content_subtype = "html"
         msg.send()
-        return redirect('/mes_commendes?statut=sucess&&amount=' + responseData['amount'])
+        return redirect('/mes_commendes?statut=sucess&&amount=' + str(total))
     else:
         return redirect(request.META.get('HTTP_REFERER') + '?statut=error')
 
 
+@login_required(login_url='/login')
 def payementverifyclick(request):
     return redirect('/commandeverify')
 
 
 def test(request):
-    # send_sms(
-    #     'Here is the message',
-    #     '+12065550100',
-    #     ['+212771705545', '+212684019181']
-    # )
-    return HttpResponse('good')
+    if request.user.is_superuser:
+        userschart = User.objects.values('date_joined__date', count=Count('*')).annotate(
+            Count('date_joined__day')).order_by('date_joined__day')
+        productchart = LastPane.objects.values('article__title').annotate(count=Count('article__id'))[0:7]
+        categorieschart = CategoryHistory.objects.values('childcategory__name').annotate(
+            count=Count('childcategory__id'))[0:7]
+        # return HttpResponse(categorieschart)
+        return render(request, 'test.html',
+                      {'userschart': userschart, 'productchart': productchart, 'categorieschart': categorieschart})
+    else :
+        return redirect('/admin')
 
 def privacypolicy(request):
-    return render(request,'privacy&policy.html')
-
-
-
+    return render(request, 'privacy&policy.html')

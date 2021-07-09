@@ -51,13 +51,14 @@
 
         <form method="post" action="infoverify" class="col-lg-4 col-sm-6 text-sm-end pe-5 ps-5 ps-sm-0">
             {% csrf_token %}
-            <button class="btn align-items-center pe-4 ps-4" style="background-color: #fe0946;font-weight: 700">
+            <button class="btn align-items-center pe-4 ps-4" {% if carts|length < 1 %} disabled="disabled" {% endif %} style="background-color: #fe0946;font-weight: 700">
                 <img src="{% static 'Icons/Correct3.svg' %}" style="width: 20px"/>
                 <span class="text-light">Commander</span>
             </button>
         </form>
     </div>
     <div class="row mt-4">
+    {% if carts%}
         <div class="col-lg-9 ps-5 table-responsive">
             <table class="table table-bordered border-dark">
                 <thead>
@@ -191,14 +192,19 @@
                 </tbody>
             </table>
         </div>
+        {% else %}
+         <div class="col-lg-9 text-center mt-5">
+         <h2>0 Sur panier</h2>
+         </div>
+    {% endif %}
         <div class="col-lg-3 text-center">
-            <div class="pt-3 pb-3 pe-3 ps-3" style="border: solid 1px black">
-                <p style="text-decoration: underline #ffcf10 4px;font-size:20px;font-weight: 600">Mon code promo</p>
-                <div class="d-flex">
-                    <input type="text" class="form-control">
-                    <button class="btn" style="background-color: #ffcf10;font-weight: 600">Ok</button>
-                </div>
-            </div>
+{#            <div class="pt-3 pb-3 pe-3 ps-3" style="border: solid 1px black">#}
+{#                <p style="text-decoration: underline #ffcf10 4px;font-size:20px;font-weight: 600">Mon code promo</p>#}
+{#                <div class="d-flex">#}
+{#                    <input type="text" class="form-control">#}
+{#                    <button class="btn" style="background-color: #ffcf10;font-weight: 600">Ok</button>#}
+{#                </div>#}
+{#            </div>#}
             <div class="pt-3 pb-3 pe-3 ps-3 mt-3" style="border: solid 1px black">
                 <div class="d-flex flex-wrap col-12 ">
                     <div class="d-flex align-items-center mb-2 me-2">
@@ -237,7 +243,7 @@
                 </div>
                 <form method="post" action="/infoverify" class="mt-3">
                     {% csrf_token %}
-                    <button class="btn text-light pe-4 ps-4" style="background-color: #fe0946">
+                    <button class="btn text-light pe-4 ps-4" style="background-color: #fe0946"  {% if carts|length < 1 %} disabled="disabled" {% endif %}>
                         <img src="{% static 'Icons/Correct3.svg' %}" style="width: 20px"/>
                         <span class="ps-2">Commander</span>
                     </button>

@@ -43,8 +43,8 @@
                         {% for commade in commades %}
                             <tr>
                                 <td>
-                                    {% for pane in commade.Pane.all %}
-                                        <div class="py-3" {% if forloop.last == False %}style="border-bottom: solid 1px #aca8a8" {% endif %}>
+                                    {% for pane in commade.CommandeLastPane.all %}
+                                        <div class="py-3" >
                                             <p class="mb-2" style="font-size: 20px;font-weight: 700">{{ pane.article.title |title }}</p>
                                             <div class="ps-2">
                                                 {% if pane.size %}
@@ -122,7 +122,7 @@
       </div>
       <div class="modal-body d-flex align-items-center">
           <img src="{% static 'Icons/sucess.svg' %}" style="height: 50px" class="me-3">
-        <p>Paiement de {{ request.GET.amount }} effectué avec succès ,Nous vous contacterons bientôt</p>
+        <p>Paiement de {{ request.GET.amount }} MAD effectué avec succès ,Nous vous contacterons bientôt</p>
       </div>
     </div>
   </div>
