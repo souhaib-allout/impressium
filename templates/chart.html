@@ -1,0 +1,240 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+{#    {% include 'parts/files.html' %}#}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .content {
+            background-color: #121212;
+            color: white !important;
+        }
+    </style>
+    <div id="content-main" style="padding-bottom: 250px">
+        <div style="height: 70vh;margin-top: 100px">
+            <canvas id="usercharts"></canvas>
+        </div>
+        <div style="height: 70vh;margin-top: 100px">
+            <canvas id="sellsproducts"></canvas>
+        </div>
+        <div style="width: 45vw;height: 70vh;margin-top: 100px">
+            <canvas id="categorissearch"></canvas>
+        </div>
+    </div>
+    <script>
+
+        var usercharts = document.getElementById('usercharts');
+        var usercharts = new Chart(usercharts, {
+            type: 'line',
+            data: {
+                labels: [
+                    {% for chart in userschart %}
+                        "{{ chart.date_joined__date }}",
+                    {% endfor %}
+                ],
+                datasets: [{
+                    label: 'Numero d\'utilisateur par jour',
+                    data: [
+                        {% for chart in userschart %}
+                            {{ chart.count }},
+                        {% endfor %}
+                    ],
+                    backgroundColor: [
+                        'rgba(87,95,255)',
+                    ],
+                    borderColor: [
+                        'rgb(87,95,255)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    {#y: {#}
+                    {#    ticks: {#}
+                    {#        stepSize: 1, fontColor: 'red'#}
+                    {#    },#}
+                    {#    beginAtZero: true,#}
+                    {# },#}
+                    x: {
+                        ticks: {
+                            color: 'white',
+                            font: 20,
+                            borderColor: 'white'
+                        },
+                        grid: {
+                            color: "rgb(255,255,255,0.3)",
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: 'white',
+                            stepSize: 1,
+                            beginAtZero: true,
+                        },
+                        grid: {
+                            color: "rgb(255,255,255,0.3)"
+
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Nouveau utilisateur par jour',
+                        font: {
+                            size: 25
+                        },
+                        color: "rgb(255,255,255,0.8)"
+
+                    },
+
+                }
+            }
+        });
+
+        var sellsproducts = document.getElementById('sellsproducts');
+        var sellsproducts = new Chart(sellsproducts, {
+            type: 'bar',
+            data: {
+                labels: [
+                    {% for chart in productchart %}
+                        "{{ chart.article__title }}",
+                    {% endfor %}
+                ],
+                datasets: [{
+                    data: [
+                        {% for chart in productchart %}
+                            {{ chart.count }},
+                        {% endfor %}
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)',
+                        'rgb(153, 102, 255)',
+                        'rgb(201, 203, 207)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        ticks: {
+                            color: 'white',
+                            stepSize: 1,
+                            beginAtZero: true,
+                        },
+                        grid: {
+                            color: "rgb(255,255,255,0.3)"
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            stepSize: 1,
+                            color: 'white',
+                            borderColor: 'white'
+                        },
+                        grid: {
+                            color: "rgb(255,255,255,0.3)",
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Top produits commandé',
+                        font: {
+                            size: 25
+                        },
+                        color: "rgb(255,255,255,0.8)"
+                    },
+                    legend: {
+                        {#labels: {#}
+                        {#    // This more specific font property overrides the global property#}
+                        {#    font: {#}
+                        {#        size: 14#}
+                        {#    },#}
+                        {#    color: "rgb(255,255,255,0.8)"#}
+                        {# }#}
+                    }
+                },
+
+
+            }
+        });
+
+        var categorissearch = document.getElementById('categorissearch');
+        var categorissearch = new Chart(categorissearch, {
+            type: 'pie',
+            data: {
+                labels: [
+                    {% for chart in categorieschart %}
+                        "{{ chart.childcategory__name | safe }}",
+                    {% endfor %}
+                ],
+                datasets: [{
+                    data: [
+                        {% for chart in categorieschart %}
+                            {{ chart.count }},
+                        {% endfor %}
+                    ],
+                    backgroundColor: [
+                        'rgba(255, 205, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(201, 203, 207, 0.2)',
+                        'rgb(100,232,98, 0.2)',
+                        'rgb(255,54,78, 0.2)',
+                        'rgb(134,125,102, 0.2)',
+                        'rgb(210,8,210, 0.2)',
+
+                    ],
+                    borderColor: [
+                        'rgb(255, 205, 86)',
+                        'rgb(75, 192, 192)',
+                        'rgb(54, 162, 235)',
+                        'rgb(153, 102, 255)',
+                        'rgb(201, 203, 207)',
+                        'rgb(100,232,98)',
+                        'rgb(255,54,78)',
+                        'rgb(134,125,102)',
+                        'rgb(210,8,210)',
+
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Top Categories',
+                        font: {
+                            size: 25
+                        },
+                        color: "rgb(255,255,255,0.8)"
+                    },
+                    legend: {
+                        labels: {
+                            // This more specific font property overrides the global property
+                            font: {
+                                size: 14
+                            },
+                            color: "rgb(255,255,255,0.8)"
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}
